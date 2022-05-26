@@ -140,7 +140,7 @@ const Home = ({navigation}) => {
                     key={`article-item-${index}`}
                     onPress={() => handleReadArticle(item)}
                     originIcon={item.originIcon}
-                    originTitle={item.originTitle}
+                    subtitle={item.originTitle}
                     title={item.title}
                     banner={item.banner}
                   />

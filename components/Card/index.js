@@ -35,9 +35,9 @@ export const DetailPostCard = ({subtitle, originIcon, originTitle, title, banner
                 <Image borderRadius={9} source={{uri: banner}} style={detailPostCardStyles.banner}/>
             </View>
             <View style={detailPostCardStyles.descriptionContainer}>
-                <Text style={detailPostCardStyles.title} numberOfLines={3}>{title}</Text>
+                <Text numberOfLines={2} style={detailPostCardStyles.title}>{title}</Text>
                 {subtitle ?
-                    <Text style={detailPostCardStyles.origin}>{originTitle}</Text> : null
+                    <Text style={detailPostCardStyles.subtitle}>{subtitle}</Text> : null
                 }
             </View>
         </TouchableOpacity>

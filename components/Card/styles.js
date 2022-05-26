@@ -106,5 +106,10 @@ export const detailPostCardStyles = StyleSheet.create({
         color: '#222222',
         fontSize: 16,
         fontWeight: '600',
+    },
+    subtitle: {
+        color: '#222222',
+        fontSize: 12,
+        marginTop: 8
     }
 });
