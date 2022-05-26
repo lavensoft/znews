@@ -1,6 +1,6 @@
 import { ScreenTitle } from "./Titles";
 import { ScreenView } from "./ScreenView";
-import { PostCard } from "./Card";
+import { PostCard, DetailPostCard } from "./Card";
 import { TextBox } from "./TextBox";
 import { StoryAvatar } from './Stories';
 import StoryContainer from './Stories/StoryContainer';
@@ -10,6 +10,7 @@ export {
     ScreenTitle,
     ScreenView,
     PostCard,
+    DetailPostCard,
     Appbar,
     TextBox,
     StoryAvatar,

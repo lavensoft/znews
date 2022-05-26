@@ -80,3 +80,31 @@ export const postCardStyles = StyleSheet.create({
         borderRadius: 12,
     }
 });
+
+export const detailPostCardStyles = StyleSheet.create({
+    container: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        marginBottom: 14,
+    },
+    bannerContainer: {
+        width: 72,
+        height: 72
+    },
+    banner: {
+        width: '100%',
+        height: '100%',
+    },
+    descriptionContainer: {
+        flex: 1,
+        paddingTop: 6,
+        paddingHorizontal: 16,
+        backgroundColor: '#fff',
+    },
+    title: {
+        color: '#222222',
+        fontSize: 16,
+        fontWeight: '600',
+    }
+});

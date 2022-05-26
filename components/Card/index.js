@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, ImageBackground, TouchableOpacity } from 'react-native';
 
 //*Styles
-import { postCardStyles } from './styles';
+import { postCardStyles, detailPostCardStyles } from './styles';
 
 //*Post Card
 export const PostCard = ({subtitle, originIcon, originTitle, title, banner, onPress}) => {
@@ -26,4 +26,20 @@ export const PostCard = ({subtitle, originIcon, originTitle, title, banner, onPr
             </View>
         </TouchableOpacity>
     );
+}
+
+export const DetailPostCard = ({subtitle, originIcon, originTitle, title, banner, onPress}) => {
+    return (
+        <TouchableOpacity onPress={onPress} style={detailPostCardStyles.container}>
+            <View style={detailPostCardStyles.bannerContainer}>
+                <Image borderRadius={9} source={{uri: banner}} style={detailPostCardStyles.banner}/>
+            </View>
+            <View style={detailPostCardStyles.descriptionContainer}>
+                <Text style={detailPostCardStyles.title} numberOfLines={3}>{title}</Text>
+                {subtitle ?
+                    <Text style={detailPostCardStyles.origin}>{originTitle}</Text> : null
+                }
+            </View>
+        </TouchableOpacity>
+    )
 }

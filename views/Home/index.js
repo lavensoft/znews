@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StatusBar } from 'expo-status-bar';
-import { ScreenView, PostCard, StoryAvatar, StoryContainer } from '../../components';
+import { ScreenView, PostCard, DetailPostCard, StoryAvatar, StoryContainer } from '../../components';
 import Actions from '../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
 import {Modal, StyleSheet, FlatList} from 'react-native';
@@ -135,16 +134,29 @@ const Home = ({navigation}) => {
             />
 
             {articles?.map((item, index) => {
+              if(!item.featured) {
                 return (
-                    <PostCard 
-                        originIcon={item.originIcon}
-                        originTitle={item.originTitle}
-                        title={item.title}
-                        banner={item.banner}
-                        key={`post-card2-${index}`}
-                        onPress={() => handleReadArticle(item)}
-                    />
+                  <DetailPostCard 
+                    key={`article-item-${index}`}
+                    onPress={() => handleReadArticle(item)}
+                    originIcon={item.originIcon}
+                    originTitle={item.originTitle}
+                    title={item.title}
+                    banner={item.banner}
+                  />
                 )
+              }
+
+              return (
+                  <PostCard 
+                      originIcon={item.originIcon}
+                      originTitle={item.originTitle}
+                      title={item.title}
+                      banner={item.banner}
+                      key={`post-card2-${index}`}
+                      onPress={() => handleReadArticle(item)}
+                  />
+              )
             })}
             <Modal
               animationType="slide"
