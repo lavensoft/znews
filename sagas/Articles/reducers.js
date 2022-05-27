@@ -54,6 +54,14 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 searchData: action.articles
             }
+        case actions.UPDATE_ARTICLES_VIEW:
+            return {
+                ...state,
+            }
+        case _onSuccess(actions.UPDATE_ARTICLES_VIEW):
+            return {
+                ...state,
+            }
         default:
             return state
     }

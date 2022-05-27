@@ -42,11 +42,23 @@ function* refreshArticles(action) {
   }
 }
 
+function* updateArticlesView(action) {
+  const {id} = action;
+
+  try {
+    const response = yield call(API.Articles.updateView, id);
+    yield put({type: _onSuccess(Actions.articles.UPDATE_ARTICLES_VIEW), response: response.data});
+  } catch (e) {
+    yield put({type: _onFail(Actions.articles.UPDATE_ARTICLES_VIEW), message: e.message});
+  }
+}
+
 function* rootSaga() {
   yield takeLatest(Actions.articles.FETCH_ALL_ARTICLES, fetchAllArticles);
   yield takeLatest(Actions.articles.REFRESH_ARTICLES, refreshArticles);
   yield takeLatest(Actions.articles.SEARCH_ARTICLES, searchArticles);
   yield takeLatest(Actions.articles.FETCH_STORIES, fetchStories);
+  yield takeLatest(Actions.articles.UPDATE_ARTICLES_VIEW, updateArticlesView);
 }
 
 export default rootSaga;

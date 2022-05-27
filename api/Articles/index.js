@@ -31,6 +31,10 @@ const ArticlesAPI = {
         return {
             data: result
         };
+    },
+    updateView: async(id) => {
+        const response = await axios.put(`${config.API_URL}/articles/view/${id}`);
+        return response.data;
     }
 }
 

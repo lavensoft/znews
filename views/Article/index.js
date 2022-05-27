@@ -13,9 +13,13 @@ const ArticleScreen = ({navigation, route}) => {
     const [isBookmarked, setIsBookmarked] = useState(false);
 
     useEffect(() => {
+        //*Check bookmarks
         API.Bookmarks.isBookmarked(_id).then(res => {
             setIsBookmarked(res);
         });
+
+        //*Update view
+        dispatch({type: Actions.articles.UPDATE_ARTICLES_VIEW, id: _id});
     }, []);
 
     return(
