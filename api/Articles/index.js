@@ -25,35 +25,11 @@ const ArticlesAPI = {
         return response.data;
     },
     getStories: async() => {
-        let result = await axios.get(`${config.API_URL}/articles`);
+        let result = await axios.get(`${config.API_URL}/articles/featured`);
         result = result.data.data;
 
-        let stories = [];
-
-        //*Group by sites
-        let sites = groupBy(result, 'originTitle');
-        let sitesTitle = Object.keys(sites);
-        sites = Object.values(sites);
-
-        for(var i = 0; i < sites.length; i++) {
-            let site = sites[i];
-            if(site.length > 10) {
-                site = site.slice(0, 10);
-            }
-
-            let siteTitle = sitesTitle[i];
-            let siteData = {
-                title: siteTitle,
-                originTitle: siteTitle,
-                originIcon: site[0].originIcon,
-                stories: site
-            }
-
-            stories.push(siteData);
-        }
-
         return {
-            data: stories
+            data: result
         };
     }
 }

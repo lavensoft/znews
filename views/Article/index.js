@@ -9,7 +9,7 @@ import API from '../../api';
 
 const ArticleScreen = ({navigation, route}) => {
     const dispatch = useDispatch();
-    const {url, banner, originIcon, originTitle, title, _id} = route.params;
+    const {url, thumbnail, originIcon, originTitle, title, _id, author} = route.params;
     const [isBookmarked, setIsBookmarked] = useState(false);
 
     useEffect(() => {
@@ -34,11 +34,12 @@ const ArticleScreen = ({navigation, route}) => {
                                 type: Actions.bookmarks.ADD_BOOKMARKS,
                                 siteData: {
                                     url,
-                                    banner,
+                                    thumbnail,
                                     originIcon,
                                     originTitle,
                                     title,
-                                    _id
+                                    _id,
+                                    author
                                 }
                             })
                         }

@@ -1,12 +1,13 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
 export const postCardStyles = StyleSheet.create({
     container: {
-        width: "100%",
+        width: Dimensions.get('window').width - 48,
         height: 250,
         borderRadius: 12,
         position: 'relative',
         marginBottom: 14,
+        marginHorizontal: 24
     },
 
     //*Description
@@ -83,10 +84,11 @@ export const postCardStyles = StyleSheet.create({
 
 export const detailPostCardStyles = StyleSheet.create({
     container: {
-        width: '100%',
+        width: Dimensions.get('window').width - 48,
         display: 'flex',
         flexDirection: 'row',
         marginBottom: 14,
+        marginHorizontal: 24
     },
     bannerContainer: {
         width: 72,

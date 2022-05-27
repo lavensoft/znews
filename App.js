@@ -1,8 +1,14 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React, {useEffect} from 'react';
+import { Link, NavigationContainer } from '@react-navigation/native';
 import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
 import Icon from 'react-native-vector-icons/Feather';
 import { Provider } from 'react-redux';
+import * as Linking from 'expo-linking';
+
+//*Deep linking
+const linking = {
+  prefixes: [Linking.createURL('/'), 'https://app.example.com'],
+};
 
 //*Redux
 import {store} from './sagas';
@@ -15,9 +21,24 @@ import SearchScreen from './views/Search';
 const Tabs = AnimatedTabBarNavigator();
 
 export default function App() {
+
+  const handleDeepLink = async (e) => {
+    let data = Linking.parse(e.url);
+
+    console.log(data);
+  }
+
+  useEffect(() => {
+    Linking.addEventListener("url", handleDeepLink);
+
+    return () => {
+      Linking.removeEventListener("url");
+    }
+  }, []);
+
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <NavigationContainer linking={linking}>
         <Tabs.Navigator
           tabBarOptions={{
             activeTintColor: "#FFFFFF",

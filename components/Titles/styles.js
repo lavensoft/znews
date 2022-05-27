@@ -5,6 +5,7 @@ export const screenTitleStyles = StyleSheet.create({
         maxWidth: '60%',
         marginBottom: 32,
         marginTop: 32,
+        marginHorizontal: 24
     },
     date: {
         fontSize: 15,

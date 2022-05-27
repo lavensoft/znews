@@ -7,12 +7,12 @@ export const screenViewStyles = StyleSheet.create({
     },
     view: {
         boxSizing: 'border-box',
-        paddingHorizontal: 24
+        //paddingHorizontal: 24
     },
     headerContainer: {
         height: Dimensions.get('window').height - 200,
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
     },  
     loadingContainer : {
         flex: 1,

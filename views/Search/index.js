@@ -64,10 +64,10 @@ const Search = ({navigation}) => {
             {articles?.map((item, index) => {
                 return (
                     <PostCard 
-                        originIcon={item.originIcon}
-                        originTitle={item.originTitle}
+                        originIcon={item.author.avatar}
+                        originTitle={item.author.name}
                         title={item.title}
-                        banner={item.banner}
+                        banner={item.thumbnail}
                         key={`post-card-${index}`}
                         onPress={() => handleReadArticle(item)}
                     />

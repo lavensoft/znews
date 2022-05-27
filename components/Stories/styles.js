@@ -16,7 +16,7 @@ export const storyAvatarStyles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 8,
+        marginBottom: 12,
     },
     avatar: {
         width: 58,
@@ -33,6 +33,6 @@ export const storyAvatarStyles = StyleSheet.create({
         height: '100%'
     },
     title: {
-        
+        fontSize: 13
     }
 });

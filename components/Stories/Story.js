@@ -9,7 +9,7 @@ const ScreenWidth = Dimensions.get('window').width;
 
 const Story = (props) => {
   const { story } = props;
-  const { banner, type = 'image' } = story || {};
+  const { thumbnail, type = 'image' } = story || {};
 
   return (
     <View style={styles.container}>
@@ -20,7 +20,7 @@ const Story = (props) => {
       )} */}
       {type === 'image' ? (
         <Image
-          source={{ uri: banner }}
+          source={{ uri: thumbnail }}
           onLoadEnd={props.onImageLoaded}
           style={styles.content}
           resizeMode="contain"
@@ -29,7 +29,7 @@ const Story = (props) => {
       )
         : (
           <Video
-            source={{ uri: banner }}
+            source={{ uri: thumbnail }}
             paused={props.pause || props.isNewStory}
             onLoad={item => props.onVideoLoaded(item)}
             style={styles.content}

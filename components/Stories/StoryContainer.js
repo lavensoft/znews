@@ -141,7 +141,7 @@ const StoryContainer = (props) => {
 
           {loading()}
 
-          <UserView name={siteData.originTitle} profile={siteData.originIcon} onClosePress={props.onClose} />
+          <UserView name={siteData.author.name} profile={siteData.author.avatar} onClosePress={props.onClose} />
 
           <Readmore title={storyTitle} onReadMore={onReadMoreOpen} />
 
@@ -162,7 +162,7 @@ const StoryContainer = (props) => {
 
         <Modal style={styles.modal} position="bottom" isOpen={isModelOpen} onClosed={onReadMoreClose}>
           <View style={styles.bar} />
-          <WebView source={{ uri: 'https://www.google.com' }} />
+          <WebView source={{ uri: stories[currentIndex].url }} />
         </Modal>
 
       </TouchableOpacity>
@@ -222,16 +222,17 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '90%',
     backgroundColor: 'white',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: 14,
+    borderTopRightRadius: 14,
   },
   bar: {
     width: 50,
-    height: 8,
+    height: 5,
     backgroundColor: 'gray',
     alignSelf: 'center',
     borderRadius: 4,
-    marginTop: 8,
+    marginTop: 5,
+    marginBottom: 5
   },
 });
 

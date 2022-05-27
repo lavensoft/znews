@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ScreenView, PostCard, DetailPostCard, StoryAvatar, StoryContainer } from '../../components';
 import Actions from '../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
-import {Modal, StyleSheet, FlatList} from 'react-native';
+import {Modal, StyleSheet, FlatList, Dimensions} from 'react-native';
 import { CubeNavigationHorizontal } from 'react-native-3dcube-navigation';
   
 //*Views
@@ -99,9 +99,9 @@ const Home = ({navigation}) => {
     }, []);
 
     const handleReadArticle = (siteData) => {
-        navigation.navigate("Article", {
-            ...siteData
-        });
+      navigation.navigate("Article", {
+          ...siteData
+      });
     }
 
     return (
@@ -127,32 +127,36 @@ const Home = ({navigation}) => {
               data={stories}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
-              style={{marginBottom: 32}}
+              style={{
+                marginBottom: 32, 
+                paddingLeft: 24,
+              }}
+              snapToInterval={80}
               renderItem={({ item, index }) => (
-                <StoryAvatar name={item.title} avatar={item.stories[0].banner} onPress={() => onStorySelect(index)} key={`story-item-${index}`}/>
+                <StoryAvatar style={{marginRight: (index == stories.length - 1 ? 48 : 16)}} name={item.author.name} avatar={item.stories[0].thumbnail} onPress={() => onStorySelect(index)} key={`story-item-${index}`}/>
               )}
             />
 
             {articles?.map((item, index) => {
-              if(!item.featured) {
-                return (
-                  <DetailPostCard 
-                    key={`article-item-${index}`}
-                    onPress={() => handleReadArticle(item)}
-                    originIcon={item.originIcon}
-                    subtitle={item.originTitle}
-                    title={item.title}
-                    banner={item.banner}
-                  />
-                )
-              }
+              // if(!item.featured) {
+              //   return (
+              //     <DetailPostCard 
+              //       key={`article-item-${index}`}
+              //       onPress={() => handleReadArticle(item)}
+              //       originIcon={item.author.avatar}
+              //       subtitle={item.author.name}
+              //       title={item.title}
+              //       banner={item.thumbnail}
+              //     />
+              //   )
+              // }
 
               return (
                   <PostCard 
-                      originIcon={item.originIcon}
-                      originTitle={item.originTitle}
+                      originIcon={item.author.avatar}
+                      originTitle={item.author.name}
                       title={item.title}
-                      banner={item.banner}
+                      banner={item.thumbnail}
                       key={`post-card2-${index}`}
                       onPress={() => handleReadArticle(item)}
                   />

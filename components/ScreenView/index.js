@@ -7,6 +7,7 @@ import {TextBox} from '../TextBox';
 
 //*Styles
 import {screenViewStyles} from './styles';
+import { Dimensions } from 'react-native-web';
 
 export const ScreenView = ({loading, onSearch, refreshing, onRefresh, children, title, titleTime, onScroll, scrollEventThrottle}) => {
     return (
@@ -27,7 +28,7 @@ export const ScreenView = ({loading, onSearch, refreshing, onRefresh, children, 
                             {title}
                         </ScreenTitle>
                         { onSearch ?
-                            <TextBox style={{marginBottom: 32}} onChangeText={onSearch} placeholder={"Search..."} icon={"search"}/> : null
+                            <TextBox style={{marginHorizontal: 24, marginBottom: 32, width: Dimensions.get('window').width - 48}} onChangeText={onSearch} placeholder={"Search..."} icon={"search"}/> : null
                         }
                         <StatusBar style="auto"/>
                         {loading ? 
