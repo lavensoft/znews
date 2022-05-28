@@ -25,6 +25,10 @@ export const contentStyles = StyleSheet.create({
 
 export const actionStyles = StyleSheet.create({
     container: {
-
+        marginLeft: 20,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });

@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 import { Dimensions, Image, StyleSheet, View } from 'react-native';
-import Video from 'react-native-video';
 // import Image from 'react-native-scalable-image';
 import PropTypes from 'prop-types';
 
@@ -28,12 +27,8 @@ const Story = (props) => {
         />
       )
         : (
-          <Video
-            source={{ uri: thumbnail }}
-            paused={props.pause || props.isNewStory}
-            onLoad={item => props.onVideoLoaded(item)}
-            style={styles.content}
-          />
+          <>
+          </>
         )}
     </View>
   );

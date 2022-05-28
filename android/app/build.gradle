@@ -142,7 +142,7 @@ android {
 
     defaultConfig {
         applicationId "com.news"
-        minSdkVersion rootProject.ext.minSdkVersion
+        minSdkVersion 24 // DEFAULT: rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"

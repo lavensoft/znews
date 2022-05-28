@@ -1,14 +1,8 @@
-import React, {useEffect} from 'react';
-import { Link, NavigationContainer } from '@react-navigation/native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
 import Icon from 'react-native-vector-icons/Feather';
 import { Provider } from 'react-redux';
-import * as Linking from 'expo-linking';
-
-//*Deep linking
-const linking = {
-  prefixes: [Linking.createURL('/'), 'https://app.example.com'],
-};
 
 //*Redux
 import {store} from './sagas';
@@ -17,24 +11,31 @@ import {store} from './sagas';
 import HomeScreen from './views/Home';
 import BookmarksScreen from './views/Bookmarks';
 import SearchScreen from './views/Search';
+import SettingsScreen from './views/Settings';
 
 const Tabs = AnimatedTabBarNavigator();
 
+const config = {
+  screens: {
+    // Home: {
+    //   path: "articles/:id",
+    //   parse: {
+    //     id: (id) => `${id}`,
+    //     data: "dadada"
+    //   },
+    // },
+  },
+};
+
+const linking = {
+  prefixes: [
+    "news://",
+    "https://news.lavenes.com/"
+  ],
+  config,
+};
+
 export default function App() {
-
-  const handleDeepLink = async (e) => {
-    let data = Linking.parse(e.url);
-
-    console.log(data);
-  }
-
-  useEffect(() => {
-    Linking.addEventListener("url", handleDeepLink);
-
-    return () => {
-      Linking.removeEventListener("url");
-    }
-  }, []);
 
   return (
     <Provider store={store}>
@@ -90,7 +91,7 @@ export default function App() {
           />
           <Tabs.Screen 
             name="Settings" 
-            component={BookmarksScreen} 
+            component={SettingsScreen} 
             options={{
               tabBarIcon: ({ focused, color, size }) => (
                   <Icon

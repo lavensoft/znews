@@ -1,4 +1,5 @@
 import { registerRootComponent } from 'expo';
+//import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 import App from './App';
 

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "436761794101",
+    "project_id": "lavenes-news",
+    "storage_bucket": "lavenes-news.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436761794101:android:bee29d3c54d30a8906437c",
+        "android_client_info": {
+          "package_name": "com.news"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436761794101-ur5c7d8rvchg4mj9q51rcivaj1t9b0n1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbVTW0Ldv4Nc5Biy0gw7MEsdl_kNi4bw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436761794101-ur5c7d8rvchg4mj9q51rcivaj1t9b0n1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "436761794101-gu35l5k267um6phsu5n8qsls5b6222tf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.lavenes.news"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

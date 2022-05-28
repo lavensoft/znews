@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Icon from "react-native-vector-icons/Feather";
+import Icon from "react-native-vector-icons/Ionicons";
 
 //*Styles
 import {headerStyles, backActionStyles, contentStyles, actionStyles} from './styles';
@@ -18,9 +18,9 @@ const BackAction = ({onPress}) => {
     return (
         <TouchableOpacity onPress={onPress} style={backActionStyles.container}>
             <Icon
-                name="arrow-left"
+                name="chevron-back-outline"
                 size={24}
-                color="#000"
+                color="#222222"
             />
         </TouchableOpacity>
     )

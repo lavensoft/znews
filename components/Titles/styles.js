@@ -19,3 +19,18 @@ export const screenTitleStyles = StyleSheet.create({
         color: "#222222"
     }
 });
+
+export const sectionTitleStyles = StyleSheet.create({
+    container: {
+        maxWidth: '60%',
+        marginBottom: 16,
+        marginTop: 16,
+        marginHorizontal: 24
+    },
+    title: {
+        fontSize: 16,
+        fontWeight: '600',
+        marginTop: 6,
+        color: "#222222"
+    }
+});

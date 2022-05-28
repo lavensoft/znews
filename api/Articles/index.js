@@ -1,13 +1,6 @@
 import axios from 'axios';
 import config from '../config';
 
-const groupBy = function(xs, key) {
-    return xs.reduce(function(rv, x) {
-      (rv[x[key]] = rv[x[key]] || []).push(x);
-      return rv;
-    }, {});
-};
-
 const ArticlesAPI = {
     getAll: async () => {
         const response = await axios.get(`${config.API_URL}/articles`);

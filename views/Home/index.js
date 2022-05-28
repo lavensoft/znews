@@ -30,8 +30,9 @@ const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
       contentSize.height - paddingToBottom;
 };
 
-const Home = ({navigation}) => {
+const Home = ({navigation, route}) => {
     const dispatch = useDispatch();
+    const routeParams = route.params;
 
     //*Story
     const [isModelOpen, setModel] = useState(false);
@@ -88,6 +89,9 @@ const Home = ({navigation}) => {
     const page = useSelector(state => state.articles.page);
 
     useEffect(() => {
+      //*Check if from deeplink to load article
+      console.log(routeParams);
+
       dispatch({
           type: Actions.articles.FETCH_ALL_ARTICLES,
           page: 0
@@ -128,7 +132,7 @@ const Home = ({navigation}) => {
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               style={{
-                marginBottom: 32, 
+                marginBottom: stories ? 32 : 0, 
                 paddingLeft: 24,
               }}
               snapToInterval={80}

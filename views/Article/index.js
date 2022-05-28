@@ -5,6 +5,8 @@ import { WebView } from 'react-native-webview';
 import { Appbar } from '../../components';
 import Actions from '../../sagas/actions';
 import { useDispatch } from 'react-redux';
+import {Share} from 'react-native';
+import CONFIG from '../../global/config';
 import API from '../../api';
 
 const ArticleScreen = ({navigation, route}) => {
@@ -22,6 +24,26 @@ const ArticleScreen = ({navigation, route}) => {
         dispatch({type: Actions.articles.UPDATE_ARTICLES_VIEW, id: _id});
     }, []);
 
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        url: url //CONFIG.DOMAIN + "articles/" + _id,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
     return(
         <SafeAreaView style={{width: '100%', height: '100%'}}>
             <StatusBar style="auto"/>
@@ -29,8 +51,13 @@ const ArticleScreen = ({navigation, route}) => {
                 <Appbar.BackAction onPress={() => navigation.pop()}/>
                 <Appbar.Content/>
                 <Appbar.Action 
-                    icon="bookmark" 
-                    color={isBookmarked ? '#ff0000' : null}
+                    icon="share-outline" 
+                    onPress={
+                        () => onShare()
+                    }
+                />
+                <Appbar.Action 
+                    icon={isBookmarked ? 'bookmark' : 'bookmark-outline'}
                     onPress={
                         () => {
                             setIsBookmarked(!isBookmarked);
