@@ -8,22 +8,20 @@ import {
 import API from '../../api';
 
 function* saveBookmark(action) {
-  const {siteData} = action;
+  const {payload} = action;
 
   try {
-    const bookmarks = yield call(API.Bookmarks.add, siteData);
-    yield put({type: _onSuccess(Actions.bookmarks.ADD_BOOKMARKS), articles: bookmarks});
+    const bookmarks = yield call(API.Bookmarks.add, payload.articleData);
+    yield put({type: _onSuccess(Actions.bookmarks.ADD_BOOKMARKS), bookmarks: bookmarks.data});
   } catch (e) {
     yield put({type: _onFail(Actions.bookmarks.ADD_BOOKMARKS), message: e.message});
   }
 }
 
 function* fetchBookmark(action) {
-  const {page} = action;
-
   try {
     const bookmarks = yield call(API.Bookmarks.getAll);
-    yield put({type: _onSuccess(Actions.bookmarks.FETCH_BOOKMARKS), bookmarks});
+    yield put({type: _onSuccess(Actions.bookmarks.FETCH_BOOKMARKS), bookmarks: bookmarks.data});
   } catch (e) {
     yield put({type: _onFail(Actions.bookmarks.FETCH_BOOKMARKS), message: e.message});
   }
@@ -32,7 +30,7 @@ function* fetchBookmark(action) {
 function* refreshBookmark(action) {
   try {
     const bookmarks = yield call(API.Bookmarks.getAll);
-    yield put({type: _onSuccess(Actions.bookmarks.REFRESH_BOOKMARKS), bookmarks});
+    yield put({type: _onSuccess(Actions.bookmarks.REFRESH_BOOKMARKS), bookmarks: bookmarks.data});
   } catch (e) {
     yield put({type: _onFail(Actions.bookmarks.REFRESH_BOOKMARKS), message: e.message});
   }

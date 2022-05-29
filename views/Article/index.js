@@ -26,14 +26,25 @@ const ArticleScreen = ({navigation, route}) => {
         return () => {
           //Save article state
           dispatch({
-            type: Actions.articles.SAVE_ARTICLE_STATE, id: _id, 
+            type: Actions.articles.SAVE_ARTICLE_STATE,
+            payload: {
+              articleData: {
+                url,
+                thumbnail,
+                originIcon,
+                originTitle,
+                title,
+                _id,
+                author
+              }
+            },
             state: {}
           });
         }
     }, []);
 
 
-  const onShare = async () => {
+    const onShare = async () => {
     try {
       const result = await Share.share({
         url: url //CONFIG.DOMAIN + "articles/" + _id,
@@ -50,13 +61,31 @@ const ArticleScreen = ({navigation, route}) => {
     } catch (error) {
       alert(error.message);
     }
-  };
+    };
+
+    const handleBookMark = async () => {
+      setIsBookmarked(!isBookmarked);
+      dispatch({
+          type: Actions.bookmarks.ADD_BOOKMARKS,
+          payload: {
+            articleData: {
+              url,
+              thumbnail,
+              originIcon,
+              originTitle,
+              title,
+              _id,
+              author
+            }
+          }
+      })
+    }
 
     return(
         <SafeAreaView style={{width: '100%', height: '100%'}}>
             <StatusBar style="auto"/>
             <Appbar.Header>
-                <Appbar.BackAction onPress={() => navigation.pop()}/>
+                <Appbar.BackAction onPress={() => navigation.goBack()}/>
                 <Appbar.Content/>
                 <Appbar.Action 
                     icon="share-outline" 
@@ -66,23 +95,7 @@ const ArticleScreen = ({navigation, route}) => {
                 />
                 <Appbar.Action 
                     icon={isBookmarked ? 'bookmark' : 'bookmark-outline'}
-                    onPress={
-                        () => {
-                            setIsBookmarked(!isBookmarked);
-                            dispatch({
-                                type: Actions.bookmarks.ADD_BOOKMARKS,
-                                siteData: {
-                                    url,
-                                    thumbnail,
-                                    originIcon,
-                                    originTitle,
-                                    title,
-                                    _id,
-                                    author
-                                }
-                            })
-                        }
-                    }
+                    onPress={handleBookMark}
                 />
             </Appbar.Header>
 

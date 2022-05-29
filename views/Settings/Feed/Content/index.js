@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ScreenView, ListTile, SectionTitle, LButton } from '../../../../components';
+import { ScreenView, ListTile, SectionTitle } from '../../../../components';
 import Actions from '../../../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
-import Icon from 'react-native-vector-icons/Feather';
 import {Switch} from 'react-native';
 
 const Stack = createNativeStackNavigator();
@@ -12,10 +11,13 @@ const FeedContentScreen = () => {
     return (
         <Stack.Navigator
             screenOptions={{
-              headerShown: false
+              headerShown: false,
             }}
         >
-            <Stack.Screen  name="Main" component={Content} />
+            <Stack.Screen 
+                name="Main" 
+                component={Content}
+            />
         </Stack.Navigator>
     )
 }
@@ -52,7 +54,6 @@ const Content = ({navigation}) => {
 
     return (
         <ScreenView 
-            title="Content"
             loading={isLoading && !settings && !users}
         >
             {/* <SectionTitle style={{marginTop: 0}}>RSS</SectionTitle>

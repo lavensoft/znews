@@ -54,10 +54,10 @@ function* updateArticlesView(action) {
 }
 
 function* saveState(action) {
-  const {id, state} = action;
+  const {payload, state} = action;
 
   try {
-    const response = yield call(API.Articles.saveState, id, state);
+    const response = yield call(API.Articles.saveState, payload.articleData, state);
     yield put({type: _onSuccess(Actions.articles.SAVE_ARTICLE_STATE), response: response.data});
   } catch (e) {
     yield put({type: _onFail(Actions.articles.SAVE_ARTICLE_STATE), message: e.message});

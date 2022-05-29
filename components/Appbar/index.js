@@ -6,9 +6,12 @@ import Icon from "react-native-vector-icons/Ionicons";
 //*Styles
 import {headerStyles, backActionStyles, contentStyles, actionStyles} from './styles';
 
-const Header = ({children}) => {
+const Header = ({style, children}) => {
     return (
-        <View style={headerStyles.container}>
+        <View style={{
+            ...headerStyles.container,
+            ...style
+        }}>
             {children}
         </View>
     )

@@ -19,7 +19,8 @@ export const backActionStyles = StyleSheet.create({
 
 export const contentStyles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        paddingRight: 28
     }
 });
 

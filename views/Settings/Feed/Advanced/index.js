@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ScreenView, ListTile, SectionTitle } from '../../../../components';
+import { ScreenView, ListTile, SectionTitle, Appbar } from '../../../../components';
 import Actions from '../../../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
-import Icon from 'react-native-vector-icons/Feather';
-import {Switch} from 'react-native';
+import {Switch, Text} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,8 +40,10 @@ const Advanced = ({navigation}) => {
 
     return (
         <ScreenView 
-            title="Advanced"
             loading={isLoading && !settings}
+            appbar={{
+                lead: <Appbar.BackAction onPress={() => navigation.goBack()} />,
+            }}
         >
             <SectionTitle style={{marginTop: 0}}>Feed</SectionTitle>
     

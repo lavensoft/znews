@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from '../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SettingsAPI from '../Settings';
 
 const ArticlesAPI = {
     getAll: async () => {
@@ -8,7 +9,17 @@ const ArticlesAPI = {
         return response.data;
     },
     getAt: async (page) => {
-        const response = await axios.get(`${config.API_URL}/articles/page/${page}`);
+        let settings = await SettingsAPI.getAll();
+        settings = settings.data;
+
+        let articlesReaded = JSON.parse(await AsyncStorage.getItem('articlesState')) || {};
+        articlesReaded = Object.keys(articlesReaded);
+
+        const response = await axios.post(`${config.API_URL}/articles/page/${page}`,{
+            authors: settings.usersFollowing,
+            rejectsId: !settings["showReadedArticles"] ? articlesReaded : []
+        });
+
         return response.data;
     },
     search: async(keywords) => {
@@ -19,7 +30,17 @@ const ArticlesAPI = {
         return response.data;
     },
     getStories: async() => {
-        let result = await axios.get(`${config.API_URL}/articles/featured`);
+        let settings = await SettingsAPI.getAll();
+        settings = settings.data;
+
+        let articlesReaded = JSON.parse(await AsyncStorage.getItem('articlesState')) || {};
+        articlesReaded = Object.keys(articlesReaded);
+
+        let result = await axios.post(`${config.API_URL}/articles/featured`,{
+            authors: settings.usersFollowing,
+            rejectsId: !settings["showReadedArticles"] ? articlesReaded : []
+        });
+
         result = result.data.data;
         
         //*Check viewed stories
@@ -44,10 +65,13 @@ const ArticlesAPI = {
         const response = await axios.put(`${config.API_URL}/articles/view/${id}`);
         return response.data;
     },
-    saveState: async(id, state) => {
+    saveState: async(articleData, state) => {
         //Save to local storage
         let articlesState = JSON.parse(await AsyncStorage.getItem('articlesState')) || {};
-        articlesState[id] = state;
+        articlesState[articleData._id] = {
+            data: articleData,
+            state
+        };
 
         await AsyncStorage.setItem('articlesState', JSON.stringify(articlesState));
 
@@ -55,6 +79,7 @@ const ArticlesAPI = {
     },
     getState: async(id) => {
         let articlesState = JSON.parse(await AsyncStorage.getItem('articlesState')) || {};
+        
         return {
             data: articlesState[id]
         };

@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {ScreenTitle} from '../Titles';
+import Appbar from '../Appbar';
 import {StatusBar} from 'expo-status-bar';
-import {ActivityIndicator, SafeAreaView, View, ScrollView, RefreshControl} from 'react-native';
+import {Text, ActivityIndicator, SafeAreaView, View, ScrollView, RefreshControl} from 'react-native';
 import {TextBox} from '../TextBox';
 
 //*Styles
@@ -24,9 +25,11 @@ export const ScreenView = ({loading, onSearch, refreshing, onRefresh, children, 
             >
                 <View style={screenViewStyles.view}>
                     <View style={loading ? screenViewStyles.headerContainer : null}>
-                        <ScreenTitle style={{marginBottom: onSearch ? 16 : 32}} titleTime={titleTime}>
-                            {title}
-                        </ScreenTitle>
+                        {title ? 
+                            <ScreenTitle style={{marginBottom: onSearch ? 16 : 32}} titleTime={titleTime}>
+                                {title}
+                            </ScreenTitle> : <View style={{height: 16}}></View>
+                        }
                         { onSearch ?
                             <TextBox style={{marginHorizontal: 24, marginBottom: 32, width: Dimensions.get('window').width - 48}} onChangeText={onSearch} placeholder={"Search..."} icon={"search"}/> : null
                         }

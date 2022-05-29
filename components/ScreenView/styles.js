@@ -19,5 +19,5 @@ export const screenViewStyles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
-    }
+    },
 });

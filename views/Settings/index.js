@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import { ScreenView, ListTile, SectionTitle } from '../../components';
+import { ScreenView, ListTile, SectionTitle, Headerbar } from '../../components';
 import Actions from '../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Feather';
 
 //*Views
+//Feed
 import FeedAdvancedScreen from './Feed/Advanced';
 import FeedContentScreen from './Feed/Content';
+import FeedArchiveScreen from './Feed/Archive';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,12 +18,14 @@ const SettingsScreen = () => {
     return (
         <Stack.Navigator
             screenOptions={{
-              headerShown: false
+                headerShown: true,
+                header: ({navigation, route, options}) => <Headerbar navigation={navigation} title={options.title || route.name}/>
             }}
         >
-            <Stack.Screen name="Main" component={Settings} />
-            <Stack.Screen name="Feed/Advanced" component={FeedAdvancedScreen} />
-            <Stack.Screen name="Feed/Content" component={FeedContentScreen} />
+            <Stack.Screen options={{headerShown: false}} name="Main" component={Settings} />
+            <Stack.Screen options={{title: "Advanced"}} name="Feed/Advanced" component={FeedAdvancedScreen} />
+            <Stack.Screen options={{title: "Content"}} name="Feed/Content" component={FeedContentScreen} />
+            <Stack.Screen options={{title: "Archive"}} name="Feed/Archive" component={FeedArchiveScreen} />
         </Stack.Navigator>
     )
 }
@@ -60,6 +64,11 @@ const Settings = ({navigation}) => {
                 icon="toggle-left"
                 title="Advanced"
                 onPress={() => navigation.navigate('Feed/Advanced')}
+            />
+            <SettingTile
+                icon="archive"
+                title="Archive"
+                onPress={() => navigation.navigate('Feed/Archive')}
             />
             {/* <SettingTile
                 icon="hash"
