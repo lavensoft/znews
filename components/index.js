@@ -3,6 +3,7 @@ import { ScreenView } from "./ScreenView";
 import { PostCard, DetailPostCard } from "./Card";
 import { TextBox } from "./TextBox";
 import { StoryAvatar } from './Stories';
+import { LButton } from './Button';
 import ListTile from './ListTile';
 import StoryContainer from './Stories/StoryContainer';
 import Appbar from "./Appbar";
@@ -17,5 +18,6 @@ export {
     TextBox,
     StoryAvatar,
     StoryContainer,
-    ListTile
+    ListTile,
+    LButton
 }

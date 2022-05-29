@@ -1,16 +1,24 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/Feather';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 
 //*Styles
 import {listTilesStyles} from './styles';
 
-const Tile = ({children, icon}) => {
+const Tile = ({children, icon, onPress, avatar}) => {
     return (
-        <TouchableOpacity style={listTilesStyles.container}>
-            <View style={listTilesStyles.iconContainer}>
-                <Icon name={icon} style={listTilesStyles.icon}/>
-            </View>
+        <TouchableOpacity onPress={onPress} style={listTilesStyles.container}>
+            {
+                avatar ?
+                <View style={listTilesStyles.avatarContainer}>
+                    <Image resizeMode='cover' source={{uri: avatar}} style={listTilesStyles.avatar}/>
+                </View> : null
+            }
+            {icon ? 
+                <View style={listTilesStyles.iconContainer}>
+                    <Icon name={icon} style={listTilesStyles.icon}/>
+                </View> : null
+            }
             {children}
         </TouchableOpacity>
     );
@@ -63,7 +71,7 @@ const ListTile = {
     Content,
     Title,
     SubTitle,
-    Action
+    Action,
 }
 
 export default ListTile;

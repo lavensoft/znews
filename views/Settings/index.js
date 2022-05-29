@@ -7,7 +7,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Feather';
 
 //*Views
-import ArticleScreen from '../Article';
+import FeedAdvancedScreen from './Feed/Advanced';
+import FeedContentScreen from './Feed/Content';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +19,9 @@ const SettingsScreen = () => {
               headerShown: false
             }}
         >
-            <Stack.Screen  name="Main" component={Settings} />
+            <Stack.Screen name="Main" component={Settings} />
+            <Stack.Screen name="Feed/Advanced" component={FeedAdvancedScreen} />
+            <Stack.Screen name="Feed/Content" component={FeedContentScreen} />
         </Stack.Navigator>
     )
 }
@@ -47,11 +50,16 @@ const Settings = ({navigation}) => {
                 title="Appereance"
                 onPress={() => navigation.navigate('Account')}
             />
-            <SectionTitle>Content</SectionTitle>
+            <SectionTitle>Feed</SectionTitle>
             <SettingTile
                 icon="inbox"
-                title="Sources"
-                onPress={() => navigation.navigate('Account')}
+                title="Content"
+                onPress={() => navigation.navigate('Feed/Content')}
+            />
+            <SettingTile
+                icon="toggle-left"
+                title="Advanced"
+                onPress={() => navigation.navigate('Feed/Advanced')}
             />
             {/* <SettingTile
                 icon="hash"

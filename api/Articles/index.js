@@ -8,7 +8,7 @@ const ArticlesAPI = {
         return response.data;
     },
     getAt: async (page) => {
-        const response = await axios.get(`${config.API_URL}/articles/page/${page}`).catch(e => console.log(e));
+        const response = await axios.get(`${config.API_URL}/articles/page/${page}`);
         return response.data;
     },
     search: async(keywords) => {
@@ -26,7 +26,7 @@ const ArticlesAPI = {
         let dateNow = new Date();
         dateNow = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate()).getTime().toString()
         
-        let storiesViewed = JSON.parse(await AsyncStorage.getItem('@storiesViewed')) || {};
+        let storiesViewed = JSON.parse(await AsyncStorage.getItem('storiesViewed')) || {};
 
         result.map((item, i) => {
             if(storiesViewed[dateNow]?.indexOf(item.author._id) > -1) {
@@ -46,21 +46,21 @@ const ArticlesAPI = {
     },
     saveState: async(id, state) => {
         //Save to local storage
-        let articlesState = JSON.parse(await AsyncStorage.getItem('@articlesState')) || {};
+        let articlesState = JSON.parse(await AsyncStorage.getItem('articlesState')) || {};
         articlesState[id] = state;
 
-        await AsyncStorage.setItem('@articlesState', JSON.stringify(articlesState));
+        await AsyncStorage.setItem('articlesState', JSON.stringify(articlesState));
 
         return articlesState;
     },
     getState: async(id) => {
-        let articlesState = JSON.parse(await AsyncStorage.getItem('@articlesState')) || {};
+        let articlesState = JSON.parse(await AsyncStorage.getItem('articlesState')) || {};
         return {
             data: articlesState[id]
         };
     },
     getAllState: async() => {
-        let articlesState = JSON.parse(await AsyncStorage.getItem('@articlesState')) || {};
+        let articlesState = JSON.parse(await AsyncStorage.getItem('articlesState')) || {};
 
         return {
             data: articlesState

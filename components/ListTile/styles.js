@@ -11,6 +11,21 @@ export const listTilesStyles = StyleSheet.create({
         paddingHorizontal: 24,
         marginBottom: 12
     },
+    avatarContainer: {
+        width: 46,
+        height: 46,
+        backgroundColor: "#eaeaea",
+        borderRadius: 23,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 16
+    },
+    avatar: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 23,
+    },
     iconContainer: {
         width: 46,
         height: 46,

@@ -86,23 +86,28 @@ const Home = ({navigation, route}) => {
     //*---
 
     const articles = useSelector(state => state.articles.data);
+    const settings = useSelector(state => state.settings.data);
     const articlesState = useSelector(state => state.articles.articlesState);
     const stories = useSelector(state => state.articles.stories);
     const isLoading = useSelector(state => state.articles.isLoading);
     const page = useSelector(state => state.articles.page);
 
     useEffect(() => {
-      dispatch({
+      dispatch({ //Fetch Articles
           type: Actions.articles.FETCH_ALL_ARTICLES,
           page: 0
       });
 
-      dispatch({
+      dispatch({ //Fetch Stories
         type: Actions.articles.FETCH_STORIES
       })
 
-      dispatch({
+      dispatch({ //Fetch Articles states
         type: Actions.articles.FETCH_ARTICLES_STATE
+      });
+
+      dispatch({ //Fetch Settings
+        type: Actions.settings.FETCH_SETTINGS
       });
     }, []);
 
@@ -159,7 +164,7 @@ const Home = ({navigation, route}) => {
               //   )
               // }
 
-              if(articlesState[item._id]) return null
+              if(articlesState[item._id] && !settings.showReadedArticles) return null
 
               return (
                   <PostCard 

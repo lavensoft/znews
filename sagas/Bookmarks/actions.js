@@ -4,6 +4,4 @@ export const actions = {
     REFRESH_BOOKMARKS: "REFRESH_BOOKMARKS",
 }
 
-
-
 export default actions;
