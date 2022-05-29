@@ -137,7 +137,7 @@ const Home = ({navigation, route}) => {
               }}
               snapToInterval={80}
               renderItem={({ item, index }) => (
-                <StoryAvatar style={{marginRight: (index == stories.length - 1 ? 48 : 16)}} name={item.author.name} avatar={item.stories[0].thumbnail} onPress={() => onStorySelect(index)} key={`story-item-${index}`}/>
+                <StoryAvatar viewed={item.viewed} style={{marginRight: (index == stories.length - 1 ? 48 : 16)}} authorId={item.author._id} name={item.author.name} avatar={item.stories[0].thumbnail} onPress={() => onStorySelect(index)} key={`story-item-${index}`}/>
               )}
             />
 

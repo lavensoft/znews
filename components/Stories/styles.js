@@ -18,6 +18,9 @@ export const storyAvatarStyles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 12,
     },
+    avatarContainerViewed: {
+        backgroundColor: "#eaeaea",
+    },  
     avatar: {
         width: 58,
         height: 58,

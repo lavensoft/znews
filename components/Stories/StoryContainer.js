@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {WebView} from 'react-native-webview';
 import Modal from 'react-native-modalbox';
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -40,14 +41,26 @@ const StoryContainer = (props) => {
     }
   };
 
-  const nextStory = () => {
+  const nextStory = async() => {
     if (stories.length - 1 > currentIndex) {
+      //*Go next
       setCurrentIndex(currentIndex + 1);
       setLoaded(false);
       setDuration(25);
     
       setStoryTitle(stories[currentIndex + 1].title);
     } else {
+      //*save to viewed
+      let dateNow = new Date();
+      dateNow = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate()).getTime().toString()
+      
+      let storiesViewed = JSON.parse(await AsyncStorage.getItem('@storiesViewed')) || {};
+      
+      if(!storiesViewed[dateNow]) storiesViewed[dateNow] = [];
+      storiesViewed[dateNow].push(siteData.author._id);
+
+      await AsyncStorage.setItem('@storiesViewed', JSON.stringify(storiesViewed));
+
       setCurrentIndex(0);
       setStoryTitle(stories[0].title);
       props.onStoryNext();

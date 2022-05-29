@@ -4,10 +4,12 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 //*Styles
 import {storyAvatarStyles} from './styles';
 
-export const StoryAvatar = ({style, onPress, avatar, name}) => {
+export const StoryAvatar = ({style, onPress, avatar, name, viewed}) => {
     return(
         <TouchableOpacity onPress={onPress} style={{...storyAvatarStyles.container, ...style}}>
-            <View style={storyAvatarStyles.avatarContainer}>
+            <View style={{...storyAvatarStyles.avatarContainer, 
+                ...(viewed ? storyAvatarStyles.avatarContainerViewed : {})
+            }}>
                 <View style={storyAvatarStyles.avatar}>
                     <Image borderRadius={30} source={{uri: avatar}} style={storyAvatarStyles.img}/>
                 </View>
