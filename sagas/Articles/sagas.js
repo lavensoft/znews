@@ -53,12 +53,34 @@ function* updateArticlesView(action) {
   }
 }
 
+function* saveState(action) {
+  const {id, state} = action;
+
+  try {
+    const response = yield call(API.Articles.saveState, id, state);
+    yield put({type: _onSuccess(Actions.articles.SAVE_ARTICLE_STATE), response: response.data});
+  } catch (e) {
+    yield put({type: _onFail(Actions.articles.SAVE_ARTICLE_STATE), message: e.message});
+  }
+}
+
+function* fetchStates(action) {
+  try {
+    const states = yield call(API.Articles.getAllState);
+    yield put({type: _onSuccess(Actions.articles.FETCH_ARTICLES_STATE), states: states.data});
+  } catch (e) {
+    yield put({type: _onFail(Actions.articles.FETCH_ARTICLES_STATE), message: e.message});
+  }
+}
+
 function* rootSaga() {
   yield takeLatest(Actions.articles.FETCH_ALL_ARTICLES, fetchAllArticles);
   yield takeLatest(Actions.articles.REFRESH_ARTICLES, refreshArticles);
   yield takeLatest(Actions.articles.SEARCH_ARTICLES, searchArticles);
   yield takeLatest(Actions.articles.FETCH_STORIES, fetchStories);
   yield takeLatest(Actions.articles.UPDATE_ARTICLES_VIEW, updateArticlesView);
+  yield takeLatest(Actions.articles.SAVE_ARTICLE_STATE, saveState);
+  yield takeLatest(Actions.articles.FETCH_ARTICLES_STATE, fetchStates);
 }
 
 export default rootSaga;

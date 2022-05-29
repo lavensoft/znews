@@ -35,6 +35,7 @@ const Home = ({navigation, route}) => {
     const routeParams = route.params;
 
     //*Story
+    //#region
     const [isModelOpen, setModel] = useState(false);
     const [currentUserIndex, setCurrentUserIndex] = useState(0);
     const [currentScrollValue, setCurrentScrollValue] = useState(0);
@@ -81,17 +82,16 @@ const Home = ({navigation, route}) => {
             setCurrentScrollValue(scrollValue);
         }
       };
+    //#endregion
     //*---
 
     const articles = useSelector(state => state.articles.data);
+    const articlesState = useSelector(state => state.articles.articlesState);
     const stories = useSelector(state => state.articles.stories);
     const isLoading = useSelector(state => state.articles.isLoading);
     const page = useSelector(state => state.articles.page);
 
     useEffect(() => {
-      //*Check if from deeplink to load article
-      console.log(routeParams);
-
       dispatch({
           type: Actions.articles.FETCH_ALL_ARTICLES,
           page: 0
@@ -100,6 +100,10 @@ const Home = ({navigation, route}) => {
       dispatch({
         type: Actions.articles.FETCH_STORIES
       })
+
+      dispatch({
+        type: Actions.articles.FETCH_ARTICLES_STATE
+      });
     }, []);
 
     const handleReadArticle = (siteData) => {
@@ -110,7 +114,7 @@ const Home = ({navigation, route}) => {
 
     return (
         <ScreenView 
-            loading={isLoading && !articles.length}
+            loading={isLoading && !articles.length && !articlesState.length}
             title="Welcome back, Nhats Devil" 
             titleTime 
             onScroll={({nativeEvent}) => {
@@ -154,6 +158,8 @@ const Home = ({navigation, route}) => {
               //     />
               //   )
               // }
+
+              if(articlesState[item._id]) return null
 
               return (
                   <PostCard 

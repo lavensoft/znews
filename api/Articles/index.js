@@ -43,6 +43,28 @@ const ArticlesAPI = {
     updateView: async(id) => {
         const response = await axios.put(`${config.API_URL}/articles/view/${id}`);
         return response.data;
+    },
+    saveState: async(id, state) => {
+        //Save to local storage
+        let articlesState = JSON.parse(await AsyncStorage.getItem('@articlesState')) || {};
+        articlesState[id] = state;
+
+        await AsyncStorage.setItem('@articlesState', JSON.stringify(articlesState));
+
+        return articlesState;
+    },
+    getState: async(id) => {
+        let articlesState = JSON.parse(await AsyncStorage.getItem('@articlesState')) || {};
+        return {
+            data: articlesState[id]
+        };
+    },
+    getAllState: async() => {
+        let articlesState = JSON.parse(await AsyncStorage.getItem('@articlesState')) || {};
+
+        return {
+            data: articlesState
+        };
     }
 }
 

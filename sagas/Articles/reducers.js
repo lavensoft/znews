@@ -5,6 +5,7 @@ const initialState = {
     isLoading: false,
     data: [],
     searchData: [],
+    articlesState: [],
     page: 0,
 }
 
@@ -61,6 +62,25 @@ export default function reducer(state = initialState, action) {
         case _onSuccess(actions.UPDATE_ARTICLES_VIEW):
             return {
                 ...state,
+            }
+        case actions.SAVE_ARTICLE_STATE:
+            return {
+                ...state,
+            }
+        case _onSuccess(actions.SAVE_ARTICLE_STATE):
+            return {
+                ...state,
+            }
+        case actions.FETCH_ARTICLES_STATE:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case _onSuccess(actions.FETCH_ARTICLES_STATE):
+            return {
+                ...state,
+                isLoading: false,
+                articlesState: action.states
             }
         default:
             return state

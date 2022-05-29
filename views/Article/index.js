@@ -22,6 +22,14 @@ const ArticleScreen = ({navigation, route}) => {
 
         //*Update view
         dispatch({type: Actions.articles.UPDATE_ARTICLES_VIEW, id: _id});
+
+        return () => {
+          //Save article state
+          dispatch({
+            type: Actions.articles.SAVE_ARTICLE_STATE, id: _id, 
+            state: {}
+          });
+        }
     }, []);
 
 
