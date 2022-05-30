@@ -133,8 +133,12 @@ const Feed = ({navigation, route}) => {
               }
             }}
             scrollEventThrottle={400}
-            refreshing={isLoading}
-            onRefresh={() => {}}
+            refreshing={isLoading && !articles.length && !articlesState.length}
+            onRefresh={() => {
+              dispatch({
+                type: Actions.articles.REFRESH_ARTICLES
+              })
+            }}
         >
             <FlatList
               data={stories}

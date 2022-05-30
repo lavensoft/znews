@@ -15,7 +15,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 isLoading: true,
-                page: state.page + 1
+                page: action.page
             }
         case _onSuccess(actions.FETCH_ALL_ARTICLES):
             return {

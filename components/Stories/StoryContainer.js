@@ -14,6 +14,7 @@ import Story from './Story';
 import UserView from './UserView';
 import Readmore from './Readmore';
 import ProgressArray from './ProgressArray';
+import API from '../../api';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -51,15 +52,7 @@ const StoryContainer = (props) => {
       setStoryTitle(stories[currentIndex + 1].title);
     } else {
       //*save to viewed
-      let dateNow = new Date();
-      dateNow = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate()).getTime().toString()
-      
-      let storiesViewed = JSON.parse(await AsyncStorage.getItem('@storiesViewed')) || {};
-      
-      if(!storiesViewed[dateNow]) storiesViewed[dateNow] = [];
-      storiesViewed[dateNow].push(siteData.author._id);
-
-      await AsyncStorage.setItem('@storiesViewed', JSON.stringify(storiesViewed));
+      API.Articles.setViewedStory(siteData);
 
       setCurrentIndex(0);
       setStoryTitle(stories[0].title);

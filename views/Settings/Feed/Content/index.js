@@ -92,7 +92,12 @@ const SettingTile = ({title, subTitle, avatar, onChange, value, userId}) => {
                 }
             </ListTile.Content>
             <ListTile.Action>
-                <Switch onChange={handlePress} value={value} trackColor={{true: "#222222"}}/>
+                <Switch 
+                    onChange={handlePress} 
+                    value={value} 
+                    trackColor={{true: "#222222"}}
+                    thumbColor={"#fafafa"}
+                />
             </ListTile.Action>
         </ListTile.Tile>
     )

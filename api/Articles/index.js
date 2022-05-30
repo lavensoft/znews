@@ -33,6 +33,17 @@ const ArticlesAPI = {
 
         return response.data;
     },
+    setViewedStory: async(articleData) => {
+        let dateNow = new Date();
+        dateNow = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate()).getTime().toString()
+        
+        let storiesViewed = JSON.parse(await AsyncStorage.getItem('storiesViewed')) || {};
+        
+        if(!storiesViewed[dateNow]) storiesViewed[dateNow] = [];
+        if(storiesViewed[dateNow].indexOf(articleData.id) === -1) storiesViewed[dateNow].push(articleData.id);
+  
+        await AsyncStorage.setItem('storiesViewed', JSON.stringify(storiesViewed));
+    },
     getStories: async() => {
         let settings = await SettingsAPI.getAll();
         settings = settings.data;
