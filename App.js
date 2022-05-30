@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
 import Icon from 'react-native-vector-icons/Feather';
 import { Provider } from 'react-redux';
+import { useFCM } from './hooks';
 
 //*Redux
 import {store} from './sagas';
@@ -36,6 +37,17 @@ const linking = {
 };
 
 export default function App() {
+  const fcm = useFCM();
+
+  useEffect(() => {
+    fcm.requestUserPermission();
+    fcm
+      .getDeviceToken()
+      .then(device_token => {
+        console.log('device_token----->', device_token);
+      })
+      .catch(e => console.log('error get token firebase ----->', e));
+  }, [fcm]);
 
   return (
     <Provider store={store}>
