@@ -7,6 +7,9 @@ import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Feather';
 
 //*Views
+//Preferences
+import PreferencesAppereanceScreen from './Preferences/Appereance';
+
 //Feed
 import FeedAdvancedScreen from './Feed/Advanced';
 import FeedContentScreen from './Feed/Content';
@@ -15,6 +18,17 @@ import FeedArchiveScreen from './Feed/Archive';
 const Stack = createNativeStackNavigator();
 
 const SettingsScreen = () => {
+    const dispatch = useDispatch();
+    const settings = useSelector(state => state.settings.data);
+
+    useEffect(() => {
+        dispatch({
+            type: Actions.settings.FETCH_SETTINGS
+        });
+    }, [dispatch]);
+
+    if(settings.isLoading && !settings) return null
+
     return (
         <Stack.Navigator
             screenOptions={{
@@ -23,6 +37,7 @@ const SettingsScreen = () => {
             }}
         >
             <Stack.Screen options={{headerShown: false}} name="Main" component={Settings} />
+            <Stack.Screen initialParams={settings} options={{title: "Appereance"}} name="Preferences/Appereance" component={PreferencesAppereanceScreen} />
             <Stack.Screen options={{title: "Advanced"}} name="Feed/Advanced" component={FeedAdvancedScreen} />
             <Stack.Screen options={{title: "Content"}} name="Feed/Content" component={FeedContentScreen} />
             <Stack.Screen options={{title: "Archive"}} name="Feed/Archive" component={FeedArchiveScreen} />
@@ -52,7 +67,7 @@ const Settings = ({navigation}) => {
             <SettingTile
                 icon="sun"
                 title="Appereance"
-                onPress={() => navigation.navigate('Account')}
+                onPress={() => navigation.navigate('Preferences/Appereance')}
             />
             <SectionTitle>Feed</SectionTitle>
             <SettingTile

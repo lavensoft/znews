@@ -151,20 +151,18 @@ const Home = ({navigation, route}) => {
             />
 
             {articles?.map((item, index) => {
-              // if(!item.featured) {
-              //   return (
-              //     <DetailPostCard 
-              //       key={`article-item-${index}`}
-              //       onPress={() => handleReadArticle(item)}
-              //       originIcon={item.author.avatar}
-              //       subtitle={item.author.name}
-              //       title={item.title}
-              //       banner={item.thumbnail}
-              //     />
-              //   )
-              // }
-
-              if(articlesState[item._id] && !settings.showReadedArticles) return null
+              if(settings.cardStyle === 1) {
+                return (
+                  <DetailPostCard 
+                    key={`article-item-${index}`}
+                    onPress={() => handleReadArticle(item)}
+                    originIcon={item.author.avatar}
+                    subtitle={item.author.name}
+                    title={item.title}
+                    banner={item.thumbnail}
+                  />
+                )
+              }
 
               return (
                   <PostCard 

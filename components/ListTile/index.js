@@ -5,9 +5,12 @@ import {View, Text, TouchableOpacity, Image} from 'react-native';
 //*Styles
 import {listTilesStyles} from './styles';
 
-const Tile = ({children, icon, onPress, avatar}) => {
+const Tile = ({children, icon, onPress, avatar, style, iconContainerStyle, iconStyle}) => {
     return (
-        <TouchableOpacity onPress={onPress} style={listTilesStyles.container}>
+        <TouchableOpacity onPress={onPress} style={{
+            ...listTilesStyles.container,
+            ...style,
+        }}>
             {
                 avatar ?
                 <View style={listTilesStyles.avatarContainer}>
@@ -15,8 +18,14 @@ const Tile = ({children, icon, onPress, avatar}) => {
                 </View> : null
             }
             {icon ? 
-                <View style={listTilesStyles.iconContainer}>
-                    <Icon name={icon} style={listTilesStyles.icon}/>
+                <View style={{
+                    ...listTilesStyles.iconContainer,
+                    ...iconContainerStyle,
+                }}>
+                    <Icon name={icon} style={{
+                        ...listTilesStyles.icon,
+                        ...iconStyle,
+                    }}/>
                 </View> : null
             }
             {children}
