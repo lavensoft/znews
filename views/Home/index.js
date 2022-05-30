@@ -11,14 +11,14 @@ import ArticleScreen from '../Article';
 
 const Stack = createNativeStackNavigator();
 
-const HomeScreen = () => {
+const HomeScreen = ({route}) => {
     return (
         <Stack.Navigator
-            screenOptions={{
-              headerShown: false
-            }}
+          screenOptions={{
+            headerShown: false
+          }}
         >
-            <Stack.Screen  name="Main" component={Home} />
+            <Stack.Screen name="Feed" component={Feed} />
             <Stack.Screen name="Article" component={ArticleScreen} />
         </Stack.Navigator>
     )
@@ -30,7 +30,7 @@ const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
       contentSize.height - paddingToBottom;
 };
 
-const Home = ({navigation, route}) => {
+const Feed = ({navigation, route}) => {
     const dispatch = useDispatch();
     const routeParams = route.params;
 

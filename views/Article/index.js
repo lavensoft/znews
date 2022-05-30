@@ -11,43 +11,65 @@ import API from '../../api';
 
 const ArticleScreen = ({navigation, route}) => {
     const dispatch = useDispatch();
-    const {url, thumbnail, originIcon, originTitle, title, _id, author} = route.params;
+    const {url, thumbnail, title, _id, author} = route.params;
     const [isBookmarked, setIsBookmarked] = useState(false);
+    const [articleData, setArticleData] = useState(null);
 
     useEffect(() => {
-        //*Check bookmarks
-        API.Bookmarks.isBookmarked(_id).then(res => {
-            setIsBookmarked(res);
-        });
+      //*Check bookmarks
+      API.Bookmarks.isBookmarked(_id).then(res => {
+          setIsBookmarked(res);
+      });
 
-        //*Update view
-        dispatch({type: Actions.articles.UPDATE_ARTICLES_VIEW, id: _id});
+      //*Fetch article data
+      if(!(url && thumbnail && title && author)) {
+        API.Articles.getId(_id).then(res => {
+          let data = res.data;
 
-        return () => {
-          //Save article state
-          dispatch({
-            type: Actions.articles.SAVE_ARTICLE_STATE,
-            payload: {
-              articleData: {
-                url,
-                thumbnail,
-                originIcon,
-                originTitle,
-                title,
-                _id,
-                author
-              }
-            },
-            state: {}
+          setArticleData({
+            url: data.url,
+            thumbnail: data.thumbnail,
+            title: data.title,
+            _id: _id,
+            author: author
           });
-        }
+        });
+      }else{
+        setArticleData({
+          url: url,
+          thumbnail: thumbnail,
+          title: title,
+          _id: _id,
+          author: author
+        });
+      }
+
+      //*Update view
+      dispatch({type: Actions.articles.UPDATE_ARTICLES_VIEW, id: _id});
+
+      return () => {
+        //Save article state
+        dispatch({
+          type: Actions.articles.SAVE_ARTICLE_STATE,
+          payload: {
+            articleData: {
+              url,
+              thumbnail,
+              title,
+              _id,
+              author
+            }
+          },
+          state: {}
+        });
+      }
     }, []);
 
 
     const onShare = async () => {
     try {
       const result = await Share.share({
-        url: url //CONFIG.DOMAIN + "articles/" + _id,
+        message: CONFIG.DOMAIN + "article/" + _id,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -68,18 +90,12 @@ const ArticleScreen = ({navigation, route}) => {
       dispatch({
           type: Actions.bookmarks.ADD_BOOKMARKS,
           payload: {
-            articleData: {
-              url,
-              thumbnail,
-              originIcon,
-              originTitle,
-              title,
-              _id,
-              author
-            }
+            articleData
           }
       })
     }
+
+    if(!articleData) return null;
 
     return(
         <SafeAreaView style={{width: '100%', height: '100%'}}>
@@ -99,7 +115,7 @@ const ArticleScreen = ({navigation, route}) => {
                 />
             </Appbar.Header>
 
-            <WebView source={{ uri: url }} style={{width: '100%', height: '100%'}} />
+            <WebView source={{ uri: articleData.url }} style={{width: '100%', height: '100%'}} />
         </SafeAreaView>
     )
 }

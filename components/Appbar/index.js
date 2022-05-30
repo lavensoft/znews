@@ -1,6 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {View, TouchableOpacity} from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
 
 //*Styles
@@ -42,7 +41,7 @@ const Action = ({icon, onPress, color}) => {
         <TouchableOpacity onPress={onPress} style={actionStyles.container}>
             <Icon
                 name={icon}
-                size={24}
+                size={22}
                 color={color || "#222222"}
             />
         </TouchableOpacity>

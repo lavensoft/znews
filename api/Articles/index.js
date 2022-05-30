@@ -8,6 +8,10 @@ const ArticlesAPI = {
         const response = await axios.get(`${config.API_URL}/articles`);
         return response.data;
     },
+    getId: async (id) => {
+        const response = await axios.get(`${config.API_URL}/articles/${id}`);
+        return response.data;
+    },
     getAt: async (page) => {
         let settings = await SettingsAPI.getAll();
         settings = settings.data;

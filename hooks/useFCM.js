@@ -12,7 +12,7 @@ PushNotification.createChannel({
 PushNotification.configure({
   onNotification(notification) {
     if (notification) {
-      console.log(notification);
+      //console.log(notification);
     }
   },
 
@@ -40,6 +40,9 @@ const useFCM = () => {
   };
 
   useEffect(() => {
+    //Subscribe topic
+    messaging().subscribeToTopic('tech-vi');
+
     //When the application in the foreground
     messaging().onMessage(remoteMessage => {
       PushNotification.localNotification({
@@ -56,7 +59,7 @@ const useFCM = () => {
 
     //When the application is running, but in the background.
     messaging().onNotificationOpenedApp(remoteMessage => {
-      if (remoteMessage) {
+      if (remoteMessage?.data.link) {
         Linking.openURL(remoteMessage.data.link);
       }
     });
@@ -65,7 +68,8 @@ const useFCM = () => {
     messaging()
       .getInitialNotification()
       .then(remoteMessage => {
-        if (remoteMessage) {
+        if (remoteMessage?.data.link) {
+          console.log(remoteMessage);
           setTimeout(() => {
             Linking.openURL(remoteMessage.data.link);
           }, 1000);

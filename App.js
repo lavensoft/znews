@@ -18,13 +18,18 @@ const Tabs = AnimatedTabBarNavigator();
 
 const config = {
   screens: {
-    // Home: {
-    //   path: "articles/:id",
-    //   parse: {
-    //     id: (id) => `${id}`,
-    //     data: "dadada"
-    //   },
-    // },
+    Home: {
+      screens: {
+        Feed: 'feed',
+        Article: {
+          path: 'article/:_id',
+        }
+      },
+      path: "Home",
+    },
+    Bookmarks: 'bookmarks',
+    Search: 'search',
+    Settings: 'settings',
   },
 };
 
@@ -44,7 +49,7 @@ export default function App() {
     fcm
       .getDeviceToken()
       .then(device_token => {
-        console.log('device_token----->', device_token);
+        //console.log('device_token----->', device_token);
       })
       .catch(e => console.log('error get token firebase ----->', e));
   }, [fcm]);

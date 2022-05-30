@@ -2,9 +2,11 @@ import { StyleSheet } from "react-native";
 
 export const headerbarStyles = StyleSheet.create({
     container: {
-        paddingTop: 40,
-        height: 96,
-        backgroundColor: '#fff'
+        paddingTop: 26,
+        height: 86,
+        backgroundColor: '#fff',
+        //borderBottomColor: "#eaeaea",
+        //borderBottomWidth: 1
     },
     title: {
         color: '#222222',
