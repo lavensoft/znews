@@ -9,11 +9,13 @@ import Icon from 'react-native-vector-icons/Feather';
 //*Views
 //Preferences
 import PreferencesAppereanceScreen from './Preferences/Appereance';
+import PreferencesNotificationScreen from './Preferences/Notification';
 
 //Feed
 import FeedAdvancedScreen from './Feed/Advanced';
 import FeedContentScreen from './Feed/Content';
 import FeedArchiveScreen from './Feed/Archive';
+import API from '../../api';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +39,7 @@ const SettingsScreen = () => {
             }}
         >
             <Stack.Screen options={{headerShown: false}} name="Main" component={Settings} />
+            <Stack.Screen initialParams={settings} options={{title: "Notification"}} name="Preferences/Notification" component={PreferencesNotificationScreen} />
             <Stack.Screen initialParams={settings} options={{title: "Appereance"}} name="Preferences/Appereance" component={PreferencesAppereanceScreen} />
             <Stack.Screen options={{title: "Advanced"}} name="Feed/Advanced" component={FeedAdvancedScreen} />
             <Stack.Screen options={{title: "Content"}} name="Feed/Content" component={FeedContentScreen} />
@@ -62,7 +65,7 @@ const Settings = ({navigation}) => {
             <SettingTile
                 icon="bell"
                 title="Notification"
-                onPress={() => navigation.navigate('Account')}
+                onPress={() => navigation.navigate('Preferences/Notification')}
             />
             <SettingTile
                 icon="sun"
@@ -93,8 +96,13 @@ const Settings = ({navigation}) => {
             <SectionTitle>Information</SectionTitle>
             <SettingTile
                 icon="info"
-                title="About"
+                title="Thông tin"
                 onPress={() => navigation.navigate('Account')}
+            />
+            <SettingTile
+                icon="rotate-ccw"
+                title="Đặt lại tất cả cài đặt"
+                onPress={() => API.Settings.setDefault()}
             />
         </ScreenView>
     );

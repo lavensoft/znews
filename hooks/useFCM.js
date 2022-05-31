@@ -3,6 +3,7 @@ import messaging from '@react-native-firebase/messaging';
 import {useEffect} from 'react';
 import {Linking} from 'react-native';
 import PushNotification from 'react-native-push-notification';
+import API from '../api';
 
 PushNotification.createChannel({
   channelId: 'notification-channel-id',
@@ -40,8 +41,22 @@ const useFCM = () => {
   };
 
   useEffect(() => {
-    //Subscribe topic
-    messaging().subscribeToTopic('tech-vi');
+    //User notification topic setting
+    API.Settings.getAll().then(topic => {
+      const notificationTopic = topic.data.notification; //Notification setting
+      const topicsFollowing = topic.data.topicsFollowing; //Topics following
+
+      //Unsubscribe all topics
+      topicsFollowing.map(item => {
+        messaging().unsubscribeFromTopic(item);
+        messaging().unsubscribeFromTopic(item + '-high')
+      });
+
+      //Subscribe topic
+      if(notificationTopic != 'off') {
+        messaging().subscribeToTopic(notificationTopic);
+      }
+    })
 
     //When the application in the foreground
     messaging().onMessage(remoteMessage => {

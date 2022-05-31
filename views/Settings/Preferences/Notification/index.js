@@ -10,36 +10,32 @@ import Icon from 'react-native-vector-icons/Feather';
 
 const Stack = createNativeStackNavigator();
 
-const PreferencesAppereanceScreen = ({route}) => {
+const PreferencesNotificationScreen = ({route}) => {
     return (
         <Stack.Navigator
             screenOptions={{
               headerShown: false
             }}
         >
-            <Stack.Screen initialParams={route.params} name="Main" component={Appereance} />
+            <Stack.Screen initialParams={route.params} name="Main" component={Notification} />
         </Stack.Navigator>
     )
 }
 
-const Appereance = ({navigation, route}) => {
+const Notification = ({navigation, route}) => {
     const settings = route.params;
     const dispatch = useDispatch();
-    const [theme, setTheme] = useState('light');
-    const [cardStyle, setCardStyle] = useState('card');
+    const [notification, setNotification] = useState('off');
+    const topics = ["off", "tech-vi", "tech-vi-high"];
 
     useEffect(() => {
-        setTheme(settings.theme || 'light');
-        setCardStyle(settings.cardStyle || 'card');
+        setNotification(settings.notification || topics[0]);
     }, [settings]);
 
     const handleChangeSetting = (key, value) => {
         switch(key) {
-            case "theme":
-                setTheme(value);
-                break;
-            case "cardStyle":
-                setCardStyle(value);
+            case "notification":
+                setNotification(value);
                 break;
             default:
                 break;
@@ -62,47 +58,33 @@ const Appereance = ({navigation, route}) => {
             }}
             //loading={settings.isLoading && !settings}
         >
-            <SectionTitle style={{marginTop: 0}}>Theme</SectionTitle>
+            <SectionTitle style={{marginTop: 0}}>Quản Lý Thông Báo</SectionTitle>
+            
             <SettingTile
-                icon="sun"
-                title="Light"
-                active={theme === 'light'}
-                settingKey="theme"
-                value={'light'}
+                icon="compass"
+                title="Cao"
+                subTitle="Tất cả các thông báo"
+                active={notification === topics[2]}
+                settingKey="notification"
+                value={topics[2]}
                 onChange={handleChangeSetting}
             />
             <SettingTile
-                icon="moon"
-                title="Dark"
-                settingKey="theme"
-                value={'dark'}
-                active={theme === 'dark'}
+                icon="coffee"
+                title="Thấp"
+                settingKey="notification"
+                subTitle="Vào các giờ nghỉ ngơi"
+                value={topics[1]}
+                active={notification === topics[1]}
                 onChange={handleChangeSetting}
             />
             <SettingTile
-                icon="toggle-left"
-                title="System"
-                settingKey="theme"
-                value={'system'}
-                active={theme === 'system'}
-                onChange={handleChangeSetting}
-            />
-
-            <SectionTitle style={{marginTop: 16}}>Card Style</SectionTitle>
-            <SettingTile
-                icon="grid"
-                title="Card"
-                settingKey="cardStyle"
-                value={'card'}
-                active={cardStyle === 'card'}
-                onChange={handleChangeSetting}
-            />
-            <SettingTile
-                icon="list"
-                title="Detail"
-                settingKey="cardStyle"
-                value={'detail'}
-                active={cardStyle === 'detail'}
+                icon="bell-off"
+                title="Tắt"
+                subTitle="Không nhận thông báo"
+                settingKey="notification"
+                value={topics[0]}
+                active={notification === topics[0]}
                 onChange={handleChangeSetting}
             />
         </ScreenView>
@@ -141,4 +123,4 @@ const SettingTile = ({settingKey, value, title, subTitle, icon, onChange, active
     )
 }
 
-export default PreferencesAppereanceScreen;
+export default PreferencesNotificationScreen;

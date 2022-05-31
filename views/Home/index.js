@@ -155,7 +155,7 @@ const Feed = ({navigation, route}) => {
             />
 
             {articles?.map((item, index) => {
-              if(settings.cardStyle === 1) {
+              if(settings.cardStyle === 'detail') {
                 return (
                   <DetailPostCard 
                     key={`article-item-${index}`}
