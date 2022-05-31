@@ -32,7 +32,7 @@ const Notification = ({navigation, route}) => {
         setNotification(settings.notification || 'relax');
     }, [settings]);
 
-    const handleChangeSetting = (key, value) => {
+    const handleChangeSetting = async(key, value) => {
         switch(key) {
             case "notification":
                 setNotification(value);
@@ -41,22 +41,17 @@ const Notification = ({navigation, route}) => {
                 break;
         }
 
-        //*FCM Clear Topics
-        settings.usersFollowing.map(item => {
-            messaging().unsubscribeFromTopic(`${item}`);
-            messaging().unsubscribeFromTopic(`${item}-high`);
-        })
+        //*FCM Clear Topics & subscribes
+        for(item of settings.usersFollowing) {
+            await messaging().unsubscribeFromTopic(`${item}`);
+            await messaging().unsubscribeFromTopic(`${item}-high`);
 
-        //*FCM Subscribe
-        if(value !== 'off') {
-            if(value === 'relax') {
-                settings.usersFollowing.map(item => {
-                    messaging().subscribeToTopic(`${item}`);
-                })
-            }else{
-                settings.usersFollowing.map(item => {
-                    messaging().subscribeToTopic(`${item}-high`);
-                })
+            if(value !== 'off') {
+                if(value === 'relax') {
+                    await messaging().subscribeToTopic(`${item}`);
+                }else{
+                    await messaging().subscribeToTopic(`${item}-high`);
+                }
             }
         }
     
@@ -68,6 +63,8 @@ const Notification = ({navigation, route}) => {
                 value: value
             }
         });
+
+        alert("Settings updated!");
     }
 
     return (

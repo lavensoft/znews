@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config';
+import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SettingsAPI = {
@@ -49,9 +50,16 @@ const SettingsAPI = {
                 "6291099eedfb346251677b5d",
                 "629109a5edfb346251677b5e"
             ],
-            notification: 'tech-vi-high',
+            notification: 'relax',
             theme: 'light',
             cardStyle: 'card',
+        }
+
+        //*FCM Clear & Subscribe default Topics
+        for(item of settings.usersFollowing) {
+            await messaging().unsubscribeFromTopic(`${item}`);
+            await messaging().unsubscribeFromTopic(`${item}-high`);
+            await messaging().subscribeToTopic(`${item}`);
         }
 
         await AsyncStorage.setItem('settings', JSON.stringify(settings));

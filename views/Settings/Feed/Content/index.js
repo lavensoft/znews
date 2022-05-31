@@ -34,7 +34,7 @@ const Content = ({navigation}) => {
         dispatch({type: Actions.users.FETCH_ALL_USERS});
     }, []);
 
-    const handleUpdateSetting = (userId, value) => {
+    const handleUpdateSetting = async(userId, value) => {
         let usersFollowing = settings.usersFollowing || [];
         
         if(value) { // Add user to following
@@ -42,13 +42,13 @@ const Content = ({navigation}) => {
 
             //*FCM Subscribe
             if(settings.notification !== "off") {
-                messaging().subscribeToTopic(`${userId}-${settings.notification}`);
+                await messaging().subscribeToTopic(`${userId}-${settings.notification}`);
             }
         }else{ // Remove user from following
             usersFollowing = usersFollowing.filter(user => user !== userId);
 
             //*FCM Unsubscribe
-            messaging().unsubscribeFromTopic(userId);
+            await messaging().unsubscribeFromTopic(userId);
         }
     
         //Update users following
