@@ -25,12 +25,12 @@ const PreferencesAppereanceScreen = ({route}) => {
 const Appereance = ({navigation, route}) => {
     const settings = route.params;
     const dispatch = useDispatch();
-    const [theme, setTheme] = useState('light');
-    const [cardStyle, setCardStyle] = useState('card');
+    const [theme, setTheme] = useState(0);
+    const [cardStyle, setCardStyle] = useState(0);
 
     useEffect(() => {
-        setTheme(settings.theme || 'light');
-        setCardStyle(settings.cardStyle || 'card');
+        setTheme(settings.theme || 0);
+        setCardStyle(settings.cardStyle || 0);
     }, [settings]);
 
     const handleChangeSetting = (key, value) => {
@@ -66,25 +66,25 @@ const Appereance = ({navigation, route}) => {
             <SettingTile
                 icon="sun"
                 title="Light"
-                active={theme === 'light'}
+                active={theme === 0}
                 settingKey="theme"
-                value={'light'}
+                value={0}
                 onChange={handleChangeSetting}
             />
             <SettingTile
                 icon="moon"
                 title="Dark"
                 settingKey="theme"
-                value={'dark'}
-                active={theme === 'dark'}
+                value={1}
+                active={theme === 1}
                 onChange={handleChangeSetting}
             />
             <SettingTile
                 icon="toggle-left"
                 title="System"
                 settingKey="theme"
-                value={'system'}
-                active={theme === 'system'}
+                value={2}
+                active={theme === 2}
                 onChange={handleChangeSetting}
             />
 
@@ -93,16 +93,16 @@ const Appereance = ({navigation, route}) => {
                 icon="grid"
                 title="Card"
                 settingKey="cardStyle"
-                value={'card'}
-                active={cardStyle === 'card'}
+                value={0}
+                active={cardStyle === 0}
                 onChange={handleChangeSetting}
             />
             <SettingTile
                 icon="list"
                 title="Detail"
                 settingKey="cardStyle"
-                value={'detail'}
-                active={cardStyle === 'detail'}
+                value={1}
+                active={cardStyle === 1}
                 onChange={handleChangeSetting}
             />
         </ScreenView>

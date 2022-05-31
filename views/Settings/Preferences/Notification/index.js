@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import messaging from '@react-native-firebase/messaging';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { ScreenView, ListTile, SectionTitle, Appbar } from '../../../../components';
@@ -26,10 +27,9 @@ const Notification = ({navigation, route}) => {
     const settings = route.params;
     const dispatch = useDispatch();
     const [notification, setNotification] = useState('off');
-    const topics = ["off", "tech-vi", "tech-vi-high"];
 
     useEffect(() => {
-        setNotification(settings.notification || topics[0]);
+        setNotification(settings.notification || 'relax');
     }, [settings]);
 
     const handleChangeSetting = (key, value) => {
@@ -39,6 +39,25 @@ const Notification = ({navigation, route}) => {
                 break;
             default:
                 break;
+        }
+
+        //*FCM Clear Topics
+        settings.usersFollowing.map(item => {
+            messaging().unsubscribeFromTopic(`${item}`);
+            messaging().unsubscribeFromTopic(`${item}-high`);
+        })
+
+        //*FCM Subscribe
+        if(value !== 'off') {
+            if(value === 'relax') {
+                settings.usersFollowing.map(item => {
+                    messaging().subscribeToTopic(`${item}`);
+                })
+            }else{
+                settings.usersFollowing.map(item => {
+                    messaging().subscribeToTopic(`${item}-high`);
+                })
+            }
         }
     
         //Update settings
@@ -64,9 +83,9 @@ const Notification = ({navigation, route}) => {
                 icon="compass"
                 title="Cao"
                 subTitle="Tất cả các thông báo"
-                active={notification === topics[2]}
+                active={notification === 'high'}
                 settingKey="notification"
-                value={topics[2]}
+                value={'high'}
                 onChange={handleChangeSetting}
             />
             <SettingTile
@@ -74,8 +93,8 @@ const Notification = ({navigation, route}) => {
                 title="Thấp"
                 settingKey="notification"
                 subTitle="Vào các giờ nghỉ ngơi"
-                value={topics[1]}
-                active={notification === topics[1]}
+                value={'relax'}
+                active={notification === 'relax'}
                 onChange={handleChangeSetting}
             />
             <SettingTile
@@ -83,8 +102,8 @@ const Notification = ({navigation, route}) => {
                 title="Tắt"
                 subTitle="Không nhận thông báo"
                 settingKey="notification"
-                value={topics[0]}
-                active={notification === topics[0]}
+                value={'off'}
+                active={notification === 'off'}
                 onChange={handleChangeSetting}
             />
         </ScreenView>

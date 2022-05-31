@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import messaging from '@react-native-firebase/messaging';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ScreenView, ListTile, SectionTitle } from '../../../../components';
 import Actions from '../../../../sagas/actions';
@@ -38,8 +39,16 @@ const Content = ({navigation}) => {
         
         if(value) { // Add user to following
             usersFollowing.push(userId);
+
+            //*FCM Subscribe
+            if(settings.notification !== "off") {
+                messaging().subscribeToTopic(`${userId}-${settings.notification}`);
+            }
         }else{ // Remove user from following
             usersFollowing = usersFollowing.filter(user => user !== userId);
+
+            //*FCM Unsubscribe
+            messaging().unsubscribeFromTopic(userId);
         }
     
         //Update users following

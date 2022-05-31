@@ -50,7 +50,6 @@ const SettingsAPI = {
                 "629109a5edfb346251677b5e"
             ],
             notification: 'tech-vi-high',
-            topicsFollowing: ['tech-vi'],
             theme: 'light',
             cardStyle: 'card',
         }
