@@ -2,6 +2,7 @@ import axios from 'axios';
 import config from '../config';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import FcmTokensAPI from '../FcmTokens';
 
 const SettingsAPI = {
     getAll: async () => {
@@ -30,6 +31,8 @@ const SettingsAPI = {
         };
     },
     setDefault: async () => {
+        const fcmDeviceToken = await messaging().getToken();
+
         let settings = {
             language: 'en',
             showReadedArticles: true,
@@ -53,14 +56,17 @@ const SettingsAPI = {
             notification: 'relax',
             theme: 'light',
             cardStyle: 'card',
+            fcmDeviceToken
         }
 
         //*FCM Clear & Subscribe default Topics
         for(item of settings.usersFollowing) {
             await messaging().unsubscribeFromTopic(`${item}`);
             await messaging().unsubscribeFromTopic(`${item}-high`);
-            await messaging().subscribeToTopic(`${item}`);
         }
+
+        await FcmTokensAPI.unsubscribe(fcmDeviceToken, settings.usersFollowing);
+        await FcmTokensAPI.subscribe(fcmDeviceToken, 'relax', settings.usersFollowing);
 
         await AsyncStorage.setItem('settings', JSON.stringify(settings));
 

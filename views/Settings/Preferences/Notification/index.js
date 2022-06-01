@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import messaging from '@react-native-firebase/messaging';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { ScreenView, ListTile, SectionTitle, Appbar } from '../../../../components';
 import Actions from '../../../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
+import API from '../../../../api';
 import Icon from 'react-native-vector-icons/Feather';
 
 //*Views
@@ -41,19 +41,8 @@ const Notification = ({navigation, route}) => {
                 break;
         }
 
-        //*FCM Clear Topics & subscribes
-        for(item of settings.usersFollowing) {
-            await messaging().unsubscribeFromTopic(`${item}`);
-            await messaging().unsubscribeFromTopic(`${item}-high`);
-
-            if(value !== 'off') {
-                if(value === 'relax') {
-                    await messaging().subscribeToTopic(`${item}`);
-                }else{
-                    await messaging().subscribeToTopic(`${item}-high`);
-                }
-            }
-        }
+        //*FCM Token Update
+        await API.FcmTokens.changeType(settings.fcmDeviceToken, value);
     
         //Update settings
         dispatch({
@@ -63,8 +52,6 @@ const Notification = ({navigation, route}) => {
                 value: value
             }
         });
-
-        alert("Settings updated!");
     }
 
     return (

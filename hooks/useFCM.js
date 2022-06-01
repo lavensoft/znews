@@ -3,6 +3,7 @@ import messaging from '@react-native-firebase/messaging';
 import {useEffect} from 'react';
 import {Linking} from 'react-native';
 import PushNotification from 'react-native-push-notification';
+import API from '../api'
 
 PushNotification.createChannel({
   channelId: 'notification-channel-id',
@@ -35,7 +36,9 @@ const useFCM = () => {
   const getDeviceToken = async () => {
     const token = await messaging().getToken();
     //console.log(token);
+    //await AsyncStorage.setItem('fcmDeviceToken', token);
     //Storage.setItem('fcmToken', token);
+    await API.Settings.set('fcmDeviceToken', token);
     return token;
   };
 

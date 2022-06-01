@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import messaging from '@react-native-firebase/messaging';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ScreenView, ListTile, SectionTitle } from '../../../../components';
 import Actions from '../../../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
 import {Switch} from 'react-native';
+import API from '../../../../api';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,14 +41,12 @@ const Content = ({navigation}) => {
             usersFollowing.push(userId);
 
             //*FCM Subscribe
-            if(settings.notification !== "off") {
-                await messaging().subscribeToTopic(`${userId}-${settings.notification}`);
-            }
+            await API.FcmTokens.subscribe(settings.fcmDeviceToken, settings.notification, [userId]);
         }else{ // Remove user from following
             usersFollowing = usersFollowing.filter(user => user !== userId);
 
             //*FCM Unsubscribe
-            await messaging().unsubscribeFromTopic(userId);
+            await API.FcmTokens.unsubscribe(settings.fcmDeviceToken, [userId]);
         }
     
         //Update users following
