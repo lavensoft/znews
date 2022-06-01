@@ -34,45 +34,25 @@ const SettingsAPI = {
         const fcmDeviceToken = await messaging().getToken();
 
         let settings = {
-            language: 'en',
+            language: 'vi',
             showReadedArticles: true,
-            usersFollowing: [
-                "6290f8941864be6a045cac91",
-                "6290f8941864be6a045cac92",
-                "6290f8941864be6a045cac93",
-                "6290f8941864be6a045cac94",
-                "6290f8941864be6a045cac95",
-                "6290f8941864be6a045cac96",
-                "6290f8941864be6a045cac97",
-                "6290f8941864be6a045cac98",
-                "6290f8941864be6a045cac99", 
-                "6290f8941864be6a045cac9a",
-                "6290fb83edfb346251677b57",
-                "6290fc76edfb346251677b59",
-                "6290fceeedfb346251677b5b",
-                "6291099eedfb346251677b5d",
-                "629109a5edfb346251677b5e"
-            ],
             notification: 'relax',
             theme: 'light',
             cardStyle: 'card',
             fcmDeviceToken
         }
 
-        //*FCM Clear & Subscribe default Topics
-        for(item of settings.usersFollowing) {
-            await messaging().unsubscribeFromTopic(`${item}`);
-            await messaging().unsubscribeFromTopic(`${item}-high`);
-        }
-
-        await FcmTokensAPI.unsubscribe(fcmDeviceToken, settings.usersFollowing);
-        await FcmTokensAPI.subscribe(fcmDeviceToken, 'relax', settings.usersFollowing);
-
         await AsyncStorage.setItem('settings', JSON.stringify(settings));
+
+        //Unsubscribe all fcm
+        await FcmTokensAPI.unsubscribeAll(fcmDeviceToken);
 
         return {
             data: settings
         };
+    },
+    reset: async () => {
+        await AsyncStorage.clear();
     }
 }
 

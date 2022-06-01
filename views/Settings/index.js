@@ -108,10 +108,9 @@ const Settings = ({navigation}) => {
             /> */}
             <SettingTile
                 icon="rotate-ccw"
-                title="Đặt lại tất cả cài đặt"
+                title="Xoá tất cả cài đặt"
                 onPress={async() => {
-                    await API.Settings.setDefault();
-                    alert('Đã đặt lại tất cả cài đặt');
+                    await API.Settings.reset();
                 }}
             />
         </ScreenView>

@@ -29,6 +29,18 @@ const FcmTokensAPI = {
             return error;
         }
     },
+    unsubscribeAll: async(token) => {
+        try {
+            const tokenData = {
+                token: token,
+            };
+            const response = await axios.post(`${config.API_URL}/fcm_token/unsubscribe_all`, tokenData);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    },
     changeType: async(token, type) => {
         try {
             const tokenData = {
