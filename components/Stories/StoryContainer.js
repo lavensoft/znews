@@ -52,7 +52,7 @@ const StoryContainer = (props) => {
       setStoryTitle(stories[currentIndex + 1].title);
     } else {
       //*save to viewed
-      API.Articles.setViewedStory(siteData);
+      await API.Articles.setViewedStory(siteData);
 
       setCurrentIndex(0);
       setStoryTitle(stories[0].title);

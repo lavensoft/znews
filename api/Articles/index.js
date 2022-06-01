@@ -40,7 +40,7 @@ const ArticlesAPI = {
         let storiesViewed = JSON.parse(await AsyncStorage.getItem('storiesViewed')) || {};
         
         if(!storiesViewed[dateNow]) storiesViewed[dateNow] = [];
-        if(storiesViewed[dateNow].indexOf(articleData.id) === -1) storiesViewed[dateNow].push(articleData.id);
+        if(storiesViewed[dateNow].indexOf(articleData.author._id) === -1) storiesViewed[dateNow].push(articleData.author._id);
   
         await AsyncStorage.setItem('storiesViewed', JSON.stringify(storiesViewed));
     },
