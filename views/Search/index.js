@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import { ScreenView, PostCard } from '../../components';
+import { ScreenView, PostCard, DetailPostCard } from '../../components';
 import Actions from '../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -26,6 +26,7 @@ const SearchScreen = () => {
 const Search = ({navigation}) => {
     const dispatch = useDispatch();
     const articles = useSelector(state => state.articles.searchData);
+    const settings = useSelector(state => state.settings.data);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchLoading, setSearchLoading] = useState(false);
 
@@ -59,9 +60,22 @@ const Search = ({navigation}) => {
         <ScreenView 
             title="Search"
             onSearch={e => setSearchTerm(e)}
-            loading={searchLoading}
+            loading={searchLoading && !settings}
         >
             {articles?.map((item, index) => {
+                if(settings.cardStyle === 'detail') {
+                  return (
+                    <DetailPostCard 
+                      key={`post-card-${index}`}
+                      onPress={() => handleReadArticle(item)}
+                      originIcon={item.author.avatar}
+                      subtitle={item.author.name}
+                      title={item.title}
+                      banner={item.thumbnail}
+                    />
+                  )
+                }
+
                 return (
                     <PostCard 
                         originIcon={item.author.avatar}

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import { ScreenView, PostCard } from '../../components';
+import { ScreenView, PostCard, DetailPostCard } from '../../components';
 import Actions from '../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -28,7 +28,7 @@ const Bookmarks = ({navigation}) => {
     const dispatch = useDispatch();
     const bookmarks = useSelector(state => state.bookmarks.data);
     const isLoading = useSelector(state => state.bookmarks.isLoading);
-    const page = useSelector(state => state.bookmarks.page);
+    const settings = useSelector(state => state.settings.data);
 
     useEffect(() => {
         dispatch({
@@ -48,8 +48,21 @@ const Bookmarks = ({navigation}) => {
     }
 
     return (
-        <ScreenView loading={isLoading && !bookmarks.length} refreshing={isLoading} onRefresh={handleRefresh} title="Bookmarks">
+        <ScreenView loading={isLoading && !bookmarks.length && !settings} refreshing={isLoading} onRefresh={handleRefresh} title="Bookmarks">
             {bookmarks?.map((item, index) => {
+                if(settings.cardStyle === 'detail') {
+                  return (
+                    <DetailPostCard 
+                      key={`post-card-${index}`}
+                      onPress={() => handleReadArticle(item)}
+                      originIcon={item.author.avatar}
+                      subtitle={item.author.name}
+                      title={item.title}
+                      banner={item.thumbnail}
+                    />
+                  )
+                }
+
                 return (
                     <PostCard 
                         originIcon={item.author.avatar}

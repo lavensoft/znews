@@ -66,25 +66,25 @@ const Appereance = ({navigation, route}) => {
             <SettingTile
                 icon="sun"
                 title="Light"
-                active={theme === 0}
+                active={theme === 'light'}
                 settingKey="theme"
-                value={0}
+                value={'light'}
                 onChange={handleChangeSetting}
             />
             <SettingTile
                 icon="moon"
                 title="Dark"
                 settingKey="theme"
-                value={1}
-                active={theme === 1}
+                value={'dark'}
+                active={theme === 'dark'}
                 onChange={handleChangeSetting}
             />
             <SettingTile
                 icon="toggle-left"
                 title="System"
                 settingKey="theme"
-                value={2}
-                active={theme === 2}
+                value={'system'}
+                active={theme === 'system'}
                 onChange={handleChangeSetting}
             />
 
@@ -93,16 +93,16 @@ const Appereance = ({navigation, route}) => {
                 icon="grid"
                 title="Card"
                 settingKey="cardStyle"
-                value={0}
-                active={cardStyle === 0}
+                value={'card'}
+                active={cardStyle === 'card'}
                 onChange={handleChangeSetting}
             />
             <SettingTile
                 icon="list"
                 title="Detail"
                 settingKey="cardStyle"
-                value={1}
-                active={cardStyle === 1}
+                value={'detail'}
+                active={cardStyle === 'detail'}
                 onChange={handleChangeSetting}
             />
         </ScreenView>
