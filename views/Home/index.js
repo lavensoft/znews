@@ -95,7 +95,7 @@ const Feed = ({navigation, route}) => {
     useEffect(() => {
       dispatch({ //Fetch Articles
           type: Actions.articles.FETCH_ALL_ARTICLES,
-          page: 0
+          page: 1
       });
 
       dispatch({ //Fetch Stories
@@ -117,6 +117,21 @@ const Feed = ({navigation, route}) => {
       });
     }
 
+    const handleLoadMore = () => {
+      if(!isLoading) {
+          dispatch({
+              type: Actions.articles.FETCH_ALL_ARTICLES,
+              page: page + 1
+          })
+      }
+    }
+
+    const handleRefresh = () => {
+      dispatch({
+        type: Actions.articles.REFRESH_ARTICLES
+      })
+    }
+
     return (
         <ScreenView 
             loading={isLoading && !articles.length && !articlesState.length}
@@ -124,21 +139,12 @@ const Feed = ({navigation, route}) => {
             titleTime 
             onScroll={({nativeEvent}) => {
               if (isCloseToBottom(nativeEvent)) {
-                if(!isLoading) {
-                    dispatch({
-                        type: Actions.articles.FETCH_ALL_ARTICLES,
-                        page: page + 1
-                    })
-                }
+                handleLoadMore();
               }
             }}
             scrollEventThrottle={400}
             refreshing={isLoading && !articles.length && !articlesState.length}
-            onRefresh={() => {
-              dispatch({
-                type: Actions.articles.REFRESH_ARTICLES
-              })
-            }}
+            onRefresh={handleRefresh}
         >
             <FlatList
               data={stories}

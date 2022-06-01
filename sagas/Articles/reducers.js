@@ -6,7 +6,7 @@ const initialState = {
     data: [],
     searchData: [],
     articlesState: [],
-    page: 0,
+    page: 1,
 }
 
 export default function reducer(state = initialState, action) {
@@ -27,7 +27,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 isLoading: true,
-                page: 0
+                page: 1
             }
         case _onSuccess(actions.REFRESH_ARTICLES):
             return {
