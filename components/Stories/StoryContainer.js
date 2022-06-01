@@ -6,12 +6,10 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {WebView} from 'react-native-webview';
-import Modal from 'react-native-modalbox';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import Story from './Story';
 import UserView from './UserView';
+import StoryPopup from './StoryPopup';
 import Readmore from './Readmore';
 import ProgressArray from './ProgressArray';
 import API from '../../api';
@@ -129,8 +127,8 @@ const StoryContainer = (props) => {
 
   return (
     <GestureRecognizer
-      onSwipeDown={onSwipeDown}
-      onSwipeUp={onSwipeUp}
+      //onSwipeDown={onSwipeDown}
+      //onSwipeUp={onSwipeUp}
       config={config}
       style={styles.container}
     >
@@ -166,11 +164,7 @@ const StoryContainer = (props) => {
 
         </View>
 
-        <Modal style={styles.modal} position="bottom" isOpen={isModelOpen} onClosed={onReadMoreClose}>
-          <View style={styles.bar} />
-          <WebView source={{ uri: stories[currentIndex].url }} />
-        </Modal>
-
+        <StoryPopup visible={isModelOpen} onReadMoreClose={onReadMoreClose} storyData={stories[currentIndex]} authorData={siteData}/>
       </TouchableOpacity>
     </GestureRecognizer>
   );
@@ -226,19 +220,8 @@ const styles = StyleSheet.create({
   },
   modal: {
     width: '100%',
-    height: '90%',
+    height: '100%',
     backgroundColor: 'white',
-    borderTopLeftRadius: 14,
-    borderTopRightRadius: 14,
-  },
-  bar: {
-    width: 50,
-    height: 5,
-    backgroundColor: 'gray',
-    alignSelf: 'center',
-    borderRadius: 4,
-    marginTop: 5,
-    marginBottom: 5
   },
 });
 
