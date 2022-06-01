@@ -127,8 +127,14 @@ const Feed = ({navigation, route}) => {
     }
 
     const handleRefresh = () => {
+      //Refresh articles
       dispatch({
         type: Actions.articles.REFRESH_ARTICLES
+      })
+
+      //Refresh stories
+      dispatch({
+        type: Actions.articles.FETCH_STORIES
       })
     }
 

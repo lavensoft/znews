@@ -6,13 +6,15 @@ import * as Articles from './Articles';
 import * as Bookmarks from './Bookmarks';
 import * as Settings from './Settings';
 import * as Users from './Users';
+import * as RSS from './RSS';
 
 export default function* rootSaga() {
   yield all([
     fork(Articles.rootSaga),
     fork(Bookmarks.rootSaga),
     fork(Settings.rootSaga),
-    fork(Users.rootSaga)
+    fork(Users.rootSaga),
+    fork(RSS.rootSaga),
   ]);
 }
 
@@ -23,7 +25,8 @@ const reducer = combineReducers({
   articles: Articles.reducer,
   bookmarks: Bookmarks.reducer,
   settings: Settings.reducer,
-  users: Users.reducer
+  users: Users.reducer,
+  rss: RSS.reducer,
 })
 
 const store = createStore(

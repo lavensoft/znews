@@ -62,7 +62,7 @@ const Appereance = ({navigation, route}) => {
             }}
             //loading={settings.isLoading && !settings}
         >
-            <SectionTitle style={{marginTop: 0}}>Theme</SectionTitle>
+            {/* <SectionTitle style={{marginTop: 0}}>Theme</SectionTitle>
             <SettingTile
                 icon="sun"
                 title="Light"
@@ -86,7 +86,7 @@ const Appereance = ({navigation, route}) => {
                 value={'system'}
                 active={theme === 'system'}
                 onChange={handleChangeSetting}
-            />
+            /> */}
 
             <SectionTitle style={{marginTop: 16}}>Card Style</SectionTitle>
             <SettingTile

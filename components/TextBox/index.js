@@ -10,6 +10,7 @@ export const TextBox = ({ style, onSubmit, onChange, onChangeText, placeholder, 
 
     const handleClearTextbox = () => {
         textInputRef.current.clear();
+        textInputRef.current.focus();
     }
 
     return(

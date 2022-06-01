@@ -15,6 +15,10 @@ import PreferencesNotificationScreen from './Preferences/Notification';
 import FeedAdvancedScreen from './Feed/Advanced';
 import FeedContentScreen from './Feed/Content';
 import FeedArchiveScreen from './Feed/Archive';
+
+//Information
+import InformationAboutScreen from './Information/About';
+
 import API from '../../api';
 
 const Stack = createNativeStackNavigator();
@@ -41,9 +45,12 @@ const SettingsScreen = () => {
             <Stack.Screen options={{headerShown: false}} name="Main" component={Settings} />
             <Stack.Screen initialParams={settings} options={{title: "Notification"}} name="Preferences/Notification" component={PreferencesNotificationScreen} />
             <Stack.Screen initialParams={settings} options={{title: "Appereance"}} name="Preferences/Appereance" component={PreferencesAppereanceScreen} />
+
             <Stack.Screen options={{title: "Advanced"}} name="Feed/Advanced" component={FeedAdvancedScreen} />
             <Stack.Screen options={{title: "Content"}} name="Feed/Content" component={FeedContentScreen} />
             <Stack.Screen options={{title: "Archive"}} name="Feed/Archive" component={FeedArchiveScreen} />
+
+            <Stack.Screen options={{title: "About"}} name="Information/About" component={InformationAboutScreen} />
         </Stack.Navigator>
     )
 }
@@ -94,11 +101,11 @@ const Settings = ({navigation}) => {
                 onPress={() => navigation.navigate('Account')}
             /> */}
             <SectionTitle>Information</SectionTitle>
-            <SettingTile
+            {/* <SettingTile
                 icon="info"
                 title="Thông tin"
-                onPress={() => navigation.navigate('Account')}
-            />
+                onPress={() => navigation.navigate('Information/About')}
+            /> */}
             <SettingTile
                 icon="rotate-ccw"
                 title="Đặt lại tất cả cài đặt"
