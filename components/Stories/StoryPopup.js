@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {
   Modal,
-  StyleSheet
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  Dimensions
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import Appbar from '../Appbar';
@@ -13,6 +16,7 @@ import API from '../../api';
 
 const StoryPopup = ({visible, onReadMoreClose, storyData, authorData}) => {
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
     const {url, thumbnail, title, _id} = storyData;
     const author = authorData.author;
     const [isBookmarked, setIsBookmarked] = useState(false);
@@ -119,7 +123,24 @@ const StoryPopup = ({visible, onReadMoreClose, storyData, authorData}) => {
               />
           </Appbar.Header>
 
-          <WebView source={{ uri: articleData.url }} />
+          <WebView onLoadEnd={() => setLoading(false)} source={{ uri: articleData.url }} />
+
+          {loading ?
+            <View style={{
+                position: 'absolute',
+                top: 86,
+                bottom: 0,
+                width: '100%',
+                height: Dimensions.get('window').height - 140,
+                paddingBottom: 48,
+                backgroundColor: '#fff',
+                display: 'flex',
+                alignContent: 'center',
+                justifyContent: 'center'
+            }}>
+              <ActivityIndicator color="#222222"/>
+            </View> : <></>
+          }   
         </Modal>
     )
 }

@@ -35,9 +35,10 @@ const useFCM = () => {
 
   const getDeviceToken = async () => {
     const token = await messaging().getToken();
-    //console.log(token);
-    //await AsyncStorage.setItem('fcmDeviceToken', token);
-    //Storage.setItem('fcmToken', token);
+
+    //*Subscribe global notification topic
+    messaging().subscribeToTopic('global');
+
     await API.Settings.set('fcmDeviceToken', token);
     return token;
   };

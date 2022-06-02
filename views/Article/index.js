@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, View, ActivityIndicator, Dimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { WebView } from 'react-native-webview';
 import { Appbar } from '../../components';
@@ -11,6 +11,7 @@ import API from '../../api';
 
 const ArticleScreen = ({navigation, route}) => {
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
     const {url, thumbnail, title, _id, author} = route.params;
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [articleData, setArticleData] = useState(null);
@@ -115,7 +116,25 @@ const ArticleScreen = ({navigation, route}) => {
                 />
             </Appbar.Header>
 
-            <WebView source={{ uri: articleData.url }} style={{width: '100%', height: '100%'}} />
+            <WebView onLoadEnd={() => setLoading(false)} source={{ uri: articleData.url }} style={{width: '100%', height: '100%'}} />
+
+
+            {loading ?
+              <View style={{
+                  position: 'absolute',
+                  top: 86,
+                  bottom: 0,
+                  width: '100%',
+                  height: Dimensions.get('window').height - 140,
+                  paddingBottom: 48,
+                  backgroundColor: '#fff',
+                  display: 'flex',
+                  alignContent: 'center',
+                  justifyContent: 'center'
+              }}>
+                <ActivityIndicator color="#222222"/>
+              </View> : <></>
+            }        
         </SafeAreaView>
     )
 }

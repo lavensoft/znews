@@ -65,9 +65,20 @@ const RSS = ({navigation, route}) => {
         });
     }
 
+    const handleRefresh = () => {
+        dispatch({type: Actions.settings.FETCH_SETTINGS});
+
+        API.RSS.getByTopic(topic).then(res => {
+            setRss(res.data);
+        });
+    }
+
     return (
         <ScreenView 
-            loading={isLoading && !settings && !users && !rsses}
+            loading={isLoading && !settings}
+            scrollEventThrottle={400}
+            refreshing={isLoading && !settings}
+            onRefresh={handleRefresh}
         >
             {/* <SectionTitle style={{marginTop: 0}}>RSS</SectionTitle>
             <LButton style={{marginBottom: 32}}>Add new</LButton> */}
@@ -106,10 +117,13 @@ const SettingTile = ({title, subTitle, avatar, onChange, value, rssId}) => {
             </ListTile.Content>
             <ListTile.Action>
                 <View style={{
-                    paddingHorizontal: 16,
+                    width: 100,
                     paddingVertical: 7,
                     backgroundColor: value ? "rgba(0,0,0,.08)" : "#222222",
-                    borderRadius: 16
+                    borderRadius: 16,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                 }}>
                     <Text style={{
                         color: value ? "#222222" : "#ffffff",

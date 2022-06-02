@@ -40,9 +40,16 @@ const Topics = ({navigation}) => {
         dispatch({type: Actions.topics.FETCH_ALL_TOPICS});
     }, []);
 
+    const handleRefresh = () => {
+        dispatch({type: Actions.topics.FETCH_ALL_TOPICS});
+    }
+
     return (
         <ScreenView 
             loading={isLoading}
+            scrollEventThrottle={400}
+            refreshing={isLoading}
+            onRefresh={handleRefresh}
         >
             <SectionTitle style={{marginTop: 0}}>Bạn đang quan tâm điều gì?</SectionTitle>
             
