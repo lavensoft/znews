@@ -7,6 +7,7 @@ export const screenViewStyles = StyleSheet.create({
     },
     view: {
         boxSizing: 'border-box',
+        paddingTop: 24,
         //paddingHorizontal: 24
     },
     headerContainer: {

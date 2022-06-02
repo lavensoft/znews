@@ -57,10 +57,9 @@ const Appereance = ({navigation, route}) => {
 
     return (
         <ScreenView 
-            appbar={{
-                lead: <Appbar.BackAction onPress={() => navigation.goBack()} />,
+            contentStyle={{
+                paddingTop: 0
             }}
-            //loading={settings.isLoading && !settings}
         >
             {/* <SectionTitle style={{marginTop: 0}}>Theme</SectionTitle>
             <SettingTile
@@ -88,7 +87,7 @@ const Appereance = ({navigation, route}) => {
                 onChange={handleChangeSetting}
             /> */}
 
-            <SectionTitle style={{marginTop: 16}}>Card Style</SectionTitle>
+            <SectionTitle style={{marginTop: 0}}>Card Style</SectionTitle>
             <SettingTile
                 icon="grid"
                 title="Card"

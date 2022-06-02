@@ -48,10 +48,13 @@ const Topics = ({navigation}) => {
         <ScreenView 
             loading={isLoading}
             scrollEventThrottle={400}
-            refreshing={isLoading}
+            refreshing={isLoading && !topics}
             onRefresh={handleRefresh}
+            contentStyle={{
+                paddingTop: 0
+            }}
         >
-            <SectionTitle style={{marginTop: 0}}>Bạn đang quan tâm điều gì?</SectionTitle>
+            <SectionTitle style={{marginTop: 0, marginBottom: 24}}>Bạn đang quan tâm điều gì?</SectionTitle>
             
             <View style={{
                 width: '100%',

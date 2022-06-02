@@ -55,11 +55,10 @@ const Notification = ({navigation, route}) => {
     }
 
     return (
-        <ScreenView 
-            appbar={{
-                lead: <Appbar.BackAction onPress={() => navigation.goBack()} />,
+        <ScreenView
+            contentStyle={{
+                paddingTop: 0
             }}
-            //loading={settings.isLoading && !settings}
         >
             <SectionTitle style={{marginTop: 0}}>Quản Lý Thông Báo</SectionTitle>
             

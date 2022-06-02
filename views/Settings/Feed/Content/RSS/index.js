@@ -79,10 +79,13 @@ const RSS = ({navigation, route}) => {
             scrollEventThrottle={400}
             refreshing={isLoading && !settings}
             onRefresh={handleRefresh}
+            contentStyle={{
+                paddingTop: 0
+            }}
         >
             {/* <SectionTitle style={{marginTop: 0}}>RSS</SectionTitle>
             <LButton style={{marginBottom: 32}}>Add new</LButton> */}
-            <SectionTitle style={{marginTop: 0}}>{topicTitle}</SectionTitle>
+            <SectionTitle style={{marginTop: 0, marginBottom: 16}}>{topicTitle}</SectionTitle>
             
             {rss.map((item, index) => {
                 return (

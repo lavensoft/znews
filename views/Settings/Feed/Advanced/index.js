@@ -41,8 +41,8 @@ const Advanced = ({navigation}) => {
     return (
         <ScreenView 
             loading={isLoading && !settings}
-            appbar={{
-                lead: <Appbar.BackAction onPress={() => navigation.goBack()} />,
+            contentStyle={{
+                paddingTop: 0
             }}
         >
             <SectionTitle style={{marginTop: 0}}>Feed</SectionTitle>

@@ -28,9 +28,9 @@ const Archive = ({navigation}) => {
     const dispatch = useDispatch();
 
     return (
-        <ScreenView 
-            appbar={{
-                lead: <Appbar.BackAction onPress={() => navigation.goBack()} />,
+        <ScreenView    
+            contentStyle={{
+                paddingTop: 0
             }}
         >
             <SectionTitle style={{marginTop: 0}}>Articles</SectionTitle>

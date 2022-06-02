@@ -45,8 +45,8 @@ const Feedback = ({navigation}) => {
     return (
         <ScreenView 
             loading={loading}
-            appbar={{
-                lead: <Appbar.BackAction onPress={() => navigation.goBack()} />,
+            contentStyle={{
+                paddingTop: 0
             }}
         >
             {!sendSuccess ?
