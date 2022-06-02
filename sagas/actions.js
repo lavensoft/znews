@@ -3,6 +3,7 @@ import * as Bookmarks from './Bookmarks/actions';
 import * as Settings from './Settings/actions';
 import * as Users from './Users/actions';
 import * as RSS from './RSS/actions';
+import * as Topics from './Topics/actions';
 
 export default {
     articles: Articles.actions,
@@ -10,6 +11,7 @@ export default {
     settings: Settings.actions,
     users: Users.actions,
     rss: RSS.actions,
+    topics: Topics.actions,
 };
 
 export const _onSuccess = action => action + '_SUCCESS';

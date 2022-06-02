@@ -6,6 +6,12 @@ const RSSAPI = {
         const response = await axios.get(`${config.API_URL}/rss_list`);
         return response.data;
     },
+    getByTopic: async (topicId) => {
+        const response = await axios.post(`${config.API_URL}/rss_by_topic`, {
+            topic: topicId
+        });
+        return response.data;
+    }
 }
 
 export default RSSAPI;

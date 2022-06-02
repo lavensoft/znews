@@ -7,6 +7,7 @@ import * as Bookmarks from './Bookmarks';
 import * as Settings from './Settings';
 import * as Users from './Users';
 import * as RSS from './RSS';
+import * as Topics from './Topics';
 
 export default function* rootSaga() {
   yield all([
@@ -15,6 +16,7 @@ export default function* rootSaga() {
     fork(Settings.rootSaga),
     fork(Users.rootSaga),
     fork(RSS.rootSaga),
+    fork(Topics.rootSaga),
   ]);
 }
 
@@ -27,6 +29,7 @@ const reducer = combineReducers({
   settings: Settings.reducer,
   users: Users.reducer,
   rss: RSS.reducer,
+  topics: Topics.reducer,
 })
 
 const store = createStore(
@@ -36,8 +39,6 @@ const store = createStore(
 
 // then run the saga
 sagaMiddleware.run(rootSaga)
-
-const action = type => store.dispatch({type})
 
 export {
     store

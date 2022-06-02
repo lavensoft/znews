@@ -1,12 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ScreenView, ListTile, SectionTitle } from '../../../../components';
+import { ScreenView, ListTile, SectionTitle, ImageCard } from '../../../../components';
 import Actions from '../../../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
-import {Switch, View} from 'react-native';
+import {Switch, View, ScrollView} from 'react-native';
 import API from '../../../../api';
+import Helper from '../../../../helper';
 
 const Stack = createNativeStackNavigator();
+
+//*VIEWS
+import FeedContentRSSScreen from './RSS';
 
 const FeedContentScreen = () => {
     return (
@@ -17,105 +21,90 @@ const FeedContentScreen = () => {
         >
             <Stack.Screen 
                 name="Main" 
-                component={Content}
+                component={Topics}
+            />
+            <Stack.Screen 
+                name="Users" 
+                component={FeedContentRSSScreen}
             />
         </Stack.Navigator>
     )
 }
 
-const Content = ({navigation}) => {
+const Topics = ({navigation}) => {
     const dispatch = useDispatch();
-    const isLoading = useSelector(state => state.settings.isLoading);
-    const settings = useSelector(state => state.settings.data);
-    const users = useSelector(state => state.users.data);
-    const rsses = useSelector(state => state.rss.data);
+    const isLoading = useSelector(state => state.topics.isLoading);
+    const topics = useSelector(state => state.topics.data);
 
     useEffect(() => {
-        dispatch({type: Actions.settings.FETCH_SETTINGS});
-        dispatch({type: Actions.users.FETCH_ALL_USERS});
-        dispatch({type: Actions.rss.FETCH_ALL_RSS});
+        dispatch({type: Actions.topics.FETCH_ALL_TOPICS});
     }, []);
-
-    const handleUpdateSetting = async(rssId, value) => {
-        let usersFollowing = settings.usersFollowing || [];
-        
-        if(value) { // Add user to following
-            usersFollowing.push(rssId);
-
-            //*FCM Subscribe
-            await API.FcmTokens.subscribe(settings.fcmDeviceToken, settings.notification, [rssId]);
-        }else{ // Remove user from following
-            usersFollowing = usersFollowing.filter(user => user !== rssId);
-
-            //*FCM Unsubscribe
-            await API.FcmTokens.unsubscribe(settings.fcmDeviceToken, [rssId]);
-        }
-    
-        //Update users following
-        dispatch({
-            type: Actions.settings.UPDATE_SETTING,
-            payload: {
-                key: "usersFollowing",
-                value: usersFollowing
-            }
-        });
-    }
 
     return (
         <ScreenView 
-            loading={isLoading && !settings && !users && !rsses}
+            loading={isLoading}
         >
-            {/* <SectionTitle style={{marginTop: 0}}>RSS</SectionTitle>
-            <LButton style={{marginBottom: 32}}>Add new</LButton> */}
-
-            {rsses.map((rss, index) => {
-                return (
-                    <View key={`section-title-${index}`}>
-                        <SectionTitle style={{marginTop: index == 0 ? 0 : 24}}>{rss.title}</SectionTitle>
-                        {rss.rsses.map((item, i) => {
+            <SectionTitle style={{marginTop: 0}}>Bạn đang quan tâm điều gì?</SectionTitle>
+            
+            <View style={{
+                width: '100%',
+                flexDirection: 'row'
+            }}>
+                <View style={{
+                    flex: 1,
+                    marginLeft: 16,
+                    marginRight: 5
+                }}>
+                    {topics.map((topic, index) => {
+                        if(index % 2 === 0) {
                             return (
-                                <SettingTile
-                                    key={`users-tile-${i}`}
-                                    title={item.author.name}
-                                    //subTitle={item.website}
-                                    avatar={item.author.avatar}
-                                    rssId={item._id}
-                                    value={settings.usersFollowing?.includes(item._id)}
-                                    onChange={handleUpdateSetting}
-                                />
+                                <ImageCard 
+                                    titleStyle={{
+                                        fontSize: 16
+                                    }}
+                                    key={`content-topic-card-${index}`}
+                                    style={{
+                                        height: Helper.randomNumber(150, 300),
+                                        marginBottom: 8
+                                    }} 
+                                    title={topic.title}
+                                    subtitle={topic.description}
+                                    banner={topic.thumbnail}
+                                    onPress={() => navigation.navigate('Users', {topic: topic._id, topicTitle: topic.title})}
+                                    />
                             )
-                        })}
-                    </View>
-                )
-            })}
+                        }
+                    })}
+                </View>
+                <View style={{
+                    flex: 1,
+                    marginLeft: 5,
+                    marginRight: 16
+                }}>
+                    {topics.map((topic, index) => {
+                        if(index % 2 === 1) {
+                            return (
+                                <ImageCard 
+                                    titleStyle={{
+                                        fontSize: 16
+                                    }}
+                                    key={`content-topic-card-${index}`}
+                                    style={{
+                                        height: Helper.randomNumber(150, 300),
+                                        marginBottom: 8
+                                    }} 
+                                    title={topic.title}
+                                    subtitle={topic.description}
+                                    banner={topic.thumbnail}
+                                    onPress={() => navigation.navigate('Users', {topic: topic._id, topicTitle: topic.title})}
+                                    />
+                            )
+                        }
+                    })}
+                </View>
+            </View>
         </ScreenView>
     );
-}
-
-const SettingTile = ({title, subTitle, avatar, onChange, value, rssId}) => {
-    const handlePress = () => {
-        onChange(rssId, !value);
-    }
-
-    return (
-        <ListTile.Tile onPress={handlePress} avatar={avatar}>
-            <ListTile.Content column>
-                <ListTile.Title>{title}</ListTile.Title>
-                {
-                    subTitle ?
-                    <ListTile.SubTitle style={{marginTop: 8}}>{subTitle}</ListTile.SubTitle> : null
-                }
-            </ListTile.Content>
-            <ListTile.Action>
-                <Switch 
-                    onChange={handlePress} 
-                    value={value} 
-                    trackColor={{true: "#222222"}}
-                    thumbColor={"#fafafa"}
-                />
-            </ListTile.Action>
-        </ListTile.Tile>
-    )
 }
 
 export default FeedContentScreen;

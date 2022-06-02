@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, ImageBackground, TouchableOpacity } from 'react-native';
 
 //*Styles
-import { postCardStyles, detailPostCardStyles } from './styles';
+import { postCardStyles, detailPostCardStyles, imageCardStyles } from './styles';
 
 //*Post Card
 export const PostCard = ({subtitle, originIcon, originTitle, title, banner, onPress}) => {
@@ -28,6 +28,7 @@ export const PostCard = ({subtitle, originIcon, originTitle, title, banner, onPr
     );
 }
 
+//*Detail
 export const DetailPostCard = ({subtitle, originIcon, originTitle, title, banner, onPress}) => {
     return (
         <TouchableOpacity onPress={onPress} style={detailPostCardStyles.container}>
@@ -38,6 +39,32 @@ export const DetailPostCard = ({subtitle, originIcon, originTitle, title, banner
                 <Text numberOfLines={2} style={detailPostCardStyles.title}>{title}</Text>
                 {subtitle ?
                     <Text style={detailPostCardStyles.subtitle}>{subtitle}</Text> : null
+                }
+            </View>
+        </TouchableOpacity>
+    )
+}
+
+//*Image Card
+export const ImageCard = ({style, title, titleStyle, subtitle, subtitleStyle, banner, onPress}) => {
+    return(
+        <TouchableOpacity onPress={onPress} style={{
+            ...imageCardStyles.container,
+            ...style
+        }}>
+            <View style={imageCardStyles.bannerContainer}>
+                <Image source={{uri: banner}} style={imageCardStyles.banner}/>
+            </View>
+            <View style={imageCardStyles.descriptionContainer}>
+                <Text style={{
+                    ...imageCardStyles.title,
+                    ...titleStyle
+                }} numberOfLines={1}>{title}</Text>
+                {subtitle ?
+                    <Text numberOfLines={1} style={{
+                        ...imageCardStyles.subtitle,
+                        ...subtitleStyle
+                    }}>{subtitle}</Text> : null
                 }
             </View>
         </TouchableOpacity>

@@ -115,3 +115,49 @@ export const detailPostCardStyles = StyleSheet.create({
         marginTop: 8
     }
 });
+
+export const imageCardStyles = StyleSheet.create({
+    container: {
+        width: '100%',
+        height: 300,
+        borderRadius: 12,
+    },
+    bannerContainer: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 12,
+    },
+    banner: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 12,
+    },
+
+    //*Description
+    descriptionContainer: {
+        bottom: 14,
+        left: 20,
+        right: 20,
+        position: 'absolute',
+        maxWidth: '100%',
+        zIndex: 2,
+    },
+    title: {
+        color: "#fff",
+        fontSize: 18,
+        fontWeight: '600',
+        marginBottom: 3,
+        textShadowOffset: { width: 0, height: 0 },
+        textShadowRadius: 12,
+        textShadowColor: 'rgba(0, 0, 0, .55)',
+    },
+    subtitle: {
+        color: "#fff",
+        fontSize: 13,
+        fontWeight: '500',
+        marginBottom: 6,
+        textShadowOffset: { width: 0, height: 0 },
+        textShadowRadius: 12,
+        textShadowColor: 'rgba(0, 0, 0, .55)',
+    },
+});
