@@ -45,11 +45,11 @@ const Advanced = ({navigation}) => {
                 paddingTop: 0
             }}
         >
-            <SectionTitle style={{marginTop: 0}}>Feed</SectionTitle>
+            <SectionTitle style={{marginTop: 0}}>Trang Feed</SectionTitle>
     
             <SettingTile
-                title="Show readed Articles"
-                subTitle="Show your readed Articles"
+                title="Hiển thị các bài viết đã xem"
+                subTitle="Tắt nếu bạn muốn ẩn những bài viết đã xem"
                 settingKey="showReadedArticles"
                 value={settings.showReadedArticles}
                 onChange={handleUpdateSetting}

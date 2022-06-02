@@ -33,10 +33,10 @@ const Archive = ({navigation}) => {
                 paddingTop: 0
             }}
         >
-            <SectionTitle style={{marginTop: 0}}>Articles</SectionTitle>
+            <SectionTitle style={{marginTop: 0}}>Bài viết</SectionTitle>
             <SettingTile
                 icon="eye"
-                title="Articles viewed"
+                title="Bài viết đã xem"
                 onPress={() => navigation.navigate('ArticlesViewed')}
             />
             {/* <SectionTitle>Activity</SectionTitle>*/}

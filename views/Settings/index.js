@@ -44,15 +44,15 @@ const SettingsScreen = () => {
             }}
         >
             <Stack.Screen options={{headerShown: false}} name="Main" component={Settings} />
-            <Stack.Screen initialParams={settings} options={{title: "Notification"}} name="Preferences/Notification" component={PreferencesNotificationScreen} />
-            <Stack.Screen initialParams={settings} options={{title: "Appereance"}} name="Preferences/Appereance" component={PreferencesAppereanceScreen} />
+            <Stack.Screen initialParams={settings} options={{title: "Thông báo"}} name="Preferences/Notification" component={PreferencesNotificationScreen} />
+            <Stack.Screen initialParams={settings} options={{title: "Hiển thị"}} name="Preferences/Appereance" component={PreferencesAppereanceScreen} />
 
-            <Stack.Screen options={{title: "Advanced"}} name="Feed/Advanced" component={FeedAdvancedScreen} />
-            <Stack.Screen options={{title: "Content"}} name="Feed/Content" component={FeedContentScreen} />
-            <Stack.Screen options={{title: "Archive"}} name="Feed/Archive" component={FeedArchiveScreen} />
+            <Stack.Screen options={{title: "Nâng cao"}} name="Feed/Advanced" component={FeedAdvancedScreen} />
+            <Stack.Screen options={{title: "Sở thích"}} name="Feed/Content" component={FeedContentScreen} />
+            <Stack.Screen options={{title: "Hoạt động"}} name="Feed/Archive" component={FeedArchiveScreen} />
 
-            <Stack.Screen options={{title: "About"}} name="Information/About" component={InformationAboutScreen} />
-            <Stack.Screen options={{title: "Feedback"}} name="Information/Feedback" component={InformationFeedbackScreen} />
+            <Stack.Screen options={{title: "Thông tin"}} name="Information/About" component={InformationAboutScreen} />
+            <Stack.Screen options={{title: "Góp ý"}} name="Information/Feedback" component={InformationFeedbackScreen} />
         </Stack.Navigator>
     )
 }
@@ -62,9 +62,9 @@ const Settings = ({navigation}) => {
 
     return (
         <ScreenView 
-            title="Settings"
+            title="Cài Đặt"
         >
-            <SectionTitle style={{marginTop: 0}}>Preferences</SectionTitle>
+            <SectionTitle style={{marginTop: 0}}>Tổng quan</SectionTitle>
             {/* <SettingTile
                 icon="globe"
                 title="Language"
@@ -73,36 +73,36 @@ const Settings = ({navigation}) => {
             /> */}
             <SettingTile
                 icon="bell"
-                title="Notification"
+                title="Thông báo"
                 onPress={() => navigation.navigate('Preferences/Notification')}
             />
             <SettingTile
                 icon="sun"
-                title="Appereance"
+                title="Hiển thị"
                 onPress={() => navigation.navigate('Preferences/Appereance')}
             />
-            <SectionTitle>Feed</SectionTitle>
+            <SectionTitle>Nội dung</SectionTitle>
             <SettingTile
                 icon="inbox"
-                title="Content"
+                title="Sở thích"
                 onPress={() => navigation.navigate('Feed/Content')}
             />
             <SettingTile
-                icon="toggle-left"
-                title="Advanced"
-                onPress={() => navigation.navigate('Feed/Advanced')}
+                icon="archive"
+                title="Hoạt động"
+                onPress={() => navigation.navigate('Feed/Archive')}
             />
             <SettingTile
-                icon="archive"
-                title="Archive"
-                onPress={() => navigation.navigate('Feed/Archive')}
+                icon="toggle-left"
+                title="Nâng cao"
+                onPress={() => navigation.navigate('Feed/Advanced')}
             />
             {/* <SettingTile
                 icon="hash"
                 title="Manage tags"
                 onPress={() => navigation.navigate('Account')}
             /> */}
-            <SectionTitle>Information</SectionTitle>
+            <SectionTitle>Khác</SectionTitle>
             {/* <SettingTile
                 icon="info"
                 title="Thông tin"

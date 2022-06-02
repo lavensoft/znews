@@ -48,7 +48,16 @@ const Bookmarks = ({navigation}) => {
     }
 
     return (
-        <ScreenView loading={isLoading && !bookmarks.length && !settings} refreshing={isLoading} onRefresh={handleRefresh} title="Bookmarks">
+        <ScreenView
+            loading={isLoading && !bookmarks.length && !settings} 
+            refreshing={isLoading} 
+            onRefresh={handleRefresh} 
+            title="Bookmarks"
+            blankTitle={!bookmarks?.length ? "Chưa có bài viết" : null}
+            blankTitleStyle={{
+                marginTop: 100
+            }}
+        >
             {bookmarks?.map((item, index) => {
                 if(settings.cardStyle === 'detail') {
                   return (

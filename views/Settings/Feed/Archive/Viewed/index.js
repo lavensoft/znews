@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ScreenView, PostCard, Appbar, DetailPostCard } from '../../../../../components';
+import { ScreenView, PostCard, SectionTitle, DetailPostCard } from '../../../../../components';
 import Actions from '../../../../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -48,11 +48,13 @@ const Viewed = ({navigation}) => {
         <ScreenView 
             loading={isLoading && !articlesState.length && !settings} 
             refreshing={isLoading} 
-            onRefresh={handleRefresh} 
-            appbar={{
-                lead: <Appbar.BackAction onPress={() => navigation.goBack()} />,
+            contentStyle={{
+                paddingTop: 0
             }}
+            onRefresh={handleRefresh} 
         >
+            <SectionTitle style={{marginTop: 0, marginBottom: 20}}>Bài viết bạn đã xem</SectionTitle>
+            
             {Object.values(articlesState).reverse()?.map((item, index) => {
                 let data = item.data;
 

@@ -87,10 +87,10 @@ const Appereance = ({navigation, route}) => {
                 onChange={handleChangeSetting}
             /> */}
 
-            <SectionTitle style={{marginTop: 0}}>Card Style</SectionTitle>
+            <SectionTitle style={{marginTop: 0}}>Chế độ hiển thị</SectionTitle>
             <SettingTile
                 icon="grid"
-                title="Card"
+                title="Hộp"
                 settingKey="cardStyle"
                 value={'card'}
                 active={cardStyle === 'card'}
@@ -98,7 +98,7 @@ const Appereance = ({navigation, route}) => {
             />
             <SettingTile
                 icon="list"
-                title="Detail"
+                title="Ngang"
                 settingKey="cardStyle"
                 value={'detail'}
                 active={cardStyle === 'detail'}

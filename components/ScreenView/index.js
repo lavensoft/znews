@@ -10,7 +10,7 @@ import {TextBox} from '../TextBox';
 import {screenViewStyles} from './styles';
 import { Dimensions } from 'react-native-web';
 
-export const ScreenView = ({contentStyle, loading, onSearch, refreshing, onRefresh, children, title, titleTime, onScroll, scrollEventThrottle}) => {
+export const ScreenView = ({contentStyle, blankTitle, blankTitleStyle, loading, onSearch, refreshing, onRefresh, children, title, titleTime, onScroll, scrollEventThrottle}) => {
     return (
         <SafeAreaView style={screenViewStyles.container}>
             <ScrollView 
@@ -34,9 +34,18 @@ export const ScreenView = ({contentStyle, loading, onSearch, refreshing, onRefre
                             </ScreenTitle> : <View style={{height: 16}}></View>
                         }
                         { onSearch ?
-                            <TextBox style={{marginHorizontal: 24, marginBottom: 32, width: Dimensions.get('window').width - 48}} onChangeText={onSearch} placeholder={"Search..."} icon={"search"}/> : null
+                            <TextBox style={{marginHorizontal: 24, marginBottom: 32, width: Dimensions.get('window').width - 48}} onChangeText={onSearch} placeholder={"Hãy nhập gì đó..."} icon={"search"}/> : null
                         }
                         <StatusBar style="auto"/>
+                        {
+                            blankTitle ?
+                            <View style={screenViewStyles.blankPage}>
+                                <Text style={{
+                                    ...screenViewStyles.blankTitle,
+                                    ...blankTitleStyle
+                                }}>{blankTitle}</Text>
+                            </View> : null
+                        }
                         {loading ? 
                             <View style={screenViewStyles.loadingContainer}>
                                 <ActivityIndicator color="#222222" />
