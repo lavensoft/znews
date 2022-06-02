@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unused-prop-types */
 import React from 'react';
-import { Dimensions, Image, StyleSheet, View } from 'react-native';
+import FastImage from 'react-native-fast-image'
+import { Dimensions, StyleSheet, View } from 'react-native';
 // import Image from 'react-native-scalable-image';
 import PropTypes from 'prop-types';
 
@@ -18,7 +19,7 @@ const Story = (props) => {
       </View>
       )} */}
       {type === 'image' ? (
-        <Image
+        <FastImage
           source={{ uri: thumbnail }}
           onLoadEnd={props.onImageLoaded}
           style={styles.content}

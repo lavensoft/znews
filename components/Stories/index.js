@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import FastImage from 'react-native-fast-image'
+import {View, Text, TouchableOpacity} from 'react-native';
 
 //*Styles
 import {storyAvatarStyles} from './styles';
@@ -11,7 +12,7 @@ export const StoryAvatar = ({style, onPress, avatar, name, viewed}) => {
                 ...(viewed ? storyAvatarStyles.avatarContainerViewed : {})
             }}>
                 <View style={storyAvatarStyles.avatar}>
-                    <Image borderRadius={30} source={{uri: avatar}} style={storyAvatarStyles.img}/>
+                    <FastImage source={{uri: avatar}} style={storyAvatarStyles.img}/>
                 </View>
             </View>
             <Text numberOfLines={1} style={storyAvatarStyles.title}>{name}</Text>

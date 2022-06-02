@@ -29,11 +29,12 @@ export const storyAvatarStyles = StyleSheet.create({
         borderColor: "#fff",
         borderWidth: 2,
         borderStyle: "solid",
-        boxSizing: "border-box"
+        boxSizing: "border-box",
     },
     img: {
         width: '100%',
-        height: '100%'
+        height: '100%',
+        borderRadius: 30
     },
     title: {
         fontSize: 13

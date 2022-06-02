@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import FastImage from 'react-native-fast-image'
+import { View, Text, TouchableOpacity } from 'react-native';
 
 //*Styles
 import { postCardStyles, detailPostCardStyles, imageCardStyles } from './styles';
@@ -10,7 +11,7 @@ export const PostCard = ({subtitle, originIcon, originTitle, title, banner, onPr
         <TouchableOpacity onPress={onPress} style={postCardStyles.container}>
             <View style={postCardStyles.tagsContainer}>
                 <View style={postCardStyles.tagGroup}>
-                    <Image source={{uri: originIcon}} style={postCardStyles.tagIcon}/>
+                    <FastImage source={{uri: originIcon}} style={postCardStyles.tagIcon}/>
                     <Text style={postCardStyles.tag}>{originTitle}</Text>
                 </View>
             </View>
@@ -22,7 +23,7 @@ export const PostCard = ({subtitle, originIcon, originTitle, title, banner, onPr
             </View>
             <View style={postCardStyles.bannerBackdrop}></View>
             <View style={postCardStyles.bannerContainer}>
-                <ImageBackground imageStyle={{borderRadius: 12}} resizeMode="cover"  source={{uri: banner}} style={postCardStyles.banner}/>
+                <FastImage style={postCardStyles.banner} resizeMode="cover"  source={{uri: banner}}/>
             </View>
         </TouchableOpacity>
     );
@@ -33,7 +34,7 @@ export const DetailPostCard = ({subtitle, originIcon, originTitle, title, banner
     return (
         <TouchableOpacity onPress={onPress} style={detailPostCardStyles.container}>
             <View style={detailPostCardStyles.bannerContainer}>
-                <Image borderRadius={9} source={{uri: banner}} style={detailPostCardStyles.banner}/>
+                <FastImage borderRadius={9} source={{uri: banner}} style={detailPostCardStyles.banner}/>
             </View>
             <View style={detailPostCardStyles.descriptionContainer}>
                 <Text numberOfLines={2} style={detailPostCardStyles.title}>{title}</Text>
@@ -53,7 +54,7 @@ export const ImageCard = ({style, title, titleStyle, subtitle, subtitleStyle, ba
             ...style
         }}>
             <View style={imageCardStyles.bannerContainer}>
-                <Image source={{uri: banner}} style={imageCardStyles.banner}/>
+                <FastImage source={{uri: banner}} style={imageCardStyles.banner}/>
             </View>
             <View style={imageCardStyles.descriptionContainer}>
                 <Text style={{
