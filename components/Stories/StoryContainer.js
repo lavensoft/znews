@@ -114,21 +114,12 @@ const StoryContainer = (props) => {
   const onSwipeDown = () => {
     if (!isModelOpen) {
       props.onClose();
-    } else {
-      setModel(false);
-    }
-  };
-
-  const onSwipeUp = () => {
-    if (!isModelOpen && isReadMore) {
-      setModel(true);
     }
   };
 
   return (
     <GestureRecognizer
-      //onSwipeDown={onSwipeDown}
-      //onSwipeUp={onSwipeUp}
+      onSwipeDown={onSwipeDown}
       config={config}
       style={styles.container}
     >
@@ -177,7 +168,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     // paddingTop: 30,
-    backgroundColor: 'red',
   },
   progressBarArray: {
     flexDirection: 'row',
