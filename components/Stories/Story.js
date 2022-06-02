@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 import FastImage from 'react-native-fast-image'
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, View, Image } from 'react-native';
 // import Image from 'react-native-scalable-image';
 import PropTypes from 'prop-types';
 
@@ -18,6 +18,19 @@ const Story = (props) => {
         <ActivityIndicator color="white" />
       </View>
       )} */}
+      {type === 'image' ? (
+        <Image
+          source={{ uri: thumbnail }}
+          style={styles.backdrop}
+          resizeMode="cover"
+          blurRadius={20}
+          // width={ScreenWidth}
+        />
+      )
+        : (
+          <>
+          </>
+        )}
       {type === 'image' ? (
         <FastImage
           source={{ uri: thumbnail }}
@@ -51,9 +64,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  content: { width: '100%',
+  content: { 
+    width: '100%',
     height: '100%',
     flex: 1,
+  },
+  backdrop: {
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    position: 'absolute'
   },
   imageContent: {
     width: '100%',
