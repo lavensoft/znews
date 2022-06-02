@@ -59,7 +59,7 @@ const StoryPopup = ({visible, onReadMoreClose, storyData, authorData}) => {
     const onShare = async () => {
     try {
       const result = await Share.share({
-        message: CONFIG.DOMAIN + "article/" + _id,
+        message: url //CONFIG.DOMAIN + "article/" + _id,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {

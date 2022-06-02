@@ -59,6 +59,8 @@
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:scheme="news" />
+        <data android:scheme="https" android:host="news.lavenes.com" />
+        <data android:scheme="http" android:host="news.lavenes.com" />
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>
