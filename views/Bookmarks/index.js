@@ -53,7 +53,7 @@ const Bookmarks = ({navigation}) => {
             refreshing={isLoading} 
             onRefresh={handleRefresh} 
             title="Bookmarks"
-            blankTitle={!bookmarks?.length ? "Chưa có bài viết" : null}
+            blankTitle={!bookmarks?.length ? "Bạn chưa lưu bài viết nào" : null}
             blankTitleStyle={{
                 marginTop: 100
             }}

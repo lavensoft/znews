@@ -52,8 +52,14 @@ const Viewed = ({navigation}) => {
                 paddingTop: 0
             }}
             onRefresh={handleRefresh} 
+            blankTitle={!Object.values(articlesState)?.length ? "Bạn chưa xem bài viết nào" : null}
+            blankTitleStyle={{
+                marginTop: 150
+            }}
         >
-            <SectionTitle style={{marginTop: 0, marginBottom: 20}}>Bài viết bạn đã xem</SectionTitle>
+            {Object.values(articlesState)?.length ? 
+                <SectionTitle style={{marginTop: 0, marginBottom: 20}}>Bài viết bạn đã xem</SectionTitle> : null
+            }
             
             {Object.values(articlesState).reverse()?.map((item, index) => {
                 let data = item.data;

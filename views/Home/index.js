@@ -141,7 +141,7 @@ const Feed = ({navigation, route}) => {
     return (
         <ScreenView 
             loading={isLoading && !articles.length && !articlesState.length}
-            title="Welcome back, Nhats Devil" 
+            title="Chào Mừng Bạn Đã Trở Lại!" 
             titleTime 
             onScroll={({nativeEvent}) => {
               if (isCloseToBottom(nativeEvent)) {

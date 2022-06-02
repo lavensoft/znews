@@ -59,7 +59,7 @@ const Search = ({navigation}) => {
     return (
         <ScreenView 
             title="Tìm Kiếm"
-            blankTitle={!articles?.length ? "Chưa có bài viết" : null}
+            blankTitle={!articles?.length ? "Hãy tìm kiếm điều gì đó" : null}
             onSearch={e => setSearchTerm(e)}
             loading={searchLoading && !settings}
         >

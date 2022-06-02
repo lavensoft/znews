@@ -4,6 +4,8 @@ import {View, Text} from 'react-native';
 //*Styles
 import {screenTitleStyles, sectionTitleStyles} from './styles';
 
+const viDayOfWeek = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
+
 export const ScreenTitle = ({ children, titleTime, style }) => {
     const dateNow = new Date();
 
@@ -15,7 +17,7 @@ export const ScreenTitle = ({ children, titleTime, style }) => {
     return (
         <View style={{...screenTitleStyles.container, ...style}}>
             { titleTime ? 
-                <Text style={screenTitleStyles.date}>{`Thứ ${dayOfWeek}, ${day} tháng ${month}, ${year}`}</Text>
+                <Text style={screenTitleStyles.date}>{`${viDayOfWeek[dayOfWeek]}, ${day} tháng ${month}, ${year}`}</Text>
             : null }
             <Text style={screenTitleStyles.title}>{children}</Text>
         </View>
