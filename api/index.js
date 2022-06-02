@@ -4,6 +4,7 @@ import SettingsAPI from './Settings';
 import UsersAPI from './Users';
 import FcmTokensAPI from './FcmTokens';
 import RSSAPI from './RSS';
+import AnalyticsAPI from './Analytics';
 
 const API = {
     Articles: ArticlesAPI,
@@ -12,6 +13,7 @@ const API = {
     Users: UsersAPI,
     FcmTokens: FcmTokensAPI,
     RSS: RSSAPI,
+    Analytics: AnalyticsAPI,
 }
 
 export default API;

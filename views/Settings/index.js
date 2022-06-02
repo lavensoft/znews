@@ -18,6 +18,7 @@ import FeedArchiveScreen from './Feed/Archive';
 
 //Information
 import InformationAboutScreen from './Information/About';
+import InformationFeedbackScreen from './Information/Feedback';
 
 import API from '../../api';
 
@@ -51,6 +52,7 @@ const SettingsScreen = () => {
             <Stack.Screen options={{title: "Archive"}} name="Feed/Archive" component={FeedArchiveScreen} />
 
             <Stack.Screen options={{title: "About"}} name="Information/About" component={InformationAboutScreen} />
+            <Stack.Screen options={{title: "Feedback"}} name="Information/Feedback" component={InformationFeedbackScreen} />
         </Stack.Navigator>
     )
 }
@@ -106,6 +108,11 @@ const Settings = ({navigation}) => {
                 title="Thông tin"
                 onPress={() => navigation.navigate('Information/About')}
             /> */}
+            <SettingTile
+                icon="mail"
+                title="Góp ý"
+                onPress={() => navigation.navigate('Information/Feedback')}
+            />
             <SettingTile
                 icon="rotate-ccw"
                 title="Xoá tất cả cài đặt"
