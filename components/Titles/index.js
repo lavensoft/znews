@@ -4,12 +4,12 @@ import {View, Text} from 'react-native';
 //*Styles
 import {screenTitleStyles, sectionTitleStyles, blankTitleStyles} from './styles';
 
-const viDayOfWeek = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
+const viDayOfWeek = ['Chủ Nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
 
 export const ScreenTitle = ({ children, titleTime, style }) => {
     const dateNow = new Date();
 
-    const dayOfWeek = dateNow.getDay() + 1;
+    const dayOfWeek = (dateNow.getDay() + 1) >= 7 ? 0 : dateNow.getDay() + 1;
     const day = dateNow.getDate();
     const month = dateNow.getMonth() + 1;
     const year = dateNow.getFullYear();

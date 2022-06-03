@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "436761794101",
+    "firebase_url": "https://lavenes-news-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "lavenes-news",
     "storage_bucket": "lavenes-news.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:436761794101:android:bee29d3c54d30a8906437c",
+        "mobilesdk_app_id": "1:436761794101:android:82c3b411a453ad9a06437c",
         "android_client_info": {
-          "package_name": "com.news"
+          "package_name": "com.lavenes.znews"
         }
       },
       "oauth_client": [

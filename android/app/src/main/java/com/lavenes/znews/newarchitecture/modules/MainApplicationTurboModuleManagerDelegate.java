@@ -1,4 +1,4 @@
-package com.news.newarchitecture.modules;
+package com.lavenes.znews.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

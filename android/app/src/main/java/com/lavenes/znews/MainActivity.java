@@ -1,4 +1,4 @@
-package com.news;
+package com.lavenes.znews;
 
 import android.os.Build;
 import android.os.Bundle;
