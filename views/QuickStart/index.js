@@ -88,7 +88,7 @@ const Topics = ({navigation}) => {
                     })}
                 </View>
 
-                <LButton disabled={!rssSelected.length} onPress={handleSubmit}>Tiếp Tục</LButton>
+                <LButton style={{marginBottom: 32}} disabled={!rssSelected.length} onPress={handleSubmit}>Tiếp Tục</LButton>
             </View>
         </ScreenView>
     );

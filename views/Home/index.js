@@ -128,7 +128,8 @@ const Feed = ({navigation, route}) => {
     return (
       <SafeAreaView style={{
         width: '100%',
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
+        paddingTop: 24
       }}>
         <FlatList
           data={articles}

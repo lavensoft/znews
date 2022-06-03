@@ -3,11 +3,11 @@ import { StyleSheet, Dimensions } from "react-native";
 export const screenViewStyles = StyleSheet.create({
     container: {
         backgroundColor: "#fff",
-        height: '100%'
+        height: '100%',
+        paddingTop: 24,
     },
     view: {
         boxSizing: 'border-box',
-        paddingTop: 24,
         //paddingHorizontal: 24
     },
     headerContainer: {

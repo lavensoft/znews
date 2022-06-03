@@ -91,7 +91,7 @@ const SettingUp = ({navigation, route}) => {
                     <Text style={settingUpStyles.loadingTitle}>Hãy bắt đầu hành trình của chúng ta!</Text>
                 </View>
 
-                <LButton onPress={handleStart}>Bắt đầu</LButton>
+                <LButton style={{marginBottom: 32}} onPress={handleStart}>Bắt đầu</LButton>
             </View>
         </ScreenView>
     );

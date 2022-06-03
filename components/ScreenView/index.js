@@ -37,7 +37,6 @@ export const ScreenView = ({contentStyle, blankTitle, blankTitleStyle, loading, 
                         { onSearch ?
                             <TextBox style={{marginHorizontal: 24, marginBottom: 32, width: Dimensions.get('window').width - 48}} onChangeText={onSearch} placeholder={"Hãy nhập gì đó..."} icon={"search"}/> : null
                         }
-                        <StatusBar style="auto"/>
                         {
                             blankTitle ?
                             <View style={screenViewStyles.blankPage}>

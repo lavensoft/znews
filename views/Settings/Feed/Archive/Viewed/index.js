@@ -54,7 +54,8 @@ const Viewed = ({navigation}) => {
         <SafeAreaView style={{
             width: '100%',
             height: '100%',
-            backgroundColor: "#fff"
+            backgroundColor: "#fff",
+            paddingTop: 24
           }}>
             <FlatList
               data={articles}
