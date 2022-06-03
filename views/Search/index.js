@@ -61,7 +61,7 @@ const Search = ({navigation}) => {
             title="Tìm Kiếm"
             blankTitle={!articles?.length ? "Hãy tìm kiếm điều gì đó" : null}
             onSearch={e => setSearchTerm(e)}
-            loading={searchLoading && !settings}
+            loading={searchLoading}
         >
             {articles?.map((item, index) => {
                 if(settings.cardStyle === 'detail') {

@@ -8,6 +8,7 @@ import ListTile from './ListTile';
 import StoryContainer from './Stories/StoryContainer';
 import Appbar from "./Appbar";
 import Headerbar from "./Headerbar";
+import { LoadingScreen } from "./Loading";
 
 export {
     ScreenTitle,
@@ -24,4 +25,5 @@ export {
     BlankTitle,
     LButton,
     Headerbar,
+    LoadingScreen
 }

@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ScreenTitle, PostCard, DetailPostCard, StoryAvatar, StoryContainer } from '../../components';
+import { LoadingScreen, ScreenTitle, PostCard, DetailPostCard, StoryAvatar, StoryContainer } from '../../components';
 import Actions from '../../sagas/actions';
 import { StatusBar } from 'expo-status-bar';
 import {useSelector, useDispatch} from 'react-redux';
@@ -125,6 +125,8 @@ const Feed = ({navigation, route}) => {
         type: Actions.articles.FETCH_STORIES
       })
     }
+
+    if(isLoading && !articles.length && !settings.length && !articlesState.length) return <LoadingScreen/>
  
     return (
       <SafeAreaView style={{
@@ -195,7 +197,7 @@ const Feed = ({navigation, route}) => {
           style={styles.modal}
           onShow={() => {
             if (currentUserIndex > 0) {
-              modalScroll.current.scrollToOffset({ animated: true, offset: Dimensions.get('window').width * currentUserIndex });
+              modalScroll.current.scrollToOffset({ animated: false, offset: Dimensions.get('window').width * currentUserIndex });
             }
           }}
           onRequestClose={onStoryClose}
@@ -205,12 +207,16 @@ const Feed = ({navigation, route}) => {
             ref={modalScroll}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
+            enableMomentum={true}
             snapToAlignment={"center"}
+            snapToInterval={Dimensions.get('window').width}
+            viewabilityConfig={{ itemVisiblePercentThreshold: 90 }}
+            pagingEnabled={true}
+            decelerationRate={'fast'}
             style={{
               width: '100%',
               height:'100%'
             }}
-            snapToInterval={Dimensions.get('window').width}
             renderItem={({ item, index }) => (
               <StoryContainer
                 onClose={onStoryClose}

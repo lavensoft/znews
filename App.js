@@ -27,8 +27,7 @@ const config = {
 
 const linking = {
   prefixes: [
-    "news://",
-    "https://news.lavenes.com/"
+    "news://"
   ],
   config,
 };

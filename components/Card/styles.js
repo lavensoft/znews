@@ -97,6 +97,7 @@ export const detailPostCardStyles = StyleSheet.create({
     banner: {
         width: '100%',
         height: '100%',
+        borderRadius: 9
     },
     descriptionContainer: {
         flex: 1,

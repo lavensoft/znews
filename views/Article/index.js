@@ -116,7 +116,7 @@ const ArticleScreen = ({navigation, route}) => {
                 />
             </Appbar.Header>
 
-            <WebView onLoad={() => setLoading(false)} source={{ uri: articleData.url }} style={{width: '100%', height: '100%'}} />
+            <WebView onLoadEnd={() => setLoading(false)} source={{ uri: articleData.url }} style={{width: '100%', height: '100%'}} />
 
             {loading ?
               <View style={{

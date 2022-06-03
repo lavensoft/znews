@@ -39,7 +39,7 @@ export const ScreenView = ({contentStyle, blankTitle, blankTitleStyle, loading, 
                             <TextBox style={{marginHorizontal: 24, marginBottom: 32, width: Dimensions.get('window').width - 48}} onChangeText={onSearch} placeholder={"Hãy nhập gì đó..."} icon={"search"}/> : null
                         }
                         {
-                            blankTitle ?
+                            !loading && blankTitle ?
                             <View style={screenViewStyles.blankPage}>
                                 <Text style={{
                                     ...screenViewStyles.blankTitle,

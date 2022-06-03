@@ -36,7 +36,7 @@ const RootStack = ({}) => {
           }}
         >
           <Tabs.Screen 
-            name="Trang chủ" 
+            name="Home" 
             component={HomeScreen}
             options={{
               tabBarIcon: ({ focused, color, size }) => (
@@ -64,7 +64,7 @@ const RootStack = ({}) => {
             }} 
           />
           <Tabs.Screen 
-            name="Tìm kiếm" 
+            name="Search" 
             component={SearchScreen} 
             options={{
               tabBarIcon: ({ focused, color, size }) => (
@@ -78,7 +78,7 @@ const RootStack = ({}) => {
             }} 
           />
           <Tabs.Screen 
-            name="Cài đặt" 
+            name="Settings" 
             component={SettingsScreen} 
             options={{
               tabBarIcon: ({ focused, color, size }) => (

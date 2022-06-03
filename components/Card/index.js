@@ -34,7 +34,7 @@ export const DetailPostCard = ({subtitle, originIcon, originTitle, title, banner
     return (
         <TouchableOpacity onPress={onPress} style={detailPostCardStyles.container}>
             <View style={detailPostCardStyles.bannerContainer}>
-                <FastImage borderRadius={9} source={{uri: banner}} style={detailPostCardStyles.banner}/>
+                <FastImage source={{uri: banner}} style={detailPostCardStyles.banner}/>
             </View>
             <View style={detailPostCardStyles.descriptionContainer}>
                 <Text numberOfLines={2} style={detailPostCardStyles.title}>{title}</Text>
