@@ -14,6 +14,7 @@ import { Dimensions } from 'react-native-web';
 export const ScreenView = ({contentStyle, blankTitle, blankTitleStyle, loading, onSearch, refreshing, onRefresh, children, title, titleTime, onScroll, scrollEventThrottle}) => {
     return (
         <SafeAreaView style={screenViewStyles.container}>
+            <StatusBar backgroundColor="#ffffff" barStyle="light-content"/>
             <ScrollView 
                 onScroll={onScroll} 
                 scrollEventThrottle={scrollEventThrottle}

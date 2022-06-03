@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BlankTitle, PostCard, SectionTitle, DetailPostCard } from '../../../../../components';
 import Actions from '../../../../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
+import { StatusBar } from 'expo-status-bar';
 
 //*Views
 import ArticleScreen from '../../../../Article';
@@ -57,6 +58,7 @@ const Viewed = ({navigation}) => {
             backgroundColor: "#fff",
             paddingTop: 24
           }}>
+            <StatusBar backgroundColor="#ffffff" barStyle="light-content"/>
             <FlatList
               data={articles}
               scrollEventThrottle={400}

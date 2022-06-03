@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BlankTitle, PostCard, DetailPostCard, ScreenTitle } from '../../components';
 import Actions from '../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
+import { StatusBar } from 'expo-status-bar';
 
 //*Views
 import ArticleScreen from '../Article';
@@ -53,6 +54,7 @@ const Bookmarks = ({navigation}) => {
           backgroundColor: "#fff",
           paddingTop: 24
         }}>
+          <StatusBar backgroundColor="#ffffff" barStyle="light-content"/>
           <FlatList
             data={bookmarks}
             scrollEventThrottle={400}

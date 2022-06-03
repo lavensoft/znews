@@ -100,7 +100,7 @@ const ArticleScreen = ({navigation, route}) => {
 
     return(
         <SafeAreaView style={{width: '100%', height: '100%'}}>
-            <StatusBar style="auto"/>
+            <StatusBar backgroundColor="#ffffff" barStyle="light-content"/>
             <Appbar.Header>
                 <Appbar.BackAction onPress={() => navigation.goBack()}/>
                 <Appbar.Content/>

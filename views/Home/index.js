@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ScreenTitle, PostCard, DetailPostCard, StoryAvatar, StoryContainer } from '../../components';
 import Actions from '../../sagas/actions';
+import { StatusBar } from 'expo-status-bar';
 import {useSelector, useDispatch} from 'react-redux';
 import {Modal, StyleSheet, FlatList, Dimensions, SafeAreaView} from 'react-native';
   
@@ -131,6 +132,7 @@ const Feed = ({navigation, route}) => {
         backgroundColor: "#fff",
         paddingTop: 24
       }}>
+        <StatusBar backgroundColor="#ffffff" barStyle="light-content"/>
         <FlatList
           data={articles}
           onScroll={({nativeEvent}) => {
