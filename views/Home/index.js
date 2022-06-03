@@ -1,9 +1,9 @@
 import React, {useEffect, useState, useRef} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ScreenView, PostCard, DetailPostCard, StoryAvatar, StoryContainer } from '../../components';
+import { ScreenTitle, PostCard, DetailPostCard, StoryAvatar, StoryContainer } from '../../components';
 import Actions from '../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
-import {Modal, StyleSheet, FlatList, Dimensions} from 'react-native';
+import {Modal, StyleSheet, FlatList, Dimensions, SafeAreaView} from 'react-native';
   
 //*Views
 import ArticleScreen from '../Article';
@@ -31,7 +31,12 @@ const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
 
 const Feed = ({navigation, route}) => {
     const dispatch = useDispatch();
-    const routeParams = route.params;
+    const articles = useSelector(state => state.articles.data);
+    const settings = useSelector(state => state.settings.data);
+    const articlesState = useSelector(state => state.articles.articlesState);
+    const stories = useSelector(state => state.articles.stories);
+    const isLoading = useSelector(state => state.articles.isLoading);
+    const page = useSelector(state => state.articles.page);
 
     //*Story
     //#region
@@ -73,13 +78,6 @@ const Feed = ({navigation, route}) => {
     };
     //#endregion
     //*---
-
-    const articles = useSelector(state => state.articles.data);
-    const settings = useSelector(state => state.settings.data);
-    const articlesState = useSelector(state => state.articles.articlesState);
-    const stories = useSelector(state => state.articles.stories);
-    const isLoading = useSelector(state => state.articles.isLoading);
-    const page = useSelector(state => state.articles.page);
 
     useEffect(() => {
       dispatch({ //Fetch Articles
@@ -126,109 +124,103 @@ const Feed = ({navigation, route}) => {
         type: Actions.articles.FETCH_STORIES
       })
     }
-
+ 
     return (
-        <ScreenView 
-            loading={isLoading && !articles.length && !articlesState.length}
-            title="Chào mừng, bạn đã trở lại!" 
-            titleTime 
-            onScroll={({nativeEvent}) => {
-              if (isCloseToBottom(nativeEvent)) {
-                handleLoadMore();
-              }
-            }}
-            scrollEventThrottle={400}
-            refreshing={isLoading && !articles.length && !articlesState.length}
-            onRefresh={handleRefresh}
-        >
-            <FlatList
-              data={stories}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-              style={{
-                marginBottom: stories ? 32 : 0, 
-                paddingLeft: 24,
-              }}
-              snapToInterval={80}
-              renderItem={({ item, index }) => (
-                <StoryAvatar viewed={item.viewed} style={{marginRight: (index == stories.length - 1 ? 48 : 16)}} authorId={item.author._id} name={item.author.name} avatar={item.stories[0].thumbnail} onPress={() => onStorySelect(index)} key={`story-item-${index}`}/>
-              )}
-            />
-
-            {articles?.map((item, index) => {
-              if(settings.cardStyle === 'detail') {
-                return (
-                  <DetailPostCard 
-                    key={`article-item-${index}`}
-                    onPress={() => handleReadArticle(item)}
-                    originIcon={item.author.avatar}
-                    subtitle={item.author.name}
-                    title={item.title}
-                    banner={item.thumbnail}
-                  />
-                )
-              }
-
-              return (
-                  <PostCard 
-                      originIcon={item.author.avatar}
-                      originTitle={item.author.name}
-                      title={item.title}
-                      banner={item.thumbnail}
-                      key={`post-card2-${index}`}
-                      onPress={() => handleReadArticle(item)}
-                  />
-              )
-            })}
-            <Modal
-              animationType="slide"
-              transparent={false}
-              visible={isModelOpen}
-              style={styles.modal}
-              onShow={() => {
-                if (currentUserIndex > 0) {
-                  modalScroll.current.scrollToOffset({ animated: true, offset: Dimensions.get('window').width * currentUserIndex });
-                }
-              }}
-              onRequestClose={onStoryClose}
-            >
-              {/* eslint-disable-next-line max-len */}
-              {/* <CubeNavigationHorizontal callBackAfterSwipe={g => onScrollChange(g)} ref={modalScroll} style={styles.container}>
-                {stories?.map((item, index) => (
-                  <StoryContainer
-                    onClose={onStoryClose}
-                    onStoryNext={onStoryNext}
-                    onStoryPrevious={onStoryPrevious}
-                    siteData={item}
-                    isNewStory={index !== currentUserIndex}
-                    key={`story-${index}`}
-                  />
-                ))}
-              </CubeNavigationHorizontal> */}
-            <FlatList
-              data={stories}
-              ref={modalScroll}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-              snapToAlignment={"center"}
-              style={{
-                width: '100%',
-                height:'100%'
-              }}
-              snapToInterval={Dimensions.get('window').width}
-              renderItem={({ item, index }) => (
-                <StoryContainer
-                  onClose={onStoryClose}
-                  onStoryNext={onStoryNext}
-                  onStoryPrevious={onStoryPrevious}
-                  siteData={item}
-                  isNewStory={index !== currentUserIndex}
-                  key={`story-${index}`}
+      <SafeAreaView style={{
+        width: '100%',
+        backgroundColor: "#fff"
+      }}>
+        <FlatList
+          data={articles}
+          onScroll={({nativeEvent}) => {
+            if (isCloseToBottom(nativeEvent)) {
+              handleLoadMore();
+            }
+          }}
+          scrollEventThrottle={400}
+          refreshing={isLoading && !articles.length && !articlesState.length}
+          onRefresh={handleRefresh}
+          ListHeaderComponent={() => {
+            return (
+              <>
+                <ScreenTitle titleTime>Chào mừng, bạn đã trở lại!</ScreenTitle>
+                <FlatList
+                  data={stories}
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  style={{
+                    marginBottom: stories ? 32 : 0, 
+                    paddingLeft: 24,
+                  }}
+                  renderItem={({ item, index }) => (
+                    <StoryAvatar viewed={item.viewed} style={{marginRight: (index == stories.length - 1 ? 48 : 16)}} authorId={item.author._id} name={item.author.name} avatar={item.stories[0].thumbnail} onPress={() => onStorySelect(index)} key={`story-item-${index}`}/>
+                  )}
                 />
-              )}
-            />
-            </Modal>
-        </ScreenView>
+              </>
+            )
+          }}
+          renderItem={({ item, index }) => {
+            if(settings.cardStyle === 'detail') {
+              return (
+                <DetailPostCard 
+                  key={`article-item-${index}`}
+                  onPress={() => handleReadArticle(item)}
+                  originIcon={item.author.avatar}
+                  subtitle={item.author.name}
+                  title={item.title}
+                  banner={item.thumbnail}
+                />
+              )
+            }
+
+            return (
+              <PostCard 
+                key={`article-item-${index}`}
+                onPress={() => handleReadArticle(item)}
+                originIcon={item.author.avatar}
+                subtitle={item.author.name}
+                title={item.title}
+                banner={item.thumbnail}
+              />
+            )
+          }}
+        />
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={isModelOpen}
+          style={styles.modal}
+          onShow={() => {
+            if (currentUserIndex > 0) {
+              modalScroll.current.scrollToOffset({ animated: true, offset: Dimensions.get('window').width * currentUserIndex });
+            }
+          }}
+          onRequestClose={onStoryClose}
+        >
+          <FlatList
+            data={stories}
+            ref={modalScroll}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            snapToAlignment={"center"}
+            style={{
+              width: '100%',
+              height:'100%'
+            }}
+            snapToInterval={Dimensions.get('window').width}
+            renderItem={({ item, index }) => (
+              <StoryContainer
+                onClose={onStoryClose}
+                onStoryNext={onStoryNext}
+                onStoryPrevious={onStoryPrevious}
+                siteData={item}
+                isNewStory={index !== currentUserIndex}
+                key={`story-${index}`}
+              />
+            )}
+          />
+        </Modal>
+      </SafeAreaView>
     );
 }
 

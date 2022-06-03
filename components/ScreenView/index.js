@@ -10,6 +10,7 @@ import {TextBox} from '../TextBox';
 import {screenViewStyles} from './styles';
 import { Dimensions } from 'react-native-web';
 
+//*ScreenView
 export const ScreenView = ({contentStyle, blankTitle, blankTitleStyle, loading, onSearch, refreshing, onRefresh, children, title, titleTime, onScroll, scrollEventThrottle}) => {
     return (
         <SafeAreaView style={screenViewStyles.container}>

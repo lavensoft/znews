@@ -1,6 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import { SafeAreaView, FlatList } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ScreenView, PostCard, SectionTitle, DetailPostCard } from '../../../../../components';
+import { BlankTitle, PostCard, SectionTitle, DetailPostCard } from '../../../../../components';
 import Actions from '../../../../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -27,12 +28,17 @@ const Viewed = ({navigation}) => {
     const articlesState = useSelector(state => state.articles.articlesState);
     const isLoading = useSelector(state => state.articles.isLoading);
     const settings = useSelector(state => state.settings.data);
+    const [articles, setArticles] = useState([]);
 
     useEffect(() => {
         dispatch({ //Fetch Articles states
           type: Actions.articles.FETCH_ARTICLES_STATE
         });
     }, []);
+
+    useEffect(() => {
+        setArticles(Object.values(articlesState).reverse());
+    }, [articlesState]);
 
     const handleReadArticle = (siteData) => {
         navigation.navigate("Article", {
@@ -45,52 +51,58 @@ const Viewed = ({navigation}) => {
     }
 
     return (
-        <ScreenView 
-            loading={isLoading && !articlesState.length && !settings} 
-            refreshing={isLoading} 
-            contentStyle={{
-                paddingTop: 0
-            }}
-            onRefresh={handleRefresh} 
-            blankTitle={!Object.values(articlesState)?.length ? "Bạn chưa xem bài viết nào" : null}
-            blankTitleStyle={{
-                marginTop: 150
-            }}
-        >
-            {Object.values(articlesState)?.length ? 
-                <SectionTitle style={{marginTop: 0, marginBottom: 20}}>Bài viết bạn đã xem</SectionTitle> : null
-            }
-            
-            {Object.values(articlesState).reverse()?.map((item, index) => {
-                let data = item.data;
-
-                if(!data.author || !data) return null;
-
-                if(settings.cardStyle === 'detail') {
+        <SafeAreaView style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: "#fff"
+          }}>
+            <FlatList
+              data={articles}
+              scrollEventThrottle={400}
+              refreshing={isLoading}
+              onRefresh={handleRefresh} 
+              ListHeaderComponent={() => {
                   return (
-                    <DetailPostCard 
-                      key={`post-card-${index}`}
-                      onPress={() => handleReadArticle(data)}
-                      originIcon={data.author?.avatar}
-                      subtitle={data.author?.name}
-                      title={data.title}
-                      banner={data.thumbnail}
-                    />
+                    <>
+                        <SectionTitle style={{marginTop: 0, marginBottom: 20}}>Bài viết bạn đã xem</SectionTitle>
+                        {!articles.length && !isLoading ? 
+                            <BlankTitle>Bạn chưa xem bài viết nào</BlankTitle> 
+                           : null
+                        }
+                    </>
                   )
-                }
-
-                return (
-                    <PostCard 
-                        originIcon={data.author?.avatar}
-                        originTitle={data.author?.name}
-                        title={data.title}
-                        banner={data.thumbnail}
-                        key={`post-card-${index}`}
-                        onPress={() => handleReadArticle(data)}
-                    />
-                )
-            })}
-        </ScreenView>
+                }}
+                renderItem={({ item, index }) => {
+                    let data = item.data;
+    
+                    if(!data.author || !data) return null;
+    
+                    if(settings.cardStyle === 'detail') {
+                      return (
+                        <DetailPostCard 
+                          key={`post-card-${index}`}
+                          onPress={() => handleReadArticle(data)}
+                          originIcon={data.author?.avatar}
+                          subtitle={data.author?.name}
+                          title={data.title}
+                          banner={data.thumbnail}
+                        />
+                      )
+                    }
+    
+                    return (
+                        <PostCard 
+                            originIcon={data.author?.avatar}
+                            originTitle={data.author?.name}
+                            title={data.title}
+                            banner={data.thumbnail}
+                            key={`post-card-${index}`}
+                            onPress={() => handleReadArticle(data)}
+                        />
+                    )
+                }}
+                />
+          </SafeAreaView>
     );
 }
 

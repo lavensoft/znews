@@ -1,4 +1,4 @@
-import { ScreenTitle, SectionTitle } from "./Titles";
+import { ScreenTitle, SectionTitle, BlankTitle } from "./Titles";
 import { ScreenView } from "./ScreenView";
 import { PostCard, DetailPostCard, ImageCard } from "./Card";
 import { TextBox } from "./TextBox";
@@ -21,6 +21,7 @@ export {
     StoryAvatar,
     StoryContainer,
     ListTile,
+    BlankTitle,
     LButton,
-    Headerbar
+    Headerbar,
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text} from 'react-native';
 
 //*Styles
-import {screenTitleStyles, sectionTitleStyles} from './styles';
+import {screenTitleStyles, sectionTitleStyles, blankTitleStyles} from './styles';
 
 const viDayOfWeek = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
 
@@ -31,3 +31,14 @@ export const SectionTitle = ({ children, style }) => {
         </View>
     );
 }
+
+export const BlankTitle = ({ children, style }) => {
+    return(
+        <View style={blankTitleStyles.container}>
+            <Text style={{
+                ...blankTitleStyles.title,
+                ...style
+            }}>{children}</Text>
+        </View>
+    )
+};

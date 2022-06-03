@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import { SafeAreaView, View, Text } from 'react-native';
+import { SafeAreaView, FlatList } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StatusBar } from 'expo-status-bar';
-import { ScreenView, PostCard, DetailPostCard } from '../../components';
+import { BlankTitle, PostCard, DetailPostCard, ScreenTitle } from '../../components';
 import Actions from '../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -18,7 +17,7 @@ const BookmarksScreen = () => {
               headerShown: false
             }}
         >
-            <Stack.Screen  name="Main" component={Bookmarks} />
+            <Stack.Screen name="Main" component={Bookmarks} />
             <Stack.Screen name="Article" component={ArticleScreen} />
         </Stack.Navigator>
     )
@@ -48,17 +47,28 @@ const Bookmarks = ({navigation}) => {
     }
 
     return (
-        <ScreenView
-            loading={isLoading && !bookmarks.length && !settings} 
-            refreshing={isLoading} 
-            onRefresh={handleRefresh} 
-            title="Bookmarks"
-            blankTitle={!bookmarks?.length ? "Bạn chưa lưu bài viết nào" : null}
-            blankTitleStyle={{
-                marginTop: 100
-            }}
-        >
-            {bookmarks?.map((item, index) => {
+        <SafeAreaView style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: "#fff"
+        }}>
+          <FlatList
+            data={bookmarks}
+            scrollEventThrottle={400}
+            refreshing={isLoading && !bookmarks.length}
+            onRefresh={handleRefresh}
+            ListHeaderComponent={() => {
+                return (
+                  <>
+                    <ScreenTitle>Bookmarks</ScreenTitle>
+                    {!bookmarks.length && !isLoading ? 
+                        <BlankTitle>Bạn chưa lưu bài viết nào</BlankTitle> 
+                       : null
+                    }
+                  </>
+                )
+              }}
+              renderItem={({ item, index }) => {
                 if(settings.cardStyle === 'detail') {
                   return (
                     <DetailPostCard 
@@ -82,8 +92,9 @@ const Bookmarks = ({navigation}) => {
                         onPress={() => handleReadArticle(item)}
                     />
                 )
-            })}
-        </ScreenView>
+              }}
+              />
+        </SafeAreaView>
     );
 }
 

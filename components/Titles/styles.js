@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
 export const screenTitleStyles = StyleSheet.create({
     container: {
@@ -34,3 +34,20 @@ export const sectionTitleStyles = StyleSheet.create({
         color: "#222222"
     }
 });
+
+export const blankTitleStyles = StyleSheet.create({
+    container: {
+        width: '100%',
+        flex: 1,
+        height: Dimensions.get('window').height - 186,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row'
+    },
+    title: {
+        fontSize: 16,
+        color: 'rgba(0,0,0, .25)',
+        fontWeight: 'bold'
+    }
+})
