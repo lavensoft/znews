@@ -4,7 +4,7 @@ import {
   Dimensions,
   StyleSheet,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import Story from './Story';
@@ -163,8 +163,9 @@ const StoryContainer = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: '100%',
+    height: '100%',
+    width: Dimensions.get('window').width,
+    backgroundColor: 'red',
     justifyContent: 'flex-start',
     alignItems: 'center',
     // paddingTop: 30,

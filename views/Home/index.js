@@ -4,7 +4,6 @@ import { ScreenView, PostCard, DetailPostCard, StoryAvatar, StoryContainer } fro
 import Actions from '../../sagas/actions';
 import {useSelector, useDispatch} from 'react-redux';
 import {Modal, StyleSheet, FlatList, Dimensions} from 'react-native';
-import { CubeNavigationHorizontal } from 'react-native-3dcube-navigation';
   
 //*Views
 import ArticleScreen from '../Article';
@@ -55,7 +54,8 @@ const Feed = ({navigation, route}) => {
         if (stories.length - 1 > currentUserIndex) {
             setCurrentUserIndex(newIndex);
             if (!isScroll) {
-                modalScroll.current.scrollTo(newIndex, true);
+                
+              modalScroll.current.scrollToOffset({ animated: true, offset: Dimensions.get('window').width * newIndex });
             }
         } else {
             setModel(false);
@@ -67,21 +67,10 @@ const Feed = ({navigation, route}) => {
         if (currentUserIndex > 0) {
             setCurrentUserIndex(newIndex);
             if (!isScroll) {
-                modalScroll.current.scrollTo(newIndex, true);
+              modalScroll.current.scrollToOffset({ animated: true, offset: Dimensions.get('window').width * newIndex });
             }
         }
     };
-    
-    const onScrollChange = (scrollValue) => {
-        if (currentScrollValue > scrollValue) {
-            onStoryNext(true);
-            setCurrentScrollValue(scrollValue);
-        }
-        if (currentScrollValue < scrollValue) {
-            onStoryPrevious();
-            setCurrentScrollValue(scrollValue);
-        }
-      };
     //#endregion
     //*---
 
@@ -198,13 +187,13 @@ const Feed = ({navigation, route}) => {
               style={styles.modal}
               onShow={() => {
                 if (currentUserIndex > 0) {
-                  modalScroll.current.scrollTo(currentUserIndex, false);
+                  modalScroll.current.scrollToOffset({ animated: true, offset: Dimensions.get('window').width * currentUserIndex });
                 }
               }}
               onRequestClose={onStoryClose}
             >
               {/* eslint-disable-next-line max-len */}
-              <CubeNavigationHorizontal callBackAfterSwipe={g => onScrollChange(g)} ref={modalScroll} style={styles.container}>
+              {/* <CubeNavigationHorizontal callBackAfterSwipe={g => onScrollChange(g)} ref={modalScroll} style={styles.container}>
                 {stories?.map((item, index) => (
                   <StoryContainer
                     onClose={onStoryClose}
@@ -215,7 +204,29 @@ const Feed = ({navigation, route}) => {
                     key={`story-${index}`}
                   />
                 ))}
-              </CubeNavigationHorizontal>
+              </CubeNavigationHorizontal> */}
+            <FlatList
+              data={stories}
+              ref={modalScroll}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              snapToAlignment={"center"}
+              style={{
+                width: '100%',
+                height:'100%'
+              }}
+              snapToInterval={Dimensions.get('window').width}
+              renderItem={({ item, index }) => (
+                <StoryContainer
+                  onClose={onStoryClose}
+                  onStoryNext={onStoryNext}
+                  onStoryPrevious={onStoryPrevious}
+                  siteData={item}
+                  isNewStory={index !== currentUserIndex}
+                  key={`story-${index}`}
+                />
+              )}
+            />
             </Modal>
         </ScreenView>
     );
