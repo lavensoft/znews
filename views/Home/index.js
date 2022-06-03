@@ -178,7 +178,7 @@ const Feed = ({navigation, route}) => {
                 key={`article-item-${index}`}
                 onPress={() => handleReadArticle(item)}
                 originIcon={item.author.avatar}
-                subtitle={item.author.name}
+                originTitle={item.author.name}
                 title={item.title}
                 banner={item.thumbnail}
               />

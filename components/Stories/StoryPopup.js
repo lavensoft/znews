@@ -123,16 +123,16 @@ const StoryPopup = ({visible, onReadMoreClose, storyData, authorData}) => {
               />
           </Appbar.Header>
 
-          <WebView onLoadEnd={() => setLoading(false)} source={{ uri: articleData.url }} />
+          <WebView onLoad={() => setLoading(false)} source={{ uri: articleData.url }} />
 
           {loading ?
             <View style={{
                 position: 'absolute',
-                top: 86,
+                top: 64,
                 bottom: 0,
                 width: '100%',
-                height: Dimensions.get('window').height - 140,
-                paddingBottom: 48,
+                height: Dimensions.get('window').height,
+                paddingBottom: 168,
                 backgroundColor: '#fff',
                 display: 'flex',
                 alignContent: 'center',
