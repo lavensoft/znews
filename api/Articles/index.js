@@ -5,11 +5,15 @@ import SettingsAPI from '../Settings';
 
 const ArticlesAPI = {
     getAll: async () => {
-        const response = await axios.get(`${config.API_URL}/articles`);
+        const response = await axios.get(`${config.API_URL}/articles`, {
+            headers: config.HEADERS
+        });
         return response.data;
     },
     getId: async (id) => {
-        const response = await axios.get(`${config.API_URL}/articles/${id}`);
+        const response = await axios.get(`${config.API_URL}/articles/${id}`, {
+            headers: config.HEADERS
+        });
         return response.data;
     },
     getAt: async (page) => {
@@ -21,7 +25,9 @@ const ArticlesAPI = {
 
         const response = await axios.post(`${config.API_URL}/articles/page/${page}`,{
             authors: settings.usersFollowing,
-            rejectsId: !settings["showReadedArticles"] ? articlesReaded : []
+            rejectsId: !settings["showReadedArticles"] ? articlesReaded : [],
+        }, {
+            headers: config.HEADERS
         });
 
         return response.data;
@@ -54,6 +60,8 @@ const ArticlesAPI = {
         let result = await axios.post(`${config.API_URL}/articles/featured`,{
             authors: settings.usersFollowing,
             rejectsId: !settings["showReadedArticles"] ? articlesReaded : []
+        }, {
+            headers: config.HEADERS
         });
 
         result = result.data.data;
@@ -77,7 +85,9 @@ const ArticlesAPI = {
         };
     },
     updateView: async(id) => {
-        const response = await axios.put(`${config.API_URL}/articles/view/${id}`);
+        const response = await axios.put(`${config.API_URL}/articles/view/${id}`, {
+            headers: config.HEADERS
+        });
         return response.data;
     },
     saveState: async(articleData, state) => {

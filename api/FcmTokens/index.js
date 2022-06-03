@@ -9,7 +9,9 @@ const FcmTokensAPI = {
                 type: type,
                 following: userFollowing
             };
-            const response = await axios.post(`${config.API_URL}/fcm_token/subscribe`, tokenData);
+            const response = await axios.post(`${config.API_URL}/fcm_token/subscribe`, tokenData, {
+                headers: config.HEADERS
+            });
             return response.data;
         } catch (error) {
             console.log(error);
@@ -22,7 +24,9 @@ const FcmTokensAPI = {
                 token: token,
                 following: userFollowing
             };
-            const response = await axios.post(`${config.API_URL}/fcm_token/unsubscribe`, tokenData);
+            const response = await axios.post(`${config.API_URL}/fcm_token/unsubscribe`, tokenData, {
+                headers: config.HEADERS
+            });
             return response.data;
         } catch (error) {
             console.log(error);
@@ -34,7 +38,9 @@ const FcmTokensAPI = {
             const tokenData = {
                 token: token,
             };
-            const response = await axios.post(`${config.API_URL}/fcm_token/unsubscribe_all`, tokenData);
+            const response = await axios.post(`${config.API_URL}/fcm_token/unsubscribe_all`, tokenData, {
+                headers: config.HEADERS
+            });
             return response.data;
         } catch (error) {
             console.log(error);
@@ -47,7 +53,9 @@ const FcmTokensAPI = {
                 token: token,
                 type: type
             };
-            const response = await axios.post(`${config.API_URL}/fcm_token/change_type`, tokenData);
+            const response = await axios.post(`${config.API_URL}/fcm_token/change_type`, tokenData, {
+                headers: config.HEADERS
+            });
             return response.data;
         } catch (error) {
             console.log(error);
