@@ -113,13 +113,13 @@ const Settings = ({navigation}) => {
                 title="Góp ý"
                 onPress={() => navigation.navigate('Information/Feedback')}
             />
-            <SettingTile
+            {/* <SettingTile
                 icon="rotate-ccw"
                 title="Xoá tất cả cài đặt"
                 onPress={async() => {
                     await API.Settings.reset();
                 }}
-            />
+            /> */}
         </ScreenView>
     );
 }

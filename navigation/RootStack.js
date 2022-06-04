@@ -23,7 +23,7 @@ const RootStack = ({}) => {
         dispatch({
             type: Actions.settings.FETCH_SETTINGS
         });
-    }, [settings]);
+    }, []);
 
     if(!settings.configured) return <QuickStart/>
 
