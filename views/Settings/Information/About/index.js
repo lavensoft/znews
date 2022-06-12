@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { ScreenView, ListTile, SectionTitle, Appbar } from '../../../../components';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Feather';
-import {Text} from 'react-native';
+import {Text, TouchableOpacity, Linking} from 'react-native';
 
 //*Views
 const Stack = createNativeStackNavigator();
@@ -30,8 +30,39 @@ const About = ({navigation}) => {
                 paddingTop: 0
             }}
         >
-            <SectionTitle style={{marginTop: 0}}>Thông tin ứng dụng</SectionTitle>
-            <Text>Nhà phát triển: Lavenes</Text>
+            <SectionTitle style={{marginTop: 0, marginBottom: 0}}>Thông tin liên hệ</SectionTitle>
+            <TouchableOpacity onPress={() => Linking.openURL("mailto:lavensoftincs@gmail.com")}>
+                <Text style={{
+                    marginLeft: 24, 
+                    marginTop: 20
+                }}>Email: lavensoftincs@gmail.com</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => Linking.openURL("tel:+84938415997")}>
+                <Text style={{
+                    marginLeft: 24, 
+                    marginTop: 20
+                }}>Số điện thoại: +84 938 415 997</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => Linking.openURL("https://www.lavenes.com/")}>
+                <Text style={{
+                    marginLeft: 24, 
+                    marginTop: 20
+                }}>Website: https://www.lavenes.com/</Text>
+            </TouchableOpacity>
+            <Text style={{marginLeft: 24, marginTop: 20}}>Địa chỉ liên hệ: 71 Tran Hung Dao, Cau Ong Lanh Ward, District 1, HCMC</Text>
+
+            <SectionTitle style={{marginTop: 32, marginBottom: 0}}>Thông tin ứng dụng</SectionTitle>
+            <Text style={{marginLeft: 24, marginTop: 20}}>Nhà phát triển: Lavenes</Text>
+            <Text style={{marginLeft: 24, marginTop: 20}}>Phiên bản ứng dụng: 1.0.2</Text>
+
+            <SectionTitle style={{marginTop: 32, marginBottom: 0}}>Điều khoản và Chính sách</SectionTitle>
+            <TouchableOpacity onPress={() => Linking.openURL("https://znews.lavenes.com/privacy/")}>
+                <Text style={{
+                    marginLeft: 24, 
+                    marginTop: 20,
+                    fontWeight: '600'
+                }}>Chính sách về quyền riêng tư</Text>
+            </TouchableOpacity>
         </ScreenView>
     );
 }

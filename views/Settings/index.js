@@ -103,11 +103,11 @@ const Settings = ({navigation}) => {
                 onPress={() => navigation.navigate('Account')}
             /> */}
             <SectionTitle>Khác</SectionTitle>
-            {/* <SettingTile
+            <SettingTile
                 icon="info"
-                title="Thông tin"
+                title="Thông tin liên hệ"
                 onPress={() => navigation.navigate('Information/About')}
-            /> */}
+            />
             <SettingTile
                 icon="mail"
                 title="Góp ý"
