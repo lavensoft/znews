@@ -51,7 +51,7 @@ const SettingsScreen = () => {
             <Stack.Screen options={{title: "Sở thích"}} name="Feed/Content" component={FeedContentScreen} />
             <Stack.Screen options={{title: "Hoạt động"}} name="Feed/Archive" component={FeedArchiveScreen} />
 
-            <Stack.Screen options={{title: "Thông tin"}} name="Information/About" component={InformationAboutScreen} />
+            <Stack.Screen options={{title: "Thông tin liên hệ"}} name="Information/About" component={InformationAboutScreen} />
             <Stack.Screen options={{title: "Góp ý"}} name="Information/Feedback" component={InformationFeedbackScreen} />
         </Stack.Navigator>
     )
