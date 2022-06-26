@@ -1,8 +1,8 @@
 import React, { Children } from 'react';
-import {TouchableOpacity, View, Text} from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
 
 //*Styles
-import {buttonStyles} from './styles';
+import { buttonStyles, selectButtonStyles } from './styles';
 
 export const LButton = ({children, style, onPress, disabled}) => {
     return (
@@ -15,3 +15,19 @@ export const LButton = ({children, style, onPress, disabled}) => {
         </TouchableOpacity>
     );
 }
+
+//Select Button
+export const SelectButton = ({children, style, onPress, active}) => {
+    return (
+        <TouchableOpacity style={{
+            ...selectButtonStyles.container,
+            ...style,
+            ...(active ? selectButtonStyles.containerActive : {})
+        }} onPress={onPress}>
+            <Text style={{
+                ...selectButtonStyles.text,
+                ...(active ? selectButtonStyles.textActive : {})
+            }}>{children}</Text>
+        </TouchableOpacity>
+    )
+};

@@ -51,7 +51,7 @@ const Feedback = ({navigation}) => {
         >
             {!sendSuccess ?
                 <>
-                    <SectionTitle style={{marginTop: 0, marginBottom: 8}}>Nội dung góp ý</SectionTitle>
+                    <SectionTitle style={{paddingBottom: 12}} subtitle="Nội dung góp ý"/>
                     <Text style={{
                         marginTop: 0, 
                         marginBottom: 24, 

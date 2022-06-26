@@ -33,7 +33,11 @@ const Archive = ({navigation}) => {
                 paddingTop: 0
             }}
         >
-            <SectionTitle style={{marginTop: 0}}>Bài viết</SectionTitle>
+
+            <SectionTitle 
+                style={{paddingBottom: 16}}
+                subtitle={"Bài viết"}
+            />
             <SettingTile
                 icon="eye"
                 title="Bài viết đã xem"

@@ -29,11 +29,13 @@ const SettingUpScreen = ({route}) => {
 const SettingUp = ({navigation, route}) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
-    const {rssSubscribed} = route.params;
+    const { rssSubscribed, topicSubscribed } = route.params;
 
     useEffect(() => {
         (async() => {
             let usersFollowing = [];
+            let topicsFollowing = [...topicSubscribed];
+
             const fcmDeviceToken = await messaging().getToken();
 
             //Set default settings
@@ -55,6 +57,18 @@ const SettingUp = ({navigation, route}) => {
                     value: usersFollowing
                 }
             });
+
+            //Update topics following
+            //TODO: Optimized it
+            setTimeout(() => {
+                dispatch({
+                    type: Actions.settings.UPDATE_SETTING,
+                    payload: {
+                        key: "topicsFollowing",
+                        value: topicsFollowing
+                    }
+                });
+            }, 1000);
 
             setLoading(false);
         })();

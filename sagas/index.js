@@ -8,6 +8,7 @@ import * as Settings from './Settings';
 import * as Users from './Users';
 import * as RSS from './RSS';
 import * as Topics from './Topics';
+import * as NewsFeed from './NewsFeed';
 
 export default function* rootSaga() {
   yield all([
@@ -17,6 +18,7 @@ export default function* rootSaga() {
     fork(Users.rootSaga),
     fork(RSS.rootSaga),
     fork(Topics.rootSaga),
+    fork(NewsFeed.rootSaga),
   ]);
 }
 
@@ -30,6 +32,7 @@ const reducer = combineReducers({
   users: Users.reducer,
   rss: RSS.reducer,
   topics: Topics.reducer,
+  newsfeed: NewsFeed.reducer,
 })
 
 const store = createStore(

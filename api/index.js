@@ -6,6 +6,7 @@ import FcmTokensAPI from './FcmTokens';
 import RSSAPI from './RSS';
 import AnalyticsAPI from './Analytics';
 import TopicsAPI from './Topics';
+import NewsFeedAPI from './NewsFeed';
 
 const API = {
     Articles: ArticlesAPI,
@@ -15,7 +16,8 @@ const API = {
     FcmTokens: FcmTokensAPI,
     RSS: RSSAPI,
     Analytics: AnalyticsAPI,
-    Topics: TopicsAPI
+    Topics: TopicsAPI,
+    NewsFeed: NewsFeedAPI
 }
 
 export default API;

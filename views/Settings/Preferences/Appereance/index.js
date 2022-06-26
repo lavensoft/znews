@@ -87,7 +87,7 @@ const Appereance = ({navigation, route}) => {
                 onChange={handleChangeSetting}
             /> */}
 
-            <SectionTitle style={{marginTop: 0}}>Chế độ hiển thị</SectionTitle>
+            <SectionTitle subtitle="Chế độ hiển thị"/>
             <SettingTile
                 icon="grid"
                 title="Hộp"

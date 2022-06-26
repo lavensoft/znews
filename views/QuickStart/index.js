@@ -49,10 +49,12 @@ const Topics = ({navigation}) => {
     const handleSubmit = () => {
         let data = [];
         let idList = [];
+        let topics = [];
 
         rsses.map((item) => {
             if(rssSelected.includes(item._id)){
                 data.push(item.rsses)
+                topics.push(item._id);
             }
         })
 
@@ -63,7 +65,8 @@ const Topics = ({navigation}) => {
         })
 
         navigation.navigate('SettingUp', {
-            rssSubscribed: idList
+            rssSubscribed: idList,
+            topicSubscribed: topics
         });
     }
 

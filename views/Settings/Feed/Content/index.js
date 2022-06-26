@@ -54,7 +54,9 @@ const Topics = ({navigation}) => {
                 paddingTop: 0
             }}
         >
-            <SectionTitle style={{marginTop: 0, marginBottom: 20}}>Bạn đang quan tâm điều gì?</SectionTitle>
+            <SectionTitle 
+                subtitle="Bạn đang quan tâm điều gì?"
+            />
             
             <View style={{
                 width: '100%',

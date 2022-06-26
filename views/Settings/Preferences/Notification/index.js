@@ -60,7 +60,7 @@ const Notification = ({navigation, route}) => {
                 paddingTop: 0
             }}
         >
-            <SectionTitle style={{marginTop: 0}}>Quản lý thông báo</SectionTitle>
+            <SectionTitle subtitle="Quản lý thông báo"/>
             
             <SettingTile
                 icon="compass"

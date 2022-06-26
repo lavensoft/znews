@@ -1,10 +1,11 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { LoadingScreen, ScreenTitle, PostCard, DetailPostCard, StoryAvatar, StoryContainer } from '../../components';
+import { SelectButton, LoadingScreen, SectionBreak, SectionTitle, ScreenTitle, ArticlesGroup, PostCard, DetailPostCard, StoryAvatar, StoryContainer } from '../../components';
 import Actions from '../../sagas/actions';
 import { StatusBar } from 'expo-status-bar';
-import {useSelector, useDispatch} from 'react-redux';
-import {Modal, StyleSheet, FlatList, Dimensions, SafeAreaView} from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import API from '../../api';
+import { Text, Modal, StyleSheet, FlatList, Dimensions, SafeAreaView, View, ActivityIndicator } from 'react-native';
   
 //*Views
 import ArticleScreen from '../Article';
@@ -32,12 +33,21 @@ const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
 
 const Feed = ({navigation, route}) => {
     const dispatch = useDispatch();
+    const newsfeed = useSelector(state => state.newsfeed.data);
     const articles = useSelector(state => state.articles.data);
     const settings = useSelector(state => state.settings.data);
+    const topics = useSelector(state => state.topics.data);
     const articlesState = useSelector(state => state.articles.articlesState);
     const stories = useSelector(state => state.articles.stories);
     const isLoading = useSelector(state => state.articles.isLoading);
     const page = useSelector(state => state.articles.page);
+
+    //*States
+    const [topic, setTopic] = useState('all');
+    const [topicFollowingTemp, setTopicFollowingTemp] = useState([]);
+
+    //*REFS
+    const flatListRef = useRef(null);
 
     //*Story
     //#region
@@ -97,6 +107,15 @@ const Feed = ({navigation, route}) => {
       dispatch({ //Fetch Settings
         type: Actions.settings.FETCH_SETTINGS
       });
+
+      dispatch({ //Fetch Newsfeed
+        type: Actions.newsfeed.FETCH_NEWSFEED
+
+      })
+
+      dispatch({ //Fetch Topics
+        type: Actions.topics.FETCH_ALL_TOPICS
+      });
     }, []);
 
     const handleReadArticle = (siteData) => {
@@ -115,19 +134,112 @@ const Feed = ({navigation, route}) => {
     }
 
     const handleRefresh = () => {
-      //Refresh articles
-      dispatch({
-        type: Actions.articles.REFRESH_ARTICLES
-      })
-
       //Refresh stories
       dispatch({
         type: Actions.articles.FETCH_STORIES
       })
+
+      //Refresh topics
+      dispatch({
+        type: Actions.topics.FETCH_ALL_TOPICS
+      });
+
+      if(topic === 'all') { //*REFRESH ARTICLES AT ALL TOPIC
+        //Refresh articles
+        dispatch({
+          type: Actions.articles.REFRESH_ARTICLES
+        })
+
+        //Refresh newsfeed
+        dispatch({
+          type: Actions.newsfeed.FETCH_NEWSFEED
+        })
+      }else{ //*REFRESH ARTICLES AT ANOTHER TOPIC
+        //Refresh articles
+        dispatch({
+          type: Actions.articles.REFRESH_ARTICLES_OF_TOPIC,
+          topic: topic
+        })
+      }
     }
 
-    if(isLoading && !articles.length && !settings.length && !articlesState.length) return <LoadingScreen/>
- 
+    const handleChangeTopic = (topicId) => {
+      setTopic(topicId);
+      flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
+
+      dispatch({ //Fetch Articles
+          type: Actions.articles.REFRESH_ARTICLES_OF_TOPIC,
+          topic: topicId,
+          page: 1
+      });
+    }
+
+    const handleFollowTopic = async(topicId) => {
+      let rsses = await API.RSS.getByTopic(topicId);
+      rsses = rsses.data;
+
+      let usersFollowing = settings.usersFollowing || [];
+      let topicsFollowing = settings.topicsFollowing || [];
+      
+      if(!topicsFollowing.includes(topicId)){ //*FOLLOW
+        rsses.map(async rssId => {
+          usersFollowing.push(rssId);
+  
+          // Add topic to following
+          topicsFollowing.push(topicId);
+  
+          //*FCM Subscribe
+          await API.FcmTokens.subscribe(settings.fcmDeviceToken, settings.notification, [rssId]);
+        }); 
+      }else{ //*UNFOLLOW
+        rsses.map(async rssId => {
+          usersFollowing = usersFollowing.filter(user => user !== rssId);
+
+          // Remove topic from following
+          let countUsersFollowingOfTopics = 0;
+          rsses.map(item => {
+              if(usersFollowing.includes(item) && item !== rssId) {
+                  countUsersFollowingOfTopics++;
+              }
+          });
+
+          //Delete in array
+          if(countUsersFollowingOfTopics === 0) {
+              topicsFollowing.splice(topicsFollowing.indexOf(topicId), 1);
+          }
+
+          //*FCM Unsubscribe
+          await API.FcmTokens.unsubscribe(settings.fcmDeviceToken, [rssId]);
+        });
+      }
+  
+      //Update users following
+      dispatch({
+          type: Actions.settings.UPDATE_SETTING,
+          payload: {
+              key: "usersFollowing",
+              value: usersFollowing
+          }
+      });
+
+      //Update topics following
+      //TODO: Optimized it
+      setTimeout(() => {
+          dispatch({
+              type: Actions.settings.UPDATE_SETTING,
+              payload: {
+                  key: "topicsFollowing",
+                  value: topicsFollowing
+              }
+          });
+      }, 1000);
+
+      let topicFollowTemp = topicFollowingTemp.push(topicId);
+      setTopicFollowingTemp(topicFollowTemp);
+    }
+
+    if(isLoading && !newsfeed.length && !articles.length && !settings.length && !articlesState.length) return <LoadingScreen/>
+    
     return (
       <SafeAreaView style={{
         width: '100%',
@@ -136,31 +248,36 @@ const Feed = ({navigation, route}) => {
       }}>
         <StatusBar backgroundColor="#ffffff" barStyle="light-content"/>
         <FlatList
-          data={articles}
+          data={newsfeed}
+          ref={flatListRef}
           onScroll={({nativeEvent}) => {
             if (isCloseToBottom(nativeEvent)) {
               handleLoadMore();
             }
           }}
           scrollEventThrottle={400}
-          refreshing={isLoading && !articles.length && !articlesState.length}
+          refreshing={isLoading && !articles.length && !articlesState.length && !stories.length && !newsfeed.length}
           onRefresh={handleRefresh}
           ListHeaderComponent={() => {
             return (
               <>
                 <ScreenTitle titleTime>Chào mừng, bạn đã trở lại!</ScreenTitle>
+                
+                {/* Stories */}
                 <FlatList
                   data={stories}
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                   style={{
                     marginBottom: stories ? 32 : 0, 
+                  }}
+                  contentContainerStyle={{
                     paddingLeft: 24,
+                    paddingRight: 12
                   }}
                   renderItem={({ item, index }) => (
                     <StoryAvatar 
                       viewed={item.viewed} 
-                      style={{marginRight: (index == stories.length - 1 ? 48 : 16)}} 
                       authorId={item.author._id} 
                       name={item.author.name} 
                       avatar={item.stories[0].thumbnail} 
@@ -168,33 +285,156 @@ const Feed = ({navigation, route}) => {
                       key={`story-item-${index}`}/>
                   )}
                 />
+
+                {/* Topics */}
+                <FlatList
+                  data={topics}
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  style={{
+                    marginBottom: stories ? 32 : 0, 
+                  }}
+                  contentContainerStyle={{
+                    paddingLeft: 24,
+                    paddingRight: 14
+                  }}
+                  renderItem={({ item, index }) => {
+                    let topicsFollowing = settings.topicsFollowing;
+
+                    if(topicsFollowing.includes(item._id)) {
+                      return (
+                        <>
+                          {index == 0 ? <SelectButton active={topic == 'all'} onPress={() => handleChangeTopic('all')}>Tất Cả</SelectButton> : null}
+                          <SelectButton active={topic == item._id} onPress={() => handleChangeTopic(item._id)}>{item.icon} {item.title}</SelectButton>
+                        </>
+                      )
+                    }
+                  }}
+                />
               </>
             )
           }}
-          renderItem={({ item, index }) => {
-            if(settings.cardStyle === 'detail') {
-              return (
-                <DetailPostCard 
-                  key={`article-item-${index}`}
-                  onPress={() => handleReadArticle(item)}
-                  originIcon={item.author.avatar}
-                  subtitle={item.author.name}
-                  title={item.title}
-                  banner={item.thumbnail}
-                />
-              )
-            }
+          renderItem={({ item, index }) => { //*NEWS FEED
+            if(topic == 'all') {  //*NEWS FEED
+              if(item.title === "already-readed-break") {
+                return (
+                  <SectionBreak
+                    title="Bạn đã đọc tất cả bài viết mới"
+                    description="Hãy xem thêm các topic khác nhé!"
+                    icon="ios-checkmark-circle"
+                    key={`section-break-${index}`}
+                  />
+                )
+              }
 
-            return (
-              <PostCard 
-                key={`article-item-${index}`}
-                onPress={() => handleReadArticle(item)}
-                originIcon={item.author.avatar}
-                originTitle={item.author.name}
-                title={item.title}
-                banner={item.thumbnail}
-              />
-            )
+              return (
+                //* FEED ARTICLES
+                <View key={`section-news-${index}`}>
+                  <ArticlesGroup
+                    subtitle={item.subtitle}
+                    subtitleColor={item.subtitleColor}
+                    title={item.title}
+                    titleColor={item.titleColor}
+                    description={
+                      settings.topicsFollowing.includes(item.topic) ? 
+                        item.description ? item.description : null : "Nhấn dấu + để theo dõi"
+                    }
+                    addActionDone={settings.topicsFollowing.includes(item.topic)}
+                    articles={item.articles}
+                    onPressMore={() => handleChangeTopic(item.topic)}
+                    onPressAdd={
+                      settings.topicsFollowing.includes(item.topic) && !topicFollowingTemp.includes(item.topic) ? null : () => handleFollowTopic(item.topic)
+                    }
+                  />
+
+                  { //* MORE ARTILCLES
+                    index == newsfeed.length - 1 ? 
+                    <View>
+                        <SectionTitle
+                          title="Dành Cho Bạn"
+                        />
+                        
+                        { //*ARTICLES
+                          articles.map((article, index) => {
+                            if(settings.cardStyle === 'detail') {
+                              return (
+                                <DetailPostCard 
+                                  key={`article-item-${index}`}
+                                  onPress={() => handleReadArticle(article)}
+                                  originIcon={article.author.avatar}
+                                  subtitle={article.author.name}
+                                  title={article.title}
+                                  banner={article.thumbnail}
+                                /> 
+                              )
+                            }
+                            return (
+                              <PostCard 
+                                key={`article-item-${index}`}
+                                onPress={() => handleReadArticle(article)}
+                                originIcon={article.author.avatar}
+                                originTitle={article.author.name}
+                                title={article.title}
+                                banner={article.thumbnail}
+                              />
+                            )
+                          })
+                        }
+
+                        <View style={{//LOADING INDICATOR
+                          height: 86,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                          <ActivityIndicator color="#999" />
+                        </View>
+                    </View> : null
+                  }
+                </View>
+              )
+            }else{
+              //*ARTICLES OF TOPIC
+              if(index === 0) {
+                return(
+                  <>  
+                  {
+                    articles.map((article, index) => {
+                      if(settings.cardStyle === 'detail') {
+                        return (
+                          <DetailPostCard 
+                            key={`article-item-${index}`}
+                            onPress={() => handleReadArticle(article)}
+                            originIcon={article.author.avatar}
+                            subtitle={article.author.name}
+                            title={article.title}
+                            banner={article.thumbnail}
+                          /> 
+                        )
+                      }
+                      return (
+                        <PostCard 
+                          key={`article-item-${index}`}
+                          onPress={() => handleReadArticle(article)}
+                          originIcon={article.author.avatar}
+                          originTitle={article.author.name}
+                          title={article.title}
+                          banner={article.thumbnail}
+                        />
+                      )
+                    })
+                  }
+
+                  <View style={{//LOADING INDICATOR
+                    height: 86,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                    <ActivityIndicator color="#999" />
+                  </View>
+                  </>
+                )
+              }
+            }
           }}
         />
         <Modal

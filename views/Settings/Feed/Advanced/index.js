@@ -45,7 +45,7 @@ const Advanced = ({navigation}) => {
                 paddingTop: 0
             }}
         >
-            <SectionTitle style={{marginTop: 0}}>Trang Feed</SectionTitle>
+            <SectionTitle style={{paddingBottom: 16}} subtitle="Trang Feed"/>
     
             <SettingTile
                 title="Hiển thị các bài viết đã xem"

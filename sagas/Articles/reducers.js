@@ -23,6 +23,18 @@ export default function reducer(state = initialState, action) {
                 isLoading: false,
                 data: [...state.data, ...action.articles]
             }
+        case actions.FETCH_ALL_ARTICLES_OF_TOPIC:
+            return {
+                ...state,
+                isLoading: true,
+                page: action.page
+            }
+        case _onSuccess(actions.FETCH_ALL_ARTICLES_OF_TOPIC):
+            return {
+                ...state,
+                isLoading: false,
+                data: [...state.data, ...action.articles]
+            }
         case actions.REFRESH_ARTICLES:
             return {
                 ...state,
@@ -30,6 +42,18 @@ export default function reducer(state = initialState, action) {
                 page: 1
             }
         case _onSuccess(actions.REFRESH_ARTICLES):
+            return {
+                ...state,
+                isLoading: false,
+                data: action.articles
+            }
+        case actions.REFRESH_ARTICLES_OF_TOPIC:
+            return {
+                ...state,
+                isLoading: true,
+                page: 1
+            }
+        case _onSuccess(actions.REFRESH_ARTICLES_OF_TOPIC):
             return {
                 ...state,
                 isLoading: false,

@@ -64,7 +64,7 @@ const Settings = ({navigation}) => {
         <ScreenView 
             title="Cài Đặt"
         >
-            <SectionTitle style={{marginTop: 0}}>Tổng quan</SectionTitle>
+            <SectionTitle style={{paddingBottom: 16}} subtitle="Tổng quan"/>
             {/* <SettingTile
                 icon="globe"
                 title="Language"
@@ -81,7 +81,7 @@ const Settings = ({navigation}) => {
                 title="Hiển thị"
                 onPress={() => navigation.navigate('Preferences/Appereance')}
             />
-            <SectionTitle>Nội dung</SectionTitle>
+            <SectionTitle style={{marginTop: 16, paddingBottom: 16}} subtitle="Nội dung"/>
             <SettingTile
                 icon="inbox"
                 title="Sở thích"
@@ -102,7 +102,7 @@ const Settings = ({navigation}) => {
                 title="Manage tags"
                 onPress={() => navigation.navigate('Account')}
             /> */}
-            <SectionTitle>Khác</SectionTitle>
+            <SectionTitle style={{marginTop: 16, paddingBottom: 16}} subtitle="Khác"/>
             <SettingTile
                 icon="info"
                 title="Thông tin liên hệ"

@@ -42,18 +42,41 @@ const RSS = ({navigation, route}) => {
 
     const handleUpdateSetting = async(rssId, value) => {
         let usersFollowing = settings.usersFollowing || [];
+        let topicsFollowing = settings.topicsFollowing || [];
         
         if(value) { // Add user to following
             usersFollowing.push(rssId);
+
+            // Add topic to following
+            if(!topicsFollowing.includes(topic)) {
+                topicsFollowing.push(topic);
+            }
 
             //*FCM Subscribe
             await API.FcmTokens.subscribe(settings.fcmDeviceToken, settings.notification, [rssId]);
         }else{ // Remove user from following
             usersFollowing = usersFollowing.filter(user => user !== rssId);
 
+            // Remove topic from following
+            let countUsersFollowingOfTopics = 0;
+            rss.map(item => {
+                if(usersFollowing.includes(item) && item !== rssId) {
+                    countUsersFollowingOfTopics++;
+                }
+            });
+
+            //Delete in array
+            if(countUsersFollowingOfTopics === 0) {
+                topicsFollowing.splice(topicsFollowing.indexOf(topic), 1);
+            }
+
+            // console.log(topicsFollowing);
+
             //*FCM Unsubscribe
             await API.FcmTokens.unsubscribe(settings.fcmDeviceToken, [rssId]);
         }
+
+        console.log(topicsFollowing);
     
         //Update users following
         dispatch({
@@ -63,6 +86,18 @@ const RSS = ({navigation, route}) => {
                 value: usersFollowing
             }
         });
+
+        //Update topics following
+        //TODO: Optimized it
+        setTimeout(() => {
+            dispatch({
+                type: Actions.settings.UPDATE_SETTING,
+                payload: {
+                    key: "topicsFollowing",
+                    value: topicsFollowing
+                }
+            });
+        }, 1000);
     }
 
     const handleRefresh = () => {
@@ -85,7 +120,10 @@ const RSS = ({navigation, route}) => {
         >
             {/* <SectionTitle style={{marginTop: 0}}>RSS</SectionTitle>
             <LButton style={{marginBottom: 32}}>Add new</LButton> */}
-            <SectionTitle style={{marginTop: 0, marginBottom: 16}}>{topicTitle}</SectionTitle>
+
+            <SectionTitle 
+                subtitle={topicTitle}
+            />
             
             {rss.map((item, index) => {
                 return (

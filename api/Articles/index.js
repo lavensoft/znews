@@ -32,6 +32,22 @@ const ArticlesAPI = {
 
         return response.data;
     },
+    getAtWithTopic: async(topic, page) => {
+        let settings = await SettingsAPI.getAll();
+        settings = settings.data;
+
+        let articlesReaded = JSON.parse(await AsyncStorage.getItem('articlesState')) || {};
+        articlesReaded = Object.keys(articlesReaded);
+
+        const response = await axios.post(`${config.API_URL}/articles/topic/${topic}/${page}`,{
+            authors: settings.usersFollowing,
+            rejectsId: !settings["showReadedArticles"] ? articlesReaded : [],
+        }, {
+            headers: config.HEADERS
+        });
+
+        return response.data;
+    },
     search: async(keywords) => {
         const response = await axios.post(`${config.API_URL}/articles/search`, {
             value: keywords

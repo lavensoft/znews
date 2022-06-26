@@ -4,6 +4,7 @@ import * as Settings from './Settings/actions';
 import * as Users from './Users/actions';
 import * as RSS from './RSS/actions';
 import * as Topics from './Topics/actions';
+import * as NewsFeed from './NewsFeed/actions';
 
 export default {
     articles: Articles.actions,
@@ -12,6 +13,7 @@ export default {
     users: Users.actions,
     rss: RSS.actions,
     topics: Topics.actions,
+    newsfeed: NewsFeed.actions
 };
 
 export const _onSuccess = action => action + '_SUCCESS';

@@ -67,7 +67,9 @@ const Viewed = ({navigation}) => {
               ListHeaderComponent={() => {
                   return (
                     <>
-                        <SectionTitle style={{marginTop: 0, marginBottom: 20}}>Bài viết bạn đã xem</SectionTitle>
+                        <SectionTitle 
+                            subtitle={"Bài viết bạn đã xem"}
+                        />
                         {!articles.length && !isLoading ? 
                             <BlankTitle>Bạn chưa xem bài viết nào</BlankTitle> 
                            : null

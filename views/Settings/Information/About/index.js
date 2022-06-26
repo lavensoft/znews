@@ -30,7 +30,7 @@ const About = ({navigation}) => {
                 paddingTop: 0
             }}
         >
-            <SectionTitle style={{marginTop: 0, marginBottom: 0}}>Thông tin liên hệ</SectionTitle>
+            <SectionTitle style={{paddingBottom: 0}} subtitle="Thông tin liên hệ"/>
             <TouchableOpacity onPress={() => Linking.openURL("mailto:lavensoftincs@gmail.com")}>
                 <Text style={{
                     marginLeft: 24, 
@@ -51,11 +51,11 @@ const About = ({navigation}) => {
             </TouchableOpacity>
             <Text style={{marginLeft: 24, marginTop: 20}}>Địa chỉ liên hệ: 71 Tran Hung Dao, Cau Ong Lanh Ward, District 1, HCMC</Text>
 
-            <SectionTitle style={{marginTop: 32, marginBottom: 0}}>Thông tin ứng dụng</SectionTitle>
+            <SectionTitle style={{marginTop: 48, paddingBottom: 0}} subtitle="Thông tin ứng dụng"/>
             <Text style={{marginLeft: 24, marginTop: 20}}>Nhà phát triển: Lavenes</Text>
-            <Text style={{marginLeft: 24, marginTop: 20}}>Phiên bản ứng dụng: 1.0.3</Text>
-
-            <SectionTitle style={{marginTop: 32, marginBottom: 0}}>Điều khoản và Chính sách</SectionTitle>
+            <Text style={{marginLeft: 24, marginTop: 20}}>Phiên bản ứng dụng: 1.1.5</Text>
+            
+            <SectionTitle style={{marginTop: 48, paddingBottom: 0}} subtitle="Điều khoản và Chính sách"/>
             <TouchableOpacity onPress={() => Linking.openURL("https://znews.lavenes.com/privacy/")}>
                 <Text style={{
                     marginLeft: 24, 
