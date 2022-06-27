@@ -34,6 +34,9 @@ const Appereance = ({navigation, route}) => {
     }, [settings]);
 
     const handleChangeSetting = (key, value) => {
+        let settingData = {};
+        settingData[key] = value;
+
         switch(key) {
             case "theme":
                 setTheme(value);
@@ -48,10 +51,7 @@ const Appereance = ({navigation, route}) => {
         //Update settings
         dispatch({
             type: Actions.settings.UPDATE_SETTING,
-            payload: {
-                key: key,
-                value: value
-            }
+            payload: settingData
         });
     }
 

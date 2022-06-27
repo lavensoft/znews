@@ -49,26 +49,14 @@ const SettingUp = ({navigation, route}) => {
                 await API.FcmTokens.subscribe(fcmDeviceToken, 'relax', [rssId]);
             }
     
-            //Update users following
+            //Update topics & users following
             dispatch({
                 type: Actions.settings.UPDATE_SETTING,
                 payload: {
-                    key: "usersFollowing",
-                    value: usersFollowing
+                    topicsFollowing,
+                    usersFollowing
                 }
             });
-
-            //Update topics following
-            //TODO: Optimized it
-            setTimeout(() => {
-                dispatch({
-                    type: Actions.settings.UPDATE_SETTING,
-                    payload: {
-                        key: "topicsFollowing",
-                        value: topicsFollowing
-                    }
-                });
-            }, 1000);
 
             setLoading(false);
         })();
@@ -78,8 +66,7 @@ const SettingUp = ({navigation, route}) => {
         dispatch({
             type: Actions.settings.UPDATE_SETTING,
             payload: {
-                key: "configured",
-                value: true
+                "configured": true
             }
         });
     }

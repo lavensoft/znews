@@ -17,7 +17,7 @@ import API from '../../api';
 const StoryPopup = ({visible, onReadMoreClose, storyData, authorData}) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
-    const {url, thumbnail, title, _id} = storyData;
+    const {url, thumbnail, title, _id, dateAdded} = storyData;
     const author = authorData.author;
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [articleData, setArticleData] = useState(null);
@@ -38,7 +38,8 @@ const StoryPopup = ({visible, onReadMoreClose, storyData, authorData}) => {
             thumbnail: data.thumbnail,
             title: data.title,
             _id: _id,
-            author: author
+            author: author,
+            dateAdded
           });
         });
       }else{
@@ -47,7 +48,8 @@ const StoryPopup = ({visible, onReadMoreClose, storyData, authorData}) => {
           thumbnail: thumbnail,
           title: title,
           _id: _id,
-          author: author
+          author: author,
+          dateAdded
         });
       }
 
@@ -57,22 +59,22 @@ const StoryPopup = ({visible, onReadMoreClose, storyData, authorData}) => {
 
 
     const onShare = async () => {
-    try {
-      const result = await Share.share({
-        message: url //CONFIG.DOMAIN + "article/" + _id,
-      });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
+      try {
+        const result = await Share.share({
+          message: url //CONFIG.DOMAIN + "article/" + _id,
+        });
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            // shared with activity type of result.activityType
+          } else {
+            // shared
+          }
+        } else if (result.action === Share.dismissedAction) {
+          // dismissed
         }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
+      } catch (error) {
+        alert(error.message);
       }
-    } catch (error) {
-      alert(error.message);
-    }
     };
 
     const handleBookMark = async () => {
@@ -95,7 +97,8 @@ const StoryPopup = ({visible, onReadMoreClose, storyData, authorData}) => {
               thumbnail,
               title,
               _id,
-              author
+              author,
+              dateAdded
             }
           },
           state: {}

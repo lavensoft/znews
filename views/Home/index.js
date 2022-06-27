@@ -45,7 +45,6 @@ const Feed = ({navigation, route}) => {
 
     //*States
     const [topic, setTopic] = useState('all');
-    const [topicFollowingTemp, setTopicFollowingTemp] = useState([]);
 
     //*REFS
     const flatListRef = useRef(null);
@@ -126,11 +125,21 @@ const Feed = ({navigation, route}) => {
     }
 
     const handleLoadMore = () => {
-      if(!isLoading && newsfeed.length) {
-          dispatch({
-              type: Actions.articles.FETCH_ALL_ARTICLES,
-              page: page + 1
-          })
+      if(topic === 'all') {
+        if(!isLoading && newsfeed.length) {
+            dispatch({
+                type: Actions.articles.FETCH_ALL_ARTICLES,
+                page: page + 1
+            })
+        }
+      }else {
+        if(!isLoading && articles.length) {
+            dispatch({
+                type: Actions.articles.FETCH_ALL_ARTICLES_OF_TOPIC,
+                topic: topic,
+                page: page + 1
+            })
+        }
       }
     }
 
@@ -181,62 +190,25 @@ const Feed = ({navigation, route}) => {
 
       let usersFollowing = settings.usersFollowing || [];
       let topicsFollowing = settings.topicsFollowing || [];
-      
-      if(!topicsFollowing.includes(topicId)){ //*FOLLOW
-        rsses.map(async rssId => {
-          usersFollowing.push(rssId);
-  
-          // Add topic to following
-          topicsFollowing.push(topicId);
-  
-          //*FCM Subscribe
-          await API.FcmTokens.subscribe(settings.fcmDeviceToken, settings.notification, [rssId]);
-        }); 
-      }else{ //*UNFOLLOW
-        rsses.map(async rssId => {
-          usersFollowing = usersFollowing.filter(user => user !== rssId);
 
-          // Remove topic from following
-          let countUsersFollowingOfTopics = 0;
-          rsses.map(item => {
-              if(usersFollowing.includes(item) && item !== rssId) {
-                  countUsersFollowingOfTopics++;
-              }
-          });
+      for(rss of rsses) {
+        usersFollowing.push(rss._id);
 
-          //Delete in array
-          if(countUsersFollowingOfTopics === 0) {
-              topicsFollowing.splice(topicsFollowing.indexOf(topicId), 1);
-          }
+        // Add topic to following
+        topicsFollowing.push(topicId);
 
-          //*FCM Unsubscribe
-          await API.FcmTokens.unsubscribe(settings.fcmDeviceToken, [rssId]);
-        });
+        //*FCM Subscribe
+        await API.FcmTokens.subscribe(settings.fcmDeviceToken, settings.notification, [rss._id]);
       }
-  
-      //Update users following
+
+      //Update topics & users following
       dispatch({
           type: Actions.settings.UPDATE_SETTING,
           payload: {
-              key: "usersFollowing",
-              value: usersFollowing
+              topicsFollowing,
+              usersFollowing
           }
       });
-
-      //Update topics following
-      //TODO: Optimized it
-      setTimeout(() => {
-          dispatch({
-              type: Actions.settings.UPDATE_SETTING,
-              payload: {
-                  key: "topicsFollowing",
-                  value: topicsFollowing
-              }
-          });
-      }, 1000);
-
-      let topicFollowTemp = topicFollowingTemp.push(topicId);
-      setTopicFollowingTemp(topicFollowTemp);
     }
 
     if(isLoading && !newsfeed.length && !articles.length && !settings.length && !articlesState.length) return <LoadingScreen/>

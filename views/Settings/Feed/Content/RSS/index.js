@@ -70,34 +70,18 @@ const RSS = ({navigation, route}) => {
                 topicsFollowing.splice(topicsFollowing.indexOf(topic), 1);
             }
 
-            // console.log(topicsFollowing);
-
             //*FCM Unsubscribe
             await API.FcmTokens.unsubscribe(settings.fcmDeviceToken, [rssId]);
         }
-
-        console.log(topicsFollowing);
     
-        //Update users following
+        //Update topics & users following
         dispatch({
             type: Actions.settings.UPDATE_SETTING,
             payload: {
-                key: "usersFollowing",
-                value: usersFollowing
+                topicsFollowing,
+                usersFollowing
             }
         });
-
-        //Update topics following
-        //TODO: Optimized it
-        setTimeout(() => {
-            dispatch({
-                type: Actions.settings.UPDATE_SETTING,
-                payload: {
-                    key: "topicsFollowing",
-                    value: topicsFollowing
-                }
-            });
-        }, 1000);
     }
 
     const handleRefresh = () => {

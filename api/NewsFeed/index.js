@@ -19,6 +19,12 @@ const NewsFeedAPI = {
         data.sort((a, b) => {
             let topicA = topicsFollowing.includes(a.topic) ? 1 : 0;
             let topicB = topicsFollowing.includes(b.topic) ? 1 : 0;
+
+            let dateA = new Date(a.articles[0].dateAdded);
+            let dateB = new Date(b.articles[0].dateAdded);
+
+            if(topicA === topicB) return dateB - dateA;
+
             return topicB - topicA;
         });
 

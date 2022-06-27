@@ -91,7 +91,7 @@ const Viewed = ({navigation}) => {
                           subtitle={data.author?.name}
                           title={data.title}
                           banner={data.thumbnail}
-                          date={item.dateAdded}
+                          date={data.dateAdded}
                         />
                       )
                     }
@@ -104,7 +104,7 @@ const Viewed = ({navigation}) => {
                             banner={data.thumbnail}
                             key={`post-card-${index}`}
                             onPress={() => handleReadArticle(data)}
-                            date={item.dateAdded}
+                            date={data.dateAdded}
                         />
                     )
                 }}

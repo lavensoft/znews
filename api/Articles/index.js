@@ -48,8 +48,8 @@ const ArticlesAPI = {
 
         return response.data;
     },
-    search: async(keywords) => {
-        const response = await axios.post(`${config.API_URL}/articles/search`, {
+    search: async(keywords, page) => {
+        const response = await axios.post(`${config.API_URL}/articles/search/${page}`, {
             value: keywords
         }, {
             headers: config.HEADERS

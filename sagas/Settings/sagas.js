@@ -17,10 +17,10 @@ function* fetchAll(action) {
 }
 
 function* update(action) {
-    const {key, value} = action.payload;
+    const settings = action.payload;
 
     try {
-        const response = yield call(API.Settings.set, key, value);
+        const response = yield call(API.Settings.update, settings);
         yield put({type: _onSuccess(Actions.settings.UPDATE_SETTING), payload: response.data});
     } catch (e) {
         yield put({type: _onFail(Actions.settings.UPDATE_SETTING), message: e.message});

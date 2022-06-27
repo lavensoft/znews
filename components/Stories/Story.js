@@ -4,12 +4,15 @@ import FastImage from 'react-native-fast-image'
 import { Dimensions, StyleSheet, View, Image } from 'react-native';
 // import Image from 'react-native-scalable-image';
 import PropTypes from 'prop-types';
+import CONFIG from '../../global/config';
 
 const ScreenWidth = Dimensions.get('window').width;
 
 const Story = (props) => {
   const { story } = props;
   const { thumbnail, type = 'image' } = story || {};
+
+  const image = thumbnail.indexOf('http') === 0 ? thumbnail : (CONFIG.CDN_DOMAIN + thumbnail);
 
   return (
     <View style={styles.container}>
@@ -20,7 +23,7 @@ const Story = (props) => {
       )} */}
       {type === 'image' ? (
         <Image
-          source={{ uri: thumbnail }}
+          source={{ uri: image }}
           style={styles.backdrop}
           resizeMode="cover"
           blurRadius={20}
@@ -33,7 +36,7 @@ const Story = (props) => {
         )}
       {type === 'image' ? (
         <FastImage
-          source={{ uri: thumbnail }}
+          source={{ uri: image }}
           onLoadEnd={props.onImageLoaded}
           style={styles.content}
           resizeMode="contain"

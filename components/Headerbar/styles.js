@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
 export const headerbarStyles = StyleSheet.create({
     container: {
@@ -13,5 +13,12 @@ export const headerbarStyles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 16,
         fontWeight: '600'
+    }
+});
+
+export const searchHeaderStyles = StyleSheet.create({
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
     }
 });

@@ -12,7 +12,7 @@ import API from '../../api';
 const ArticleScreen = ({navigation, route}) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
-    const {url, thumbnail, title, _id, author} = route.params;
+    const {url, thumbnail, title, _id, author, dateAdded} = route.params;
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [articleData, setArticleData] = useState(null);
 
@@ -32,7 +32,8 @@ const ArticleScreen = ({navigation, route}) => {
             thumbnail: data.thumbnail,
             title: data.title,
             _id: _id,
-            author: author
+            author: author,
+            dateAdded
           });
         });
       }else{
@@ -41,7 +42,8 @@ const ArticleScreen = ({navigation, route}) => {
           thumbnail: thumbnail,
           title: title,
           _id: _id,
-          author: author
+          author: author,
+          dateAdded
         });
       }
 
@@ -58,7 +60,8 @@ const ArticleScreen = ({navigation, route}) => {
               thumbnail,
               title,
               _id,
-              author
+              author,
+              dateAdded
             }
           },
           state: {}

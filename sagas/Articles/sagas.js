@@ -34,11 +34,11 @@ function* fetchStories(action) {
 }
 
 function* searchArticles(action) {
-  const {keywords} = action;
+  const {keywords, page} = action.payload;
 
   try {
-    const articles = yield call(API.Articles.search, keywords);
-    yield put({type: _onSuccess(Actions.articles.SEARCH_ARTICLES), articles: articles.data});
+    const articles = yield call(API.Articles.search, keywords, page);
+    yield put({type: _onSuccess(Actions.articles.SEARCH_ARTICLES), articles: articles.data, keywords, page});
   } catch (e) {
     yield put({type: _onFail(Actions.articles.SEARCH_ARTICLES), message: e.message});
   }
@@ -61,6 +61,17 @@ function* refreshArticlesOfTopic(action) {
     yield put({type: _onSuccess(Actions.articles.REFRESH_ARTICLES_OF_TOPIC), articles: articles.data});
   } catch (e) {
     yield put({type: _onFail(Actions.articles.REFRESH_ARTICLES_OF_TOPIC), message: e.message});
+  }
+}
+
+function* refreshSearchArticles(action) {
+  const {keywords} = action.payload;
+
+  try {
+    const articles = yield call(API.Articles.search, keywords, 0);
+    yield put({type: _onSuccess(Actions.articles.REFRESH_SEARCH_ARTICLES), articles: articles.data, keywords});
+  } catch (e) {
+    yield put({type: _onFail(Actions.articles.REFRESH_SEARCH_ARTICLES), message: e.message});
   }
 }
 
@@ -98,10 +109,15 @@ function* fetchStates(action) {
 function* rootSaga() {
   yield takeLatest(Actions.articles.FETCH_ALL_ARTICLES, fetchAllArticles);
   yield takeLatest(Actions.articles.FETCH_ALL_ARTICLES_OF_TOPIC, fetchAllArticlesOfTopic);
+
   yield takeLatest(Actions.articles.REFRESH_ARTICLES, refreshArticles);
   yield takeLatest(Actions.articles.REFRESH_ARTICLES_OF_TOPIC, refreshArticlesOfTopic);
+  yield takeLatest(Actions.articles.REFRESH_SEARCH_ARTICLES, refreshSearchArticles);
+
   yield takeLatest(Actions.articles.SEARCH_ARTICLES, searchArticles);
+
   yield takeLatest(Actions.articles.FETCH_STORIES, fetchStories);
+
   yield takeLatest(Actions.articles.UPDATE_ARTICLES_VIEW, updateArticlesView);
   yield takeLatest(Actions.articles.SAVE_ARTICLE_STATE, saveState);
   yield takeLatest(Actions.articles.FETCH_ARTICLES_STATE, fetchStates);

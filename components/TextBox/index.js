@@ -1,11 +1,11 @@
 import React, {useRef} from 'react';
-import { View, TextInput, TouchableOpacity } from 'react-native';
+import { View, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 //*Styles
 import { textboxStyles } from './styles';
 
-export const TextBox = ({ style, onSubmit, onChange, onChangeText, placeholder, icon }) => {
+export const TextBox = ({ style, onSubmit, isLoading, onChange, onChangeText, placeholder, icon }) => {
     const textInputRef = useRef();
 
     const handleClearTextbox = () => {
@@ -21,9 +21,15 @@ export const TextBox = ({ style, onSubmit, onChange, onChangeText, placeholder, 
                 </TouchableOpacity> : null
             }
             <TextInput onChangeText={onChangeText} onChange={onChange} ref={textInputRef} style={{...textboxStyles.textInput, marginLeft: (icon ? 14 : 0)}} placeholder={placeholder}/>
-            <TouchableOpacity onPress={handleClearTextbox} style={textboxStyles.action}>
-                <Icon name="x" size={15} color="#555555"/>
-            </TouchableOpacity>
+            {
+                !isLoading ? 
+                <TouchableOpacity onPress={handleClearTextbox} style={textboxStyles.action}>
+                    <Icon name="x" size={15} color="#555555"/>
+                </TouchableOpacity> :
+                <View style={textboxStyles.action}>
+                    <ActivityIndicator size="small" color="#555555"/>
+                </View>
+            }
         </View>
     )
 }

@@ -53,7 +53,7 @@ const About = ({navigation}) => {
 
             <SectionTitle style={{marginTop: 48, paddingBottom: 0}} subtitle="Thông tin ứng dụng"/>
             <Text style={{marginLeft: 24, marginTop: 20}}>Nhà phát triển: Lavenes</Text>
-            <Text style={{marginLeft: 24, marginTop: 20}}>Phiên bản ứng dụng: 1.1.5</Text>
+            <Text style={{marginLeft: 24, marginTop: 20}}>Phiên bản ứng dụng: 1.1.6</Text>
             
             <SectionTitle style={{marginTop: 48, paddingBottom: 0}} subtitle="Điều khoản và Chính sách"/>
             <TouchableOpacity onPress={() => Linking.openURL("https://znews.lavenes.com/privacy/")}>

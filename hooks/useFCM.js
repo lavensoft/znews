@@ -39,7 +39,9 @@ const useFCM = () => {
     //*Subscribe global notification topic
     messaging().subscribeToTopic('global');
 
-    await API.Settings.set('fcmDeviceToken', token);
+    await API.Settings.update({
+      'fcmDeviceToken': token
+    });
     return token;
   };
 

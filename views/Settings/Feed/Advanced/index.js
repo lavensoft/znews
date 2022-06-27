@@ -29,12 +29,13 @@ const Advanced = ({navigation}) => {
     }, []);
 
     const handleUpdateSetting = (key, value) => {
+        let settingData = {};
+
+        settingData[key] = value;
+
         dispatch({
             type: Actions.settings.UPDATE_SETTING,
-            payload: {
-                key,
-                value
-            }
+            payload: settingData
         });
     }
 

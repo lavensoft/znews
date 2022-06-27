@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StatusBar } from 'expo-status-bar';
-import { ScreenView, PostCard, DetailPostCard } from '../../components';
+import { PostCard, DetailPostCard, SearchHeader } from '../../components';
 import Actions from '../../sagas/actions';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { FlatList, SafeAreaView, StatusBar, View, Text, Dimensions, ActivityIndicator } from 'react-native';
 
 //*Views
 import ArticleScreen from '../Article';
@@ -23,10 +23,8 @@ const SearchScreen = () => {
     )
 }
 
-const Search = ({navigation}) => {
+const HeaderComponent = () => {
     const dispatch = useDispatch();
-    const articles = useSelector(state => state.articles.searchData);
-    const settings = useSelector(state => state.settings.data);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchLoading, setSearchLoading] = useState(false);
 
@@ -41,29 +39,110 @@ const Search = ({navigation}) => {
       return () => clearTimeout(delayDebounceFn)
     }, [searchTerm])
 
-    const handleReadArticle = (siteData) => {
-        navigation.navigate("Article", {
-            ...siteData
-        });
-    }
-
     const handleSearch = (value) => {
         dispatch({
-            type: Actions.articles.SEARCH_ARTICLES,
-            keywords: value
+            type: Actions.articles.REFRESH_SEARCH_ARTICLES,
+            payload: {
+              keywords: value
+            }
         })
 
         setSearchLoading(false);
     }
 
     return (
-        <ScreenView 
+        <SearchHeader
             title="Tìm Kiếm"
-            blankTitle={!articles?.length ? "Hãy tìm kiếm điều gì đó" : null}
-            onSearch={e => setSearchTerm(e)}
-            loading={searchLoading}
-        >
-            {articles?.map((item, index) => {
+            placeholder="Nhập gì đó..."
+            onSearch={setSearchTerm}
+            isLoading={searchLoading}
+        />
+    )
+}
+
+const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+    const paddingToBottom = 256;
+    return layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom;
+};
+
+const Search = ({navigation}) => {
+    const dispatch = useDispatch();
+
+    const articles = useSelector(state => state.articles.searchData);
+    const settings = useSelector(state => state.settings.data);
+    const searchPage = useSelector(state => state.articles.searchPage);
+    const searchValue = useSelector(state => state.articles.searchKeywords);
+    const isLoading = useSelector(state => state.articles.isLoading);
+
+    const handleReadArticle = (siteData) => {
+        navigation.navigate("Article", {
+            ...siteData
+        });
+    }
+
+    const handleLoadMore = () => {
+      if(!isLoading && searchValue) {
+        dispatch({
+          type: Actions.articles.SEARCH_ARTICLES,
+          payload: {
+            keywords: searchValue,
+            page: searchPage + 1
+          }
+        })
+      }
+    }
+
+    const handleRefresh = () => {
+      dispatch({
+          type: Actions.articles.REFRESH_SEARCH_ARTICLES,
+          payload: {
+            keywords: searchValue
+          }
+      })
+    }
+
+    return (
+        <SafeAreaView style={{
+          width: '100%',
+          backgroundColor: "#fff",
+          paddingTop: 24
+        }}>
+          <StatusBar backgroundColor="#ffffff" barStyle="light-content"/>
+            <FlatList
+              data={articles}
+              onScroll={({nativeEvent}) => {
+                if (isCloseToBottom(nativeEvent)) {
+                  handleLoadMore();
+                }
+              }}
+              scrollEventThrottle={400}
+              refreshing={false}
+              onRefresh={handleRefresh}
+
+              ListEmptyComponent={() => {
+                return (
+                  <View style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: Dimensions.get('window').width,
+                    height: Dimensions.get('window').height - 248,
+                  }}>
+                    <Text
+                        style={{
+                            fontSize: 16,
+                            color: 'rgba(0,0,0, .25)',
+                            fontWeight: 'bold'
+                        }}
+                    >Hãy thử tìm điều gì đó</Text>
+                  </View>
+                )
+              }}
+
+              ListHeaderComponent= {HeaderComponent}
+
+              renderItem={({ item, index }) => { 
                 if(settings.cardStyle === 'detail') {
                   return (
                     <DetailPostCard 
@@ -89,8 +168,23 @@ const Search = ({navigation}) => {
                         date={item.dateAdded}
                     />
                 )
-            })}   
-        </ScreenView>
+              }}
+          
+              ListFooterComponent={() => {
+                if(!articles.length) return null;
+
+                return(
+                  <View style={{//LOADING INDICATOR
+                    height: 86,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                    <ActivityIndicator color="#999" />
+                  </View>
+                )
+              }}
+            />
+        </SafeAreaView>
     );
 }
 

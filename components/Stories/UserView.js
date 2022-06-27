@@ -2,6 +2,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import CONFIG from '../../global/config';
 
 class UserView extends React.PureComponent {
   constructor(props) {
@@ -13,10 +14,12 @@ class UserView extends React.PureComponent {
       props,
     } = this;
 
+  const avatar = props.profile.indexOf('http') === 0 ? props.profile : (CONFIG.CDN_DOMAIN + props.profile);
+
     return (
       <View style={styles.userView}>
         <Image
-          source={{ uri: props.profile }}
+          source={{ uri: avatar }}
           style={styles.image}
         />
         <View style={{ flex: 1 }}>

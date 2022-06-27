@@ -2,6 +2,7 @@ import React from 'react';
 import FastImage from 'react-native-fast-image'
 import { View, Text, TouchableOpacity } from 'react-native';
 import Helper from '../../helper';
+import CONFIG from '../../global/config';
 
 //*Styles
 import { postCardStyles, detailPostCardStyles, imageCardStyles } from './styles';
@@ -20,11 +21,16 @@ export const PostCard = ({subtitle, originIcon, originTitle, title, banner, onPr
         }
     }) : null;
 
+    if(Number(dateAgo?.value || -1) <= -1) dateAgo = null;
+
+    const originLogo = originIcon;
+    const bannerImage = banner.indexOf('http') === 0 ? banner : (CONFIG.CDN_DOMAIN + banner);
+
     return (
         <TouchableOpacity onPress={onPress} style={postCardStyles.container}>
             <View style={postCardStyles.tagsContainer}>
                 <View style={postCardStyles.tagGroup}>
-                    <FastImage source={{uri: originIcon}} style={postCardStyles.tagIcon}/>
+                    <FastImage source={{uri: originLogo}} style={postCardStyles.tagIcon}/>
                     <Text style={postCardStyles.tag}>{originTitle}</Text>
                 </View>
             </View>
@@ -43,7 +49,7 @@ export const PostCard = ({subtitle, originIcon, originTitle, title, banner, onPr
             </View>
             <View style={postCardStyles.bannerBackdrop}></View>
             <View style={postCardStyles.bannerContainer}>
-                <FastImage style={postCardStyles.banner} resizeMode="cover"  source={{uri: banner}}/>
+                <FastImage style={postCardStyles.banner} resizeMode="cover"  source={{uri: bannerImage}}/>
             </View>
         </TouchableOpacity>
     );
@@ -63,10 +69,14 @@ export const DetailPostCard = ({subtitle, originIcon, originTitle, title, banner
         }
     }) : null;
 
+    if(Number(dateAgo?.value || -1) <= -1) dateAgo = null;
+
+    const bannerImage = banner.indexOf('http') === 0 ? banner : (CONFIG.CDN_DOMAIN + banner);
+
     return (
         <TouchableOpacity onPress={onPress} style={detailPostCardStyles.container}>
             <View style={detailPostCardStyles.bannerContainer}>
-                <FastImage source={{uri: banner}} style={detailPostCardStyles.banner}/>
+                <FastImage source={{uri: bannerImage}} style={detailPostCardStyles.banner}/>
             </View>
             <View style={detailPostCardStyles.descriptionContainer}>
                 <Text numberOfLines={2} style={detailPostCardStyles.title}>{title}</Text>

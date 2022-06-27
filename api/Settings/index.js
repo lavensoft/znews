@@ -19,10 +19,13 @@ const SettingsAPI = {
             data: settings[key]
         };
     },
-    set: async (key, value) => {
+    update: async (value) => {
         let settings = JSON.parse(await AsyncStorage.getItem('settings')) || {};
 
-        settings[key] = value;
+        settings = {
+            ...settings,
+            ...value,
+        };
 
         await AsyncStorage.setItem('settings', JSON.stringify(settings));
 

@@ -7,6 +7,8 @@ const initialState = {
     searchData: [],
     articlesState: [],
     page: 1,
+    searchPage: 1,
+    searchKeywords: '',
 }
 
 export default function reducer(state = initialState, action) {
@@ -59,6 +61,19 @@ export default function reducer(state = initialState, action) {
                 isLoading: false,
                 data: action.articles
             }
+        case actions.REFRESH_SEARCH_ARTICLES:
+            return {
+                ...state,
+                isLoading: true,
+                searchPage: 1
+            }
+        case _onSuccess(actions.REFRESH_SEARCH_ARTICLES):
+            return {
+                ...state,
+                isLoading: false,
+                searchData: action.articles,
+                searchKeywords: action.keywords
+            }
         case actions.FETCH_STORIES:
             return {
                 ...state,
@@ -73,11 +88,15 @@ export default function reducer(state = initialState, action) {
         case actions.SEARCH_ARTICLES:
             return {
                 ...state,
+                isLoading: true,
             }
         case _onSuccess(actions.SEARCH_ARTICLES):
             return {
                 ...state,
-                searchData: action.articles
+                searchData: [...state.searchData, ...action.articles],
+                searchKeywords: action.keywords,
+                searchPage: action.page,
+                isLoading: false,
             }
         case actions.UPDATE_ARTICLES_VIEW:
             return {

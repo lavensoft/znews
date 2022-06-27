@@ -33,6 +33,9 @@ const Notification = ({navigation, route}) => {
     }, [settings]);
 
     const handleChangeSetting = async(key, value) => {
+        let settingData = {};
+        settingData[key] = value;
+
         switch(key) {
             case "notification":
                 setNotification(value);
@@ -47,10 +50,7 @@ const Notification = ({navigation, route}) => {
         //Update settings
         dispatch({
             type: Actions.settings.UPDATE_SETTING,
-            payload: {
-                key: key,
-                value: value
-            }
+            payload: settingData
         });
     }
 
