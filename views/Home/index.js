@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useFocusEffect } from '@react-navigation/native';
 import { SelectButton, LoadingScreen, SectionBreak, SectionTitle, ScreenTitle, ArticlesGroup, PostCard, DetailPostCard, StoryAvatar, StoryContainer } from '../../components';
 import Actions from '../../sagas/actions';
 import { StatusBar } from 'expo-status-bar';
@@ -125,7 +126,7 @@ const Feed = ({navigation, route}) => {
     }
 
     const handleLoadMore = () => {
-      if(!isLoading) {
+      if(!isLoading && newsfeed.length) {
           dispatch({
               type: Actions.articles.FETCH_ALL_ARTICLES,
               page: page + 1
@@ -248,7 +249,7 @@ const Feed = ({navigation, route}) => {
       }}>
         <StatusBar backgroundColor="#ffffff" barStyle="light-content"/>
         <FlatList
-          data={newsfeed}
+          data={articles}
           ref={flatListRef}
           onScroll={({nativeEvent}) => {
             if (isCloseToBottom(nativeEvent)) {
@@ -258,6 +259,7 @@ const Feed = ({navigation, route}) => {
           scrollEventThrottle={400}
           refreshing={isLoading && !articles.length && !articlesState.length && !stories.length && !newsfeed.length}
           onRefresh={handleRefresh}
+
           ListHeaderComponent={() => {
             return (
               <>
@@ -311,130 +313,99 @@ const Feed = ({navigation, route}) => {
                     }
                   }}
                 />
+
+                {/* NEWSFEDD */}
+                { topic === 'all' ?
+                  <FlatList
+                    data={newsfeed}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item, index }) => {
+                      if(item.title === "already-readed-break") {
+                        return (
+                          <SectionBreak
+                            title="Bạn đã đọc tất cả bài viết mới"
+                            description="Hãy xem thêm các topic khác nhé!"
+                            icon="ios-checkmark-circle"
+                            key={`section-break-${index}`}
+                          />
+                        )
+                      }
+                    
+                      return (
+                        //* FEED ARTICLES
+                        <View key={`section-news-${index}`}>
+                          <ArticlesGroup
+                            subtitle={item.subtitle}
+                            subtitleColor={item.subtitleColor}
+                            title={item.title}
+                            titleColor={item.titleColor}
+                            description={
+                              settings.topicsFollowing.includes(item.topic) ? 
+                                item.description ? item.description : null : "Nhấn dấu + để theo dõi"
+                            }
+                            onPressArticle={handleReadArticle}
+                            addActionDone={settings.topicsFollowing.includes(item.topic)}
+                            articles={item.articles}
+                            onPressMore={() => handleChangeTopic(item.topic)}
+                            onPressAdd={
+                              settings.topicsFollowing.includes(item.topic) ? null : () => handleFollowTopic(item.topic)
+                            }
+                          />
+        
+                          { //* MORE ARTILCLES
+                            index == newsfeed.length - 1 ? 
+                            <View>
+                                <SectionTitle
+                                  title="Dành Cho Bạn"
+                                />
+                            </View> : null
+                          }
+                        </View>
+                      )
+                    }}
+                  /> : null
+                }
               </>
             )
           }}
+
           renderItem={({ item, index }) => { //*NEWS FEED
-            if(topic == 'all') {  //*NEWS FEED
-              if(item.title === "already-readed-break") {
-                return (
-                  <SectionBreak
-                    title="Bạn đã đọc tất cả bài viết mới"
-                    description="Hãy xem thêm các topic khác nhé!"
-                    icon="ios-checkmark-circle"
-                    key={`section-break-${index}`}
-                  />
-                )
-              }
-
+            if(settings.cardStyle === 'detail') {
               return (
-                //* FEED ARTICLES
-                <View key={`section-news-${index}`}>
-                  <ArticlesGroup
-                    subtitle={item.subtitle}
-                    subtitleColor={item.subtitleColor}
-                    title={item.title}
-                    titleColor={item.titleColor}
-                    description={
-                      settings.topicsFollowing.includes(item.topic) ? 
-                        item.description ? item.description : null : "Nhấn dấu + để theo dõi"
-                    }
-                    addActionDone={settings.topicsFollowing.includes(item.topic)}
-                    articles={item.articles}
-                    onPressMore={() => handleChangeTopic(item.topic)}
-                    onPressAdd={
-                      settings.topicsFollowing.includes(item.topic) && !topicFollowingTemp.includes(item.topic) ? null : () => handleFollowTopic(item.topic)
-                    }
-                  />
-
-                  { //* MORE ARTILCLES
-                    index == newsfeed.length - 1 ? 
-                    <View>
-                        <SectionTitle
-                          title="Dành Cho Bạn"
-                        />
-                        
-                        { //*ARTICLES
-                          articles.map((article, index) => {
-                            if(settings.cardStyle === 'detail') {
-                              return (
-                                <DetailPostCard 
-                                  key={`article-item-${index}`}
-                                  onPress={() => handleReadArticle(article)}
-                                  originIcon={article.author.avatar}
-                                  subtitle={article.author.name}
-                                  title={article.title}
-                                  banner={article.thumbnail}
-                                /> 
-                              )
-                            }
-                            return (
-                              <PostCard 
-                                key={`article-item-${index}`}
-                                onPress={() => handleReadArticle(article)}
-                                originIcon={article.author.avatar}
-                                originTitle={article.author.name}
-                                title={article.title}
-                                banner={article.thumbnail}
-                              />
-                            )
-                          })
-                        }
-
-                        <View style={{//LOADING INDICATOR
-                          height: 86,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
-                          <ActivityIndicator color="#999" />
-                        </View>
-                    </View> : null
-                  }
-                </View>
+                <DetailPostCard 
+                  key={`article-item-${index}`}
+                  onPress={() => handleReadArticle(item)}
+                  originIcon={item.author.avatar}
+                  subtitle={item.author.name}
+                  title={item.title}
+                  banner={item.thumbnail}
+                  date={item.dateAdded}
+                /> 
               )
-            }else{
-              //*ARTICLES OF TOPIC
-              if(index === 0) {
-                return(
-                  <>  
-                  {
-                    articles.map((article, index) => {
-                      if(settings.cardStyle === 'detail') {
-                        return (
-                          <DetailPostCard 
-                            key={`article-item-${index}`}
-                            onPress={() => handleReadArticle(article)}
-                            originIcon={article.author.avatar}
-                            subtitle={article.author.name}
-                            title={article.title}
-                            banner={article.thumbnail}
-                          /> 
-                        )
-                      }
-                      return (
-                        <PostCard 
-                          key={`article-item-${index}`}
-                          onPress={() => handleReadArticle(article)}
-                          originIcon={article.author.avatar}
-                          originTitle={article.author.name}
-                          title={article.title}
-                          banner={article.thumbnail}
-                        />
-                      )
-                    })
-                  }
-
-                  <View style={{//LOADING INDICATOR
-                    height: 86,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                    <ActivityIndicator color="#999" />
-                  </View>
-                  </>
-                )
-              }
             }
+            return (
+              <PostCard 
+                key={`article-item-${index}`}
+                onPress={() => handleReadArticle(item)}
+                originIcon={item.author.avatar}
+                originTitle={item.author.name}
+                title={item.title}
+                banner={item.thumbnail}
+                date={item.dateAdded}
+              />
+            )
+          }}
+          
+          ListFooterComponent={() => {
+            return(
+              <View style={{//LOADING INDICATOR
+                height: 86,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                <ActivityIndicator color="#999" />
+              </View>
+            )
           }}
         />
         <Modal

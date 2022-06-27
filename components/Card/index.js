@@ -1,12 +1,25 @@
 import React from 'react';
 import FastImage from 'react-native-fast-image'
 import { View, Text, TouchableOpacity } from 'react-native';
+import Helper from '../../helper';
 
 //*Styles
 import { postCardStyles, detailPostCardStyles, imageCardStyles } from './styles';
 
 //*Post Card
-export const PostCard = ({subtitle, originIcon, originTitle, title, banner, onPress}) => {
+export const PostCard = ({subtitle, originIcon, originTitle, title, banner, onPress, date}) => {
+    let dateAgo = date ? Helper.prettyDate(new Date(date).toString(), {
+        lang: {
+            seconds: ["giây", "giây"],
+            minutes: ["phút", "phút"],
+            hours: ["giờ", "giờ"],
+            days: ["ngày", "ngày"],
+            months: ["tháng", "tháng"],
+            years: ["năm", "năm"],
+            misc: ["trước", "Invalid input, please check formating"]
+        }
+    }) : null;
+
     return (
         <TouchableOpacity onPress={onPress} style={postCardStyles.container}>
             <View style={postCardStyles.tagsContainer}>
@@ -16,9 +29,16 @@ export const PostCard = ({subtitle, originIcon, originTitle, title, banner, onPr
                 </View>
             </View>
             <View style={postCardStyles.descriptionContainer}>
-                <Text style={postCardStyles.title} numberOfLines={3}>{title}</Text>
                 {subtitle ? 
-                    <Text style={postCardStyles.origin}>{subtitle}</Text> : null
+                    <Text style={postCardStyles.subtitle}>{subtitle}</Text> : null
+                }
+                <Text style={postCardStyles.title} numberOfLines={3}>{title}</Text>
+                {dateAgo ? 
+                    <Text style={postCardStyles.time}>
+                        {
+                            dateAgo.value + " " + dateAgo.lang + " " + dateAgo.misc
+                        }
+                    </Text> : null 
                 }
             </View>
             <View style={postCardStyles.bannerBackdrop}></View>
@@ -30,7 +50,19 @@ export const PostCard = ({subtitle, originIcon, originTitle, title, banner, onPr
 }
 
 //*Detail
-export const DetailPostCard = ({subtitle, originIcon, originTitle, title, banner, onPress}) => {
+export const DetailPostCard = ({subtitle, originIcon, originTitle, title, banner, onPress, date}) => {
+    let dateAgo = date ? Helper.prettyDate(new Date(date).toString(), {
+        lang: {
+            seconds: ["giây", "giây"],
+            minutes: ["phút", "phút"],
+            hours: ["giờ", "giờ"],
+            days: ["ngày", "ngày"],
+            months: ["tháng", "tháng"],
+            years: ["năm", "năm"],
+            misc: ["", "Invalid input, please check formating"]
+        }
+    }) : null;
+
     return (
         <TouchableOpacity onPress={onPress} style={detailPostCardStyles.container}>
             <View style={detailPostCardStyles.bannerContainer}>
@@ -39,7 +71,9 @@ export const DetailPostCard = ({subtitle, originIcon, originTitle, title, banner
             <View style={detailPostCardStyles.descriptionContainer}>
                 <Text numberOfLines={2} style={detailPostCardStyles.title}>{title}</Text>
                 {subtitle ?
-                    <Text style={detailPostCardStyles.subtitle}>{subtitle}</Text> : null
+                    <Text style={detailPostCardStyles.subtitle}>
+                        {subtitle + ( dateAgo ? "  •  " + dateAgo.value + " " + dateAgo.lang + " " + dateAgo.misc : "")}
+                    </Text> : null
                 }
             </View>
         </TouchableOpacity>

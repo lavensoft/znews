@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { articlesGroupStyles, sectionBreakStyles } from './styles';
 
-export const ArticlesGroup = ({ onPressMore, onPressAdd, addActionDone, title, titleColor, subtitle, subtitleColor, description, articles }) => {
+export const ArticlesGroup = ({ onPressMore, onPressArticle, onPressAdd, addActionDone, title, titleColor, subtitle, subtitleColor, description, articles }) => {
     return(
         <View style={articlesGroupStyles.container}>
             <SectionTitle
@@ -25,22 +25,24 @@ export const ArticlesGroup = ({ onPressMore, onPressAdd, addActionDone, title, t
                   return (
                     <PostCard 
                       key={`article-item-${index}`}
-                      onPress={() => handleReadArticle(article)}
+                      onPress={() => onPressArticle(article)}
                       originIcon={article.author.avatar}
                       originTitle={article.author.name}
                       title={article.title}
                       banner={article.thumbnail}
+                      date={article.dateAdded}
                     />
                   )
                 }
                 return(
                   <DetailPostCard 
                     key={`article-item-${index}`}
-                    onPress={() => handleReadArticle(article)}
+                    onPress={() => onPressArticle(article)}
                     originIcon={article.author.avatar}
                     subtitle={article.author.name}
                     title={article.title}
                     banner={article.thumbnail}
+                    date={article.dateAdded}
                   />
                 )
               })

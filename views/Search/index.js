@@ -73,6 +73,7 @@ const Search = ({navigation}) => {
                       subtitle={item.author.name}
                       title={item.title}
                       banner={item.thumbnail}
+                      date={item.dateAdded}
                     />
                   )
                 }
@@ -85,6 +86,7 @@ const Search = ({navigation}) => {
                         banner={item.thumbnail}
                         key={`post-card-${index}`}
                         onPress={() => handleReadArticle(item)}
+                        date={item.dateAdded}
                     />
                 )
             })}   

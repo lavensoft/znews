@@ -123,24 +123,31 @@ const StoryPopup = ({visible, onReadMoreClose, storyData, authorData}) => {
               />
           </Appbar.Header>
 
-          <WebView onLoadEnd={() => setLoading(false)} source={{ uri: articleData.url }} />
-
-          {loading ?
-            <View style={{
-                position: 'absolute',
-                top: 64,
-                bottom: 0,
-                width: '100%',
-                height: Dimensions.get('window').height,
-                paddingBottom: 168,
-                backgroundColor: '#fff',
-                display: 'flex',
-                alignContent: 'center',
-                justifyContent: 'center'
-            }}>
-              <ActivityIndicator color="#222222"/>
-            </View> : <></>
-          }   
+          <WebView 
+            //onLoad={() => setLoading(false)} 
+            source={{ uri: articleData.url }} 
+            style={{width: '100%', height: '100%'}} 
+            pullToRefreshEnabled={true}
+            startInLoadingState={true}
+            renderLoading={() => {
+              return(
+              <View style={{
+                  position: 'absolute',
+                  top: 0,
+                  bottom: 0,
+                  width: '100%',
+                  height: Dimensions.get('window').height,
+                  paddingBottom: 168,
+                  backgroundColor: '#fff',
+                  display: 'flex',
+                  alignContent: 'center',
+                  justifyContent: 'center'
+              }}>
+                <ActivityIndicator color="#222222"/>
+              </View>
+            )
+            }}
+          /> 
         </Modal>
     )
 }

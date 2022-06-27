@@ -28,10 +28,16 @@ export const postCardStyles = StyleSheet.create({
         textShadowRadius: 12,
         textShadowColor: 'rgba(0, 0, 0, .55)',
     },
-    origin: {
+    subtitle: {
         color: '#fff',
         fontSize: 14
     },  
+    time: {
+        color: '#fff',
+        fontSize: 13,
+        fontWeight: '500',
+        opacity: .8
+    },
     
     //*Tags
     tagsContainer: {
