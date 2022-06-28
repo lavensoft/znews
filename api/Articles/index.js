@@ -23,9 +23,13 @@ const ArticlesAPI = {
         let articlesReaded = JSON.parse(await AsyncStorage.getItem('articlesState')) || {};
         articlesReaded = Object.keys(articlesReaded);
 
+        let contentScores = await SettingsAPI.getHighestContentScore();
+        contentScores = contentScores.data;
+
         const response = await axios.post(`${config.API_URL}/articles/page/${page}`,{
             authors: settings.usersFollowing,
             rejectsId: !settings["showReadedArticles"] ? articlesReaded : [],
+            ...contentScores
         }, {
             headers: config.HEADERS
         });

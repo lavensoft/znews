@@ -12,7 +12,7 @@ import API from '../../api';
 const ArticleScreen = ({navigation, route}) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
-    const {url, thumbnail, title, _id, author, dateAdded} = route.params;
+    const {url, thumbnail, title, _id, author, dateAdded, keywords, topic} = route.params;
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [articleData, setArticleData] = useState(null);
 
@@ -33,7 +33,8 @@ const ArticleScreen = ({navigation, route}) => {
             title: data.title,
             _id: _id,
             author: author,
-            dateAdded
+            dateAdded,
+            keywords
           });
         });
       }else{
@@ -43,7 +44,26 @@ const ArticleScreen = ({navigation, route}) => {
           title: title,
           _id: _id,
           author: author,
-          dateAdded
+          dateAdded,
+          keywords
+        });
+
+        //*Update content score
+        dispatch({
+          type: Actions.settings.ADD_CONTENT_SCORE, 
+          payload: {
+            data: {
+              url: url,
+              thumbnail: thumbnail,
+              title: title,
+              _id: _id,
+              author: author,
+              dateAdded,
+              keywords,
+              topic
+            },
+            type: 'VIEW',
+          }
         });
       }
 
@@ -61,7 +81,7 @@ const ArticleScreen = ({navigation, route}) => {
               title,
               _id,
               author,
-              dateAdded
+              dateAdded,
             }
           },
           state: {}

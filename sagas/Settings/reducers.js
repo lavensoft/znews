@@ -5,6 +5,7 @@ const initialState = {
     isLoading: false,
     data: [],
     page: 0,
+    contentScores: []
 }
 
 export default function reducer(state = initialState, action) {
@@ -41,6 +42,28 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 isLoading: false,
                 data: action.payload
+            }
+        case actions.ADD_CONTENT_SCORE:
+            return {
+                ...state,
+                isLoading: true,
+            }
+        case _onSuccess(actions.ADD_CONTENT_SCORE):
+            return {
+                ...state,
+                isLoading: false,
+                contentScores: action.payload
+            }
+        case actions.FETCH_CONTENT_SCORE:
+            return {
+                ...state,
+                isLoading: true,
+            }
+        case _onSuccess(actions.FETCH_CONTENT_SCORE):
+            return {
+                ...state,
+                isLoading: false,
+                contentScores: action.payload
             }
         default:
             return state
