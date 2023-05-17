@@ -6,7 +6,12 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "9f6c0d0e-fc12-4ca1-bec6-822cdf37d0c3"
+      }
+    }
   },
   "name": "news"
 }
